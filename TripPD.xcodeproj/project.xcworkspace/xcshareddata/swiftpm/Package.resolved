@@ -1,0 +1,42 @@
+{
+  "originHash" : "ee48fe041e880c4dc52a959b584625212a15bd55c895a311ef74f91359deef0e",
+  "pins" : [
+    {
+      "identity" : "alamofire",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Alamofire/Alamofire.git",
+      "state" : {
+        "revision" : "f455c2975872ccd2d9c81594c658af65716e9b9a",
+        "version" : "5.9.1"
+      }
+    },
+    {
+      "identity" : "realm-core",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/realm/realm-core.git",
+      "state" : {
+        "revision" : "f98720a07e6150c41c953e1937108225550ba155",
+        "version" : "20.0.0"
+      }
+    },
+    {
+      "identity" : "realm-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/realm/realm-swift.git",
+      "state" : {
+        "revision" : "7ea8be1f74034bae860120d58d3491c4fcedff5b",
+        "version" : "20.0.0"
+      }
+    },
+    {
+      "identity" : "toast-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/scalessec/Toast-Swift.git",
+      "state" : {
+        "revision" : "ddccd20d6fb718448d9b179c454c561653fda7d5",
+        "version" : "5.1.1"
+      }
+    }
+  ],
+  "version" : 3
+}

@@ -11,6 +11,9 @@
 		04EBA0542C92E464002B1CA2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EBA0532C92E464002B1CA2 /* ContentView.swift */; };
 		04EBA0562C92E465002B1CA2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04EBA0552C92E465002B1CA2 /* Assets.xcassets */; };
 		04EBA0592C92E465002B1CA2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04EBA0582C92E465002B1CA2 /* Preview Assets.xcassets */; };
+		04EBA0612C9317FC002B1CA2 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 04EBA0602C9317FC002B1CA2 /* RealmSwift */; };
+		04EBA0642C932D43002B1CA2 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 04EBA0632C932D43002B1CA2 /* Alamofire */; };
+		04EBA0672C932D5F002B1CA2 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 04EBA0662C932D5F002B1CA2 /* Toast */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +29,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04EBA0672C932D5F002B1CA2 /* Toast in Frameworks */,
+				04EBA0612C9317FC002B1CA2 /* RealmSwift in Frameworks */,
+				04EBA0642C932D43002B1CA2 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +89,11 @@
 			dependencies = (
 			);
 			name = TripPD;
+			packageProductDependencies = (
+				04EBA0602C9317FC002B1CA2 /* RealmSwift */,
+				04EBA0632C932D43002B1CA2 /* Alamofire */,
+				04EBA0662C932D5F002B1CA2 /* Toast */,
+			);
 			productName = TripPD;
 			productReference = 04EBA04E2C92E464002B1CA2 /* TripPD.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +122,11 @@
 				Base,
 			);
 			mainGroup = 04EBA0452C92E464002B1CA2;
+			packageReferences = (
+				04EBA05F2C9317FC002B1CA2 /* XCRemoteSwiftPackageReference "realm-swift" */,
+				04EBA0622C932D43002B1CA2 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				04EBA0652C932D5F002B1CA2 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
+			);
 			productRefGroup = 04EBA04F2C92E464002B1CA2 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -277,8 +293,9 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -286,9 +303,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.harvey.TripPD;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -305,8 +326,9 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -314,9 +336,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.harvey.TripPD;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -342,6 +368,51 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		04EBA05F2C9317FC002B1CA2 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				kind = exactVersion;
+				version = 20.0.0;
+			};
+		};
+		04EBA0622C932D43002B1CA2 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.9.1;
+			};
+		};
+		04EBA0652C932D5F002B1CA2 /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scalessec/Toast-Swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		04EBA0602C9317FC002B1CA2 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 04EBA05F2C9317FC002B1CA2 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+		04EBA0632C932D43002B1CA2 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 04EBA0622C932D43002B1CA2 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		04EBA0662C932D5F002B1CA2 /* Toast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 04EBA0652C932D5F002B1CA2 /* XCRemoteSwiftPackageReference "Toast-Swift" */;
+			productName = Toast;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 04EBA0462C92E464002B1CA2 /* Project object */;
 }
