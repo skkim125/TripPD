@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04A46BBB2C946A8E005ACE1C /* 잘풀리는오늘OTF Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 04A46BBA2C946A8E005ACE1C /* 잘풀리는오늘OTF Medium.otf */; };
+		04A46BBD2C9478F0005ACE1C /* MainHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A46BBC2C9478F0005ACE1C /* MainHomeView.swift */; };
+		04A46BC12C947CD4005ACE1C /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A46BC02C947CD4005ACE1C /* UserView.swift */; };
+		04A46BC82C948289005ACE1C /* LazyWrapperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A46BC72C948289005ACE1C /* LazyWrapperView.swift */; };
 		04EBA0522C92E464002B1CA2 /* TripPDApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EBA0512C92E464002B1CA2 /* TripPDApp.swift */; };
 		04EBA0542C92E464002B1CA2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EBA0532C92E464002B1CA2 /* ContentView.swift */; };
 		04EBA0562C92E465002B1CA2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04EBA0552C92E465002B1CA2 /* Assets.xcassets */; };
@@ -17,6 +21,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		04A46BB52C945D30005ACE1C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		04A46BBA2C946A8E005ACE1C /* 잘풀리는오늘OTF Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "잘풀리는오늘OTF Medium.otf"; sourceTree = "<group>"; };
+		04A46BBC2C9478F0005ACE1C /* MainHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainHomeView.swift; sourceTree = "<group>"; };
+		04A46BC02C947CD4005ACE1C /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
+		04A46BC72C948289005ACE1C /* LazyWrapperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyWrapperView.swift; sourceTree = "<group>"; };
 		04EBA04E2C92E464002B1CA2 /* TripPD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TripPD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04EBA0512C92E464002B1CA2 /* TripPDApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPDApp.swift; sourceTree = "<group>"; };
 		04EBA0532C92E464002B1CA2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -38,6 +47,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		04A46BAD2C945BA4005ACE1C /* DesignResource */ = {
+			isa = PBXGroup;
+			children = (
+				04A46BAE2C945BB4005ACE1C /* Font */,
+			);
+			path = DesignResource;
+			sourceTree = "<group>";
+		};
+		04A46BAE2C945BB4005ACE1C /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				04A46BBA2C946A8E005ACE1C /* 잘풀리는오늘OTF Medium.otf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
+		04A46BBE2C947B15005ACE1C /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				04A46BAD2C945BA4005ACE1C /* DesignResource */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		04A46BC22C947CE5005ACE1C /* Reusable */ = {
+			isa = PBXGroup;
+			children = (
+				04A46BC72C948289005ACE1C /* LazyWrapperView.swift */,
+			);
+			path = Reusable;
+			sourceTree = "<group>";
+		};
 		04EBA0452C92E464002B1CA2 = {
 			isa = PBXGroup;
 			children = (
@@ -57,8 +98,13 @@
 		04EBA0502C92E464002B1CA2 /* TripPD */ = {
 			isa = PBXGroup;
 			children = (
+				04A46BC22C947CE5005ACE1C /* Reusable */,
+				04A46BBE2C947B15005ACE1C /* Resource */,
+				04A46BB52C945D30005ACE1C /* Info.plist */,
 				04EBA0512C92E464002B1CA2 /* TripPDApp.swift */,
 				04EBA0532C92E464002B1CA2 /* ContentView.swift */,
+				04A46BBC2C9478F0005ACE1C /* MainHomeView.swift */,
+				04A46BC02C947CD4005ACE1C /* UserView.swift */,
 				04EBA0552C92E465002B1CA2 /* Assets.xcassets */,
 				04EBA0572C92E465002B1CA2 /* Preview Content */,
 			);
@@ -142,6 +188,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				04EBA0592C92E465002B1CA2 /* Preview Assets.xcassets in Resources */,
+				04A46BBB2C946A8E005ACE1C /* 잘풀리는오늘OTF Medium.otf in Resources */,
 				04EBA0562C92E465002B1CA2 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -154,7 +201,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				04EBA0542C92E464002B1CA2 /* ContentView.swift in Sources */,
+				04A46BBD2C9478F0005ACE1C /* MainHomeView.swift in Sources */,
+				04A46BC82C948289005ACE1C /* LazyWrapperView.swift in Sources */,
 				04EBA0522C92E464002B1CA2 /* TripPDApp.swift in Sources */,
+				04A46BC12C947CD4005ACE1C /* UserView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,6 +340,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"TripPD/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TripPD/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -323,6 +374,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"TripPD/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TripPD/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
