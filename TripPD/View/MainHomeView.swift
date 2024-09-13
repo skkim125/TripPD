@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct MainHomeView: View {
+    @State private var showSheet = false
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -23,12 +25,15 @@ struct MainHomeView: View {
                 
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        
+                        showSheet.toggle()
                     } label: {
                         Image(systemName: "plus")
                     }
                     .font(.custom("OTJalpullineunoneulM", size: 25))
                     .foregroundStyle(.subColor2.gradient)
+                    .fullScreenCover(isPresented: $showSheet) {
+                        AddTravelPlannerView(showSheet: $showSheet)
+                    }
                 }
             }
         }
