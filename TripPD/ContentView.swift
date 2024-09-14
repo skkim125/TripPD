@@ -16,6 +16,12 @@ struct ContentView: View {
                     Text("홈")
                 }
             
+            LazyWrapperView(TravelMapView())
+                .tabItem {
+                    Image(systemName: "map")
+                    Text("내 주변")
+                }
+            
             LazyWrapperView(UserView())
                 .tabItem {
                     Image(systemName: "gear")

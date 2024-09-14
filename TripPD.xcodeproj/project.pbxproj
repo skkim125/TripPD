@@ -12,6 +12,11 @@
 		04A46BC12C947CD4005ACE1C /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A46BC02C947CD4005ACE1C /* UserView.swift */; };
 		04A46BC82C948289005ACE1C /* LazyWrapperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A46BC72C948289005ACE1C /* LazyWrapperView.swift */; };
 		04A46BCD2C9487AC005ACE1C /* AddTravelPlannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A46BCC2C9487AC005ACE1C /* AddTravelPlannerView.swift */; };
+		04A46BCF2C95497D005ACE1C /* TravelMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A46BCE2C95497D005ACE1C /* TravelMapView.swift */; };
+		04A46BD22C9566A2005ACE1C /* HorizonCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 04A46BD12C9566A2005ACE1C /* HorizonCalendar */; };
+		04A46BD42C956C0A005ACE1C /* NavigationTitleModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A46BD32C956C0A005ACE1C /* NavigationTitleModifier.swift */; };
+		04A46BD72C956C6F005ACE1C /* DesignResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A46BD62C956C6F005ACE1C /* DesignResource.swift */; };
+		04A46BD92C95B3BF005ACE1C /* AddPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A46BD82C95B3BF005ACE1C /* AddPhotoView.swift */; };
 		04EBA0522C92E464002B1CA2 /* TripPDApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EBA0512C92E464002B1CA2 /* TripPDApp.swift */; };
 		04EBA0542C92E464002B1CA2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EBA0532C92E464002B1CA2 /* ContentView.swift */; };
 		04EBA0562C92E465002B1CA2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04EBA0552C92E465002B1CA2 /* Assets.xcassets */; };
@@ -28,6 +33,10 @@
 		04A46BC02C947CD4005ACE1C /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 		04A46BC72C948289005ACE1C /* LazyWrapperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyWrapperView.swift; sourceTree = "<group>"; };
 		04A46BCC2C9487AC005ACE1C /* AddTravelPlannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTravelPlannerView.swift; sourceTree = "<group>"; };
+		04A46BCE2C95497D005ACE1C /* TravelMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelMapView.swift; sourceTree = "<group>"; };
+		04A46BD32C956C0A005ACE1C /* NavigationTitleModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationTitleModifier.swift; sourceTree = "<group>"; };
+		04A46BD62C956C6F005ACE1C /* DesignResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignResource.swift; sourceTree = "<group>"; };
+		04A46BD82C95B3BF005ACE1C /* AddPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoView.swift; sourceTree = "<group>"; };
 		04EBA04E2C92E464002B1CA2 /* TripPD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TripPD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04EBA0512C92E464002B1CA2 /* TripPDApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPDApp.swift; sourceTree = "<group>"; };
 		04EBA0532C92E464002B1CA2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -42,6 +51,7 @@
 			files = (
 				04EBA0672C932D5F002B1CA2 /* Toast in Frameworks */,
 				04EBA0612C9317FC002B1CA2 /* RealmSwift in Frameworks */,
+				04A46BD22C9566A2005ACE1C /* HorizonCalendar in Frameworks */,
 				04EBA0642C932D43002B1CA2 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -52,6 +62,7 @@
 		04A46BAD2C945BA4005ACE1C /* DesignResource */ = {
 			isa = PBXGroup;
 			children = (
+				04A46BD62C956C6F005ACE1C /* DesignResource.swift */,
 				04A46BAE2C945BB4005ACE1C /* Font */,
 			);
 			path = DesignResource;
@@ -86,9 +97,19 @@
 			children = (
 				04A46BBC2C9478F0005ACE1C /* MainHomeView.swift */,
 				04A46BCC2C9487AC005ACE1C /* AddTravelPlannerView.swift */,
+				04A46BD82C95B3BF005ACE1C /* AddPhotoView.swift */,
 				04A46BC02C947CD4005ACE1C /* UserView.swift */,
+				04A46BCE2C95497D005ACE1C /* TravelMapView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		04A46BD52C956C0F005ACE1C /* Modifier */ = {
+			isa = PBXGroup;
+			children = (
+				04A46BD32C956C0A005ACE1C /* NavigationTitleModifier.swift */,
+			);
+			path = Modifier;
 			sourceTree = "<group>";
 		};
 		04EBA0452C92E464002B1CA2 = {
@@ -110,6 +131,7 @@
 		04EBA0502C92E464002B1CA2 /* TripPD */ = {
 			isa = PBXGroup;
 			children = (
+				04A46BD52C956C0F005ACE1C /* Modifier */,
 				04A46BC22C947CE5005ACE1C /* Reusable */,
 				04A46BBE2C947B15005ACE1C /* Resource */,
 				04A46BB52C945D30005ACE1C /* Info.plist */,
@@ -150,6 +172,7 @@
 				04EBA0602C9317FC002B1CA2 /* RealmSwift */,
 				04EBA0632C932D43002B1CA2 /* Alamofire */,
 				04EBA0662C932D5F002B1CA2 /* Toast */,
+				04A46BD12C9566A2005ACE1C /* HorizonCalendar */,
 			);
 			productName = TripPD;
 			productReference = 04EBA04E2C92E464002B1CA2 /* TripPD.app */;
@@ -183,6 +206,7 @@
 				04EBA05F2C9317FC002B1CA2 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				04EBA0622C932D43002B1CA2 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				04EBA0652C932D5F002B1CA2 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
+				04A46BD02C9566A2005ACE1C /* XCRemoteSwiftPackageReference "HorizonCalendar" */,
 			);
 			productRefGroup = 04EBA04F2C92E464002B1CA2 /* Products */;
 			projectDirPath = "";
@@ -215,6 +239,10 @@
 				04A46BBD2C9478F0005ACE1C /* MainHomeView.swift in Sources */,
 				04A46BC82C948289005ACE1C /* LazyWrapperView.swift in Sources */,
 				04EBA0522C92E464002B1CA2 /* TripPDApp.swift in Sources */,
+				04A46BD42C956C0A005ACE1C /* NavigationTitleModifier.swift in Sources */,
+				04A46BCF2C95497D005ACE1C /* TravelMapView.swift in Sources */,
+				04A46BD72C956C6F005ACE1C /* DesignResource.swift in Sources */,
+				04A46BD92C95B3BF005ACE1C /* AddPhotoView.swift in Sources */,
 				04A46BCD2C9487AC005ACE1C /* AddTravelPlannerView.swift in Sources */,
 				04A46BC12C947CD4005ACE1C /* UserView.swift in Sources */,
 			);
@@ -434,6 +462,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		04A46BD02C9566A2005ACE1C /* XCRemoteSwiftPackageReference "HorizonCalendar" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/HorizonCalendar.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		04EBA05F2C9317FC002B1CA2 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-swift.git";
@@ -461,6 +497,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		04A46BD12C9566A2005ACE1C /* HorizonCalendar */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 04A46BD02C9566A2005ACE1C /* XCRemoteSwiftPackageReference "HorizonCalendar" */;
+			productName = HorizonCalendar;
+		};
 		04EBA0602C9317FC002B1CA2 /* RealmSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 04EBA05F2C9317FC002B1CA2 /* XCRemoteSwiftPackageReference "realm-swift" */;

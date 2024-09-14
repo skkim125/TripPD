@@ -18,9 +18,9 @@ struct MainHomeView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Text("Trip PD")
-                        .font(.custom("OTJalpullineunoneulM", size: 28))
+                        .font(.appFont(28))
                         .padding(5)
-                        .foregroundStyle(.mainApp.gradient)
+                        .foregroundStyle(.subColor2.gradient)
                 }
                 
                 ToolbarItem(placement: .topBarTrailing) {
@@ -28,8 +28,9 @@ struct MainHomeView: View {
                         showSheet.toggle()
                     } label: {
                         Image(systemName: "plus")
+                            .bold()
                     }
-                    .font(.custom("OTJalpullineunoneulM", size: 25))
+                    .font(.appFont(18))
                     .foregroundStyle(.subColor2.gradient)
                     .fullScreenCover(isPresented: $showSheet) {
                         AddTravelPlannerView(showSheet: $showSheet)
