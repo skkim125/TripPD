@@ -28,7 +28,7 @@ struct ContentView: View {
                     Text("설정")
                 }
         }
-        .tint(.subColor2)
+        .tint(.mainApp)
     }
 }
 

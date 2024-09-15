@@ -13,6 +13,7 @@ struct AddTravelPlannerView: View {
     @State private var title = ""
     @State private var memo = ""
     @State private var image: UIImage?
+    @State private var dates: [Date]?
     @State private var showPHPickeView = false
     
     var body: some View {
@@ -98,7 +99,7 @@ struct AddTravelPlannerView: View {
                         .overlay {
                             HStack {
                                 Text("\(Date().formatted(date: .numeric, time: .standard))")
-                                    .foregroundStyle(.subColor2)
+                                    .foregroundStyle(dates == nil ? .gray.opacity(0.5) : .subColor2)
                                     .padding(.horizontal, 10)
                                     .font(.appFont(15))
                                     .multilineTextAlignment(.leading)
@@ -184,11 +185,25 @@ struct AddTravelPlannerView: View {
                                     ZStack {
                                         RoundedRectangle(cornerRadius: 12)
                                             .foregroundStyle(.ultraThinMaterial.opacity(0.7))
+                                        Text("\(title)")
+                                        
+                                        if let dates = dates {
+                                            if let firstDay = dates.first, let lastDay = dates.last {
+                                                Text("\(firstDay) ~ \(lastDay)")
+                                                    .font(.appFont(18))
+                                                    .foregroundStyle(.gray)
+                                            }
+                                        }
                                     }
                                 }
                                 .clipShape(RoundedRectangle(cornerRadius: 12))
-                                .padding(.horizontal, 5)
-                            
+                            if let dates = dates {
+                                if let firstDay = dates.first, let lastDay = dates.last {
+                                    Text("\(firstDay) ~ \(lastDay)")
+                                        .font(.appFont(18))
+                                        .foregroundStyle(.gray)
+                                }
+                            }
                         } else {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 12)
@@ -199,13 +214,28 @@ struct AddTravelPlannerView: View {
                                     .scaledToFit()
                                     .rotationEffect(.degrees(-20))
                                     .frame(maxWidth: .infinity, alignment: .center)
-                                    .frame(height: 250)
-                                    .foregroundStyle(.mainApp.gradient.opacity(0.7))
+                                    .frame(height: 300)
+                                    .foregroundStyle(.mainApp.opacity(0.7).gradient)
+                                VStack(alignment: .leading, spacing: 10) {
+                                    Text("\(title)")
+                                        .font(.appFont(28))
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                    if let dates = dates {
+                                        if let firstDay = dates.first, let lastDay = dates.last {
+                                            Text("\(firstDay) ~ \(lastDay)")
+                                                .font(.appFont(18))
+                                                .foregroundStyle(.gray)
+                                        }
+                                    }
+                                }
+                                .foregroundStyle(.black.opacity(0.7))
+                                .padding(.top, 10)
+                                .padding(.horizontal, 10)
                             }
                             .frame(maxWidth: .infinity, alignment: .center)
                             .frame(height: 150)
                             .clipShape(RoundedRectangle(cornerRadius: 12))
-                            .foregroundStyle(.thinMaterial)
+                            .foregroundStyle(.subColor3.gradient)
                         }
                     }
                     .shadow(color: .gray.opacity(0.3), radius: 7)
