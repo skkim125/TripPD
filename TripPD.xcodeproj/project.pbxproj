@@ -17,6 +17,7 @@
 		04A46BD42C956C0A005ACE1C /* NavigationTitleModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A46BD32C956C0A005ACE1C /* NavigationTitleModifier.swift */; };
 		04A46BD72C956C6F005ACE1C /* DesignResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A46BD62C956C6F005ACE1C /* DesignResource.swift */; };
 		04A46BD92C95B3BF005ACE1C /* AddPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A46BD82C95B3BF005ACE1C /* AddPhotoView.swift */; };
+		04C995A72C97EAEC0017E10A /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 04C995A62C97EAEC0017E10A /* .gitignore */; };
 		04EBA0522C92E464002B1CA2 /* TripPDApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EBA0512C92E464002B1CA2 /* TripPDApp.swift */; };
 		04EBA0542C92E464002B1CA2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EBA0532C92E464002B1CA2 /* ContentView.swift */; };
 		04EBA0562C92E465002B1CA2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04EBA0552C92E465002B1CA2 /* Assets.xcassets */; };
@@ -37,6 +38,7 @@
 		04A46BD32C956C0A005ACE1C /* NavigationTitleModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationTitleModifier.swift; sourceTree = "<group>"; };
 		04A46BD62C956C6F005ACE1C /* DesignResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignResource.swift; sourceTree = "<group>"; };
 		04A46BD82C95B3BF005ACE1C /* AddPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoView.swift; sourceTree = "<group>"; };
+		04C995A62C97EAEC0017E10A /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		04EBA04E2C92E464002B1CA2 /* TripPD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TripPD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04EBA0512C92E464002B1CA2 /* TripPDApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPDApp.swift; sourceTree = "<group>"; };
 		04EBA0532C92E464002B1CA2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 		04EBA0452C92E464002B1CA2 = {
 			isa = PBXGroup;
 			children = (
+				04C995A62C97EAEC0017E10A /* .gitignore */,
 				04EBA0502C92E464002B1CA2 /* TripPD */,
 				04EBA04F2C92E464002B1CA2 /* Products */,
 			);
@@ -222,6 +225,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04C995A72C97EAEC0017E10A /* .gitignore in Resources */,
 				04EBA0592C92E465002B1CA2 /* Preview Assets.xcassets in Resources */,
 				04A46BBB2C946A8E005ACE1C /* 잘풀리는오늘OTF Medium.otf in Resources */,
 				04EBA0562C92E465002B1CA2 /* Assets.xcassets in Resources */,
