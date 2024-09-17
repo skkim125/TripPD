@@ -16,6 +16,16 @@ struct AddTravelPlannerView: View {
     @State private var dates: [Date] = []
     @State private var showDatePickerView = false
     @State private var showPHPickeView = false
+    var dateText: String {
+        if let firstDay = dates.first, let lastDay = dates.last {
+            let first = DateFormatter.customDateFormatter(date: firstDay, .coverView)
+            let last = DateFormatter.customDateFormatter(date: lastDay, .coverView)
+            
+            return "\(first) ~ \(last)"
+        } else {
+            return ""
+        }
+    }
     
     var body: some View {
         NavigationStack {
@@ -55,13 +65,14 @@ struct AddTravelPlannerView: View {
                     }
                 }
             }
-            .navigationBarTitleColor(.mainApp)
+            .navigationBarTitle(.mainApp, 20)
             .navigationTitle("여행 플랜 생성하기")
             .navigationBarTitleDisplayMode(.inline)
         }
     }
 }
 
+// MARK: ViewBuilder
 extension AddTravelPlannerView {
     @ViewBuilder
     func plannerSettingView(_ type: SettingPlan) -> some View {
@@ -93,7 +104,7 @@ extension AddTravelPlannerView {
                         .foregroundStyle(.bar)
                         .overlay {
                             HStack {
-                                Text(type.descript)
+                                Text(dates.isEmpty ? type.descript : dateText)
                                     .foregroundStyle(dates.isEmpty ? .gray.opacity(0.5) : .mainApp)
                                     .padding(.horizontal, 10)
                                     .font(.appFont(15))
@@ -104,6 +115,9 @@ extension AddTravelPlannerView {
                         }
                         .frame(height: 40)
                         .padding(.trailing, 10)
+                        .onTapGesture {
+                            showDatePickerView.toggle()
+                        }
                     
                     Button {
                         showDatePickerView.toggle()
@@ -115,7 +129,7 @@ extension AddTravelPlannerView {
                     .tint(.mainApp)
                     .sheet(isPresented: $showDatePickerView) {
                         CustomCalendarView(selectedDates: $dates, showDatePickerView: $showDatePickerView)
-                            .padding(.top, 15)
+                            .presentationDetents([.medium])
                             .padding(.bottom, 10)
                     }
                 }

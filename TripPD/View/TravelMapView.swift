@@ -29,24 +29,24 @@ struct TravelMapView: View {
                 
                 ZStack {
                     RoundedRectangle(cornerRadius: 5)
-                        .stroke(.subColor2, lineWidth: 1)
+                        .stroke(.mainApp, lineWidth: 1)
                         .background(.mainApp)
                         .frame(height: 28)
                         .clipShape(RoundedRectangle(cornerRadius: 5))
                     
                     Text("\(location.name)")
-                        .foregroundStyle(.subColor2)
+                        .foregroundStyle(.background)
                         .font(.subheadline)
                         .padding(.horizontal, 5)
                 }
                 
                 Circle()
-                    .stroke(.subColor2)
+                    .stroke(.mainApp)
                     .overlay {
                         Image(systemName: "mappin.circle.fill")
                             .resizable()
                             .frame(width: 25, height: 25)
-                            .foregroundStyle(.subColor2, .mainApp)
+                            .foregroundStyle(.background, .mainApp)
                     }
                     .frame(width: 25, height: 25)
             }

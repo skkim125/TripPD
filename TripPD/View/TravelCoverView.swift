@@ -14,74 +14,86 @@ struct TravelCoverView: View {
     
     var body: some View {
         if let image = image {
-            Image(uiImage: image)
-                .resizable()
-                .frame(maxWidth: .infinity, alignment: .center)
+            RoundedRectangle(cornerRadius: 12)
+                .background {
+                    Image(uiImage: image)
+                        .resizable()
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .frame(height: 150)
+                        .imageScale(.small)
+                }
+                .overlay {
+                    overlayView()
+                        .frame(maxWidth: .infinity, alignment: .bottomLeading)
+                        .foregroundStyle(Color(uiColor: .label).gradient)
+                        .padding(.horizontal, 10)
+                }
                 .frame(height: 150)
-                .imageScale(.small)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .foregroundStyle(.thinMaterial.opacity(0.7))
+            
+        } else {
+            RoundedRectangle(cornerRadius: 12)
+                .frame(maxWidth: .infinity, alignment: .center)
                 .overlay {
                     ZStack {
-                        RoundedRectangle(cornerRadius: 12)
-                            .foregroundStyle(.ultraThinMaterial.opacity(0.7))
-                        Text("\(title)")
-                        
-                        if !dates.isEmpty {
-                            if dates.count == 1 {
-                                if let firstDay = dates.first {
-                                    Text("\(firstDay)")
-                                        .font(.appFont(18))
-                                        .foregroundStyle(.gray)
-                                }
-                            } else {
-                                if let firstDay = dates.first, let lastDay = dates.last {
-                                    Text("\(firstDay) ~ \(lastDay)")
-                                        .font(.appFont(18))
-                                        .foregroundStyle(.gray)
-                                }
-                            }
-                        }
+                        Image(systemName: "airplane")
+                            .resizable()
+                            .scaledToFit()
+                            .rotationEffect(.degrees(-20))
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .frame(height: 300)
+                            .foregroundStyle(.mainApp.opacity(0.5).gradient)
+                                
+                        overlayView()
+                            .frame(maxWidth: .infinity, alignment: .bottomLeading)
+                            .foregroundStyle(Color(uiColor: .label).gradient)
+                            .padding(.horizontal, 10)
                     }
                 }
+                .background(.mainApp)
+                .frame(height: 150)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
-            if !dates.isEmpty {
+                .foregroundStyle(.mainAppConvert.gradient)
+        }
+    }
+    
+}
+
+// MARK: ViewBuilder
+extension TravelCoverView{
+    @ViewBuilder
+    private func overlayView() -> some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Spacer()
+            
+            Text("\(title)")
+                .font(.appFont(28))
+            
+            dateText(dates)
+        }
+        .frame(height: 100)
+    }
+    
+    @ViewBuilder
+    private func dateText(_ dates: [Date]) -> some View {
+        let isNotEmpty = !dates.isEmpty
+        
+        if isNotEmpty {
+            if dates.count == 1 {
+                if let firstDay = dates.first {
+                    let first = DateFormatter.customDateFormatter(date: firstDay, .coverView)
+                    Text("\(first)")
+                        .font(.appFont(12))
+                }
+            } else {
                 if let firstDay = dates.first, let lastDay = dates.last {
-                    Text("\(firstDay) ~ \(lastDay)")
-                        .font(.appFont(18))
-                        .foregroundStyle(.gray)
+                    let first = DateFormatter.customDateFormatter(date: firstDay, .coverView)
+                    let last = DateFormatter.customDateFormatter(date: lastDay, .coverView)
+                    Text("\(first) ~ \(last)")
+                        .font(.appFont(12))
                 }
             }
-        } else {
-            ZStack {
-                RoundedRectangle(cornerRadius: 12)
-                    .background(.mainApp)
-                
-                Image(systemName: "airplane")
-                    .resizable()
-                    .scaledToFit()
-                    .rotationEffect(.degrees(-20))
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .frame(height: 300)
-                    .foregroundStyle(.mainApp.opacity(0.7).gradient)
-                VStack(alignment: .leading, spacing: 10) {
-                    Text("\(title)")
-                        .font(.appFont(28))
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    if !dates.isEmpty {
-                        if let firstDay = dates.first, let lastDay = dates.last {
-                            Text("\(firstDay) ~ \(lastDay)")
-                                .font(.appFont(18))
-                                .foregroundStyle(.gray)
-                        }
-                    }
-                }
-                .foregroundStyle(.black.opacity(0.7))
-                .padding(.top, 10)
-                .padding(.horizontal, 10)
-            }
-            .frame(maxWidth: .infinity, alignment: .center)
-            .frame(height: 150)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .foregroundStyle(.subColor3.gradient)
         }
     }
 }

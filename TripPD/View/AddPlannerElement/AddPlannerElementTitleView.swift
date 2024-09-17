@@ -28,9 +28,9 @@ enum SettingPlan: String {
     var descript: String {
         switch self {
         case .title:
-            "제목을 입력해주세요"
+            "제목을 입력해주세요!"
         case .date:
-            "제목을 입력해주세요"
+            "여행 날짜를 설정해주세요!"
         case .concept:
             "여행 컨셉을 자유롭게 작성하세요!"
         case .photo:

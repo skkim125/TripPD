@@ -30,6 +30,7 @@
 		04C995CA2C997AF90017E10A /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 04EBA0602C9317FC002B1CA2 /* RealmSwift */; };
 		04C995CD2C99B0850017E10A /* DayRangeSelectionHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C995CC2C99B0850017E10A /* DayRangeSelectionHelper.swift */; };
 		04C995CF2C99B1CA0017E10A /* CustomCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C995CE2C99B1CA0017E10A /* CustomCalendarView.swift */; };
+		04C995D22C99BDEE0017E10A /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C995D12C99BDEE0017E10A /* DateFormatter+Extension.swift */; };
 		04EBA0522C92E464002B1CA2 /* TripPDApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EBA0512C92E464002B1CA2 /* TripPDApp.swift */; };
 		04EBA0542C92E464002B1CA2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EBA0532C92E464002B1CA2 /* ContentView.swift */; };
 		04EBA0562C92E465002B1CA2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04EBA0552C92E465002B1CA2 /* Assets.xcassets */; };
@@ -76,6 +77,7 @@
 		04C995C12C992FC40017E10A /* AddPlannerElementTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlannerElementTitleView.swift; sourceTree = "<group>"; };
 		04C995CC2C99B0850017E10A /* DayRangeSelectionHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayRangeSelectionHelper.swift; sourceTree = "<group>"; };
 		04C995CE2C99B1CA0017E10A /* CustomCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCalendarView.swift; sourceTree = "<group>"; };
+		04C995D12C99BDEE0017E10A /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
 		04EBA04E2C92E464002B1CA2 /* TripPD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TripPD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04EBA0512C92E464002B1CA2 /* TripPDApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPDApp.swift; sourceTree = "<group>"; };
 		04EBA0532C92E464002B1CA2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -184,6 +186,14 @@
 			path = ViewResource;
 			sourceTree = "<group>";
 		};
+		04C995D02C99BCCF0017E10A /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				04C995D12C99BDEE0017E10A /* DateFormatter+Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		04EBA0452C92E464002B1CA2 = {
 			isa = PBXGroup;
 			children = (
@@ -204,6 +214,7 @@
 		04EBA0502C92E464002B1CA2 /* TripPD */ = {
 			isa = PBXGroup;
 			children = (
+				04C995D02C99BCCF0017E10A /* Extension */,
 				04A46BD52C956C0F005ACE1C /* Modifier */,
 				04A46BC22C947CE5005ACE1C /* Reusable */,
 				04A46BBE2C947B15005ACE1C /* Resource */,
@@ -332,6 +343,7 @@
 				04C995BF2C992F4F0017E10A /* TravelCoverView.swift in Sources */,
 				04C995B52C992B4D0017E10A /* Schedule.swift in Sources */,
 				04A46BC12C947CD4005ACE1C /* UserView.swift in Sources */,
+				04C995D22C99BDEE0017E10A /* DateFormatter+Extension.swift in Sources */,
 				04C995BB2C992B9D0017E10A /* Diary.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

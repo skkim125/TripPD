@@ -41,10 +41,11 @@ struct CustomCalendarView: View {
         let selectedEndDate = calendar.date(from: selectedDayRange.upperBound.components)!
         
         if selectedStartDate == selectedEndDate {
-            return "\(selectedStartDate.formatted(date: .numeric, time: .shortened))"
+            return DateFormatter.customDateFormatter(date: selectedStartDate, .coverView)
+        } else {
+            
+            return "\(DateFormatter.customDateFormatter(date: selectedStartDate, .coverView)) ~ \(DateFormatter.customDateFormatter(date: selectedEndDate, .coverView))"
         }
-        
-        return "\(selectedStartDate.formatted(date: .numeric, time: .shortened)) ~ \(selectedEndDate.formatted(date: .numeric, time: .shortened))"
     }
     
     var selectedDateRanges: Set<ClosedRange<Date>> {
@@ -57,39 +58,42 @@ struct CustomCalendarView: View {
     
     var body: some View {
         NavigationStack {
-            CalendarViewRepresentable(
-                calendar: calendar,
-                visibleDateRange: visibleDateRange ,
-                monthsLayout: .vertical(options: .init()),
-                dataDependency: nil)
-            .interMonthSpacing(20)
-            .dayRangeItemProvider(for: selectedDateRanges) { dayRangeLayoutContext in
-                let framesOfDaysToHighlight = dayRangeLayoutContext.daysAndFrames.map { $0.frame }
-                
-                return DayRangeIndicatorView.calendarItemModel(
-                    invariantViewProperties: .init(),
-                    content: .init(framesOfDaysToHighlight: framesOfDaysToHighlight))
-            }
-            .days { day in
-                calendarTextView(day: day.components, isSelected: isDaySelected(day))
-            }
-            .monthHeaders { month in
-                let monthHeaderText = dateFormatter.string(from: calendar.date(from: month.components)!)
-                
-                Text(monthHeaderText)
-                    .font(.system(size: 18))
-                    .foregroundStyle(.subColor2)
-            }
-            .onDaySelection { day in
-                if !isTodayUnder(day.components, calendar.dateComponents(in: .current, from: Date())) {
-                    DayRangeSelectionHelper.updateDayRange(
-                        afterTapSelectionOf: day,
-                        existingDayRange: &selectedDayRange)
+            VStack {
+                CalendarViewRepresentable(
+                    calendar: calendar,
+                    visibleDateRange: visibleDateRange ,
+                    monthsLayout: .vertical(options: .init()),
+                    dataDependency: nil)
+                .interMonthSpacing(20)
+                .dayRangeItemProvider(for: selectedDateRanges) { dayRangeLayoutContext in
+                    let framesOfDaysToHighlight = dayRangeLayoutContext.daysAndFrames.map { $0.frame }
+                    
+                    return DayRangeIndicatorView.calendarItemModel(
+                        invariantViewProperties: .init(),
+                        content: .init(framesOfDaysToHighlight: framesOfDaysToHighlight))
                 }
+                .days { day in
+                    calendarTextView(day: day.components, isSelected: isDaySelected(day))
+                }
+                .monthHeaders { month in
+                    let monthHeaderText = dateFormatter.string(from: calendar.date(from: month.components)!)
+                    
+                    Text(monthHeaderText)
+                        .font(.system(size: 18))
+                        .foregroundStyle(.mainApp)
+                }
+                .onDaySelection { day in
+                    if !isTodayUnder(day.components, calendar.dateComponents(in: .current, from: Date())) {
+                        DayRangeSelectionHelper.updateDayRange(
+                            afterTapSelectionOf: day,
+                            existingDayRange: &selectedDayRange)
+                    }
+                }
+                .layoutMargins(.init(top: 8, leading: 8, bottom: 8, trailing: 8))
+                .padding(.horizontal, 16)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-            .layoutMargins(.init(top: 8, leading: 8, bottom: 8, trailing: 8))
-            .padding(.horizontal, 16)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .navigationBarTitle(.mainApp, 13)
             .navigationTitle(navigationTitle)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -148,9 +152,9 @@ extension CustomCalendarView {
             
             Text("\(day.day!)")
                 .font(.system(size: 18))
-                .foregroundStyle(isToday(day, calendar.dateComponents(in: .current, from: Date())) ? .white : .subColor2)
+                .foregroundStyle(isToday(day, calendar.dateComponents(in: .current, from: Date())) ? .white : .mainApp)
                 .bold(isToday(day, calendar.dateComponents(in: .current, from: Date())))
-                .strikethrough(isTodayUnder(day, calendar.dateComponents(in: .current, from: Date())), pattern: .solid, color: .subColor2)
+                .strikethrough(isTodayUnder(day, calendar.dateComponents(in: .current, from: Date())), pattern: .solid, color: .mainApp)
                 .padding(.all, 10)
                 .background {
                     Circle()
