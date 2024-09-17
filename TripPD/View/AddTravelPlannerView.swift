@@ -13,7 +13,8 @@ struct AddTravelPlannerView: View {
     @State private var title = ""
     @State private var memo = ""
     @State private var image: UIImage?
-    @State private var dates: [Date]?
+    @State private var dates: [Date] = []
+    @State private var showDatePickerView = false
     @State private var showPHPickeView = false
     
     var body: some View {
@@ -39,7 +40,7 @@ struct AddTravelPlannerView: View {
                         showSheet.toggle()
                     } label: {
                         Image(systemName: "xmark")
-                            .foregroundStyle(.appBlack.gradient)
+                            .foregroundStyle(.red.gradient)
                             .font(.appFont(18))
                     }
                 }
@@ -49,33 +50,31 @@ struct AddTravelPlannerView: View {
                         showSheet.toggle()
                     } label: {
                         Text("추가")
-                            .foregroundStyle(.subColor2.gradient).bold()
+                            .foregroundStyle(.mainApp.gradient).bold()
                             .font(.appFont(18))
                     }
                 }
             }
-            .navigationBarTitleColor(.subColor2)
+            .navigationBarTitleColor(.mainApp)
             .navigationTitle("여행 플랜 생성하기")
             .navigationBarTitleDisplayMode(.inline)
         }
     }
-    
+}
+
+extension AddTravelPlannerView {
     @ViewBuilder
     func plannerSettingView(_ type: SettingPlan) -> some View {
         switch type {
         case .title:
             VStack {
-                Text("\(type.rawValue)")
-                    .foregroundStyle(.subColor2.gradient)
-                    .font(.appFont(20))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading, 5)
+                AddPlannerElementTitleView(type: .title)
                 
                 RoundedRectangle(cornerRadius: 8)
-                    .stroke(.subColor2.gradient)
+                    .stroke(.mainApp.gradient)
                     .foregroundStyle(.bar)
                     .overlay {
-                        TextField("제목을 입력해주세요", text: $title)
+                        TextField(type.descript, text: $title)
                             .textFieldStyle(.plain)
                             .padding(.horizontal, 10)
                             .font(.appFont(15))
@@ -86,20 +85,16 @@ struct AddTravelPlannerView: View {
             
         case .date:
             VStack {
-                Text(type.rawValue)
-                    .foregroundStyle(.subColor2.gradient)
-                    .font(.appFont(20))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading, 5)
+                AddPlannerElementTitleView(type: .date)
                 
                 HStack {
                     RoundedRectangle(cornerRadius: 8)
-                        .stroke(.subColor2.gradient)
+                        .stroke(.mainApp.gradient)
                         .foregroundStyle(.bar)
                         .overlay {
                             HStack {
-                                Text("\(Date().formatted(date: .numeric, time: .standard))")
-                                    .foregroundStyle(dates == nil ? .gray.opacity(0.5) : .subColor2)
+                                Text(type.descript)
+                                    .foregroundStyle(dates.isEmpty ? .gray.opacity(0.5) : .mainApp)
                                     .padding(.horizontal, 10)
                                     .font(.appFont(15))
                                     .multilineTextAlignment(.leading)
@@ -111,27 +106,28 @@ struct AddTravelPlannerView: View {
                         .padding(.trailing, 10)
                     
                     Button {
-                        
+                        showDatePickerView.toggle()
                     } label: {
                         Image(systemName: "calendar")
                             .resizable()
                     }
                     .frame(width: 35, height: 35)
-                    .tint(.subColor2)
+                    .tint(.mainApp)
+                    .sheet(isPresented: $showDatePickerView) {
+                        CustomCalendarView(selectedDates: $dates, showDatePickerView: $showDatePickerView)
+                            .padding(.top, 15)
+                            .padding(.bottom, 10)
+                    }
                 }
             }
             .padding(.horizontal, 20)
             
         case .concept:
             VStack {
-                Text(type.rawValue)
-                    .foregroundStyle(.subColor2.gradient)
-                    .font(.appFont(20))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading, 5)
+                AddPlannerElementTitleView(type: .concept)
                 
                 RoundedRectangle(cornerRadius: 8)
-                    .stroke(.subColor2.gradient)
+                    .stroke(.mainApp.gradient)
                     .foregroundStyle(.bar)
                     .overlay {
                         ZStack {
@@ -140,7 +136,7 @@ struct AddTravelPlannerView: View {
                                 .padding(.all, 6)
                             
                             VStack {
-                                Text("여행 컨셉을 자유롭게 작성하세요!")
+                                Text(type.descript)
                                     .foregroundStyle(.gray.opacity(0.5))
                                     .font(.appFont(15))
                                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -158,14 +154,11 @@ struct AddTravelPlannerView: View {
         case .photo:
             VStack {
                 HStack(alignment: .firstTextBaseline) {
-                    Text(type.rawValue)
-                        .foregroundStyle(.subColor2.gradient)
-                        .font(.appFont(20))
-                        .padding(.leading, 5)
+                    AddPlannerElementTitleView(type: .photo)
                     
-                    Text("(커버 사진을 설정합니다)")
+                    Text(type.descript)
                         .font(.appFont(12))
-                        .foregroundStyle(.subColor2)
+                        .foregroundStyle(.mainApp)
                         .padding(.leading, -5)
                     
                     Spacer()
@@ -175,68 +168,7 @@ struct AddTravelPlannerView: View {
                     Button {
                         showPHPickeView.toggle()
                     } label: {
-                        if let image = image {
-                            Image(uiImage: image)
-                                .resizable()
-                                .frame(maxWidth: .infinity, alignment: .center)
-                                .frame(height: 150)
-                                .imageScale(.small)
-                                .overlay {
-                                    ZStack {
-                                        RoundedRectangle(cornerRadius: 12)
-                                            .foregroundStyle(.ultraThinMaterial.opacity(0.7))
-                                        Text("\(title)")
-                                        
-                                        if let dates = dates {
-                                            if let firstDay = dates.first, let lastDay = dates.last {
-                                                Text("\(firstDay) ~ \(lastDay)")
-                                                    .font(.appFont(18))
-                                                    .foregroundStyle(.gray)
-                                            }
-                                        }
-                                    }
-                                }
-                                .clipShape(RoundedRectangle(cornerRadius: 12))
-                            if let dates = dates {
-                                if let firstDay = dates.first, let lastDay = dates.last {
-                                    Text("\(firstDay) ~ \(lastDay)")
-                                        .font(.appFont(18))
-                                        .foregroundStyle(.gray)
-                                }
-                            }
-                        } else {
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 12)
-                                    .background(.mainApp)
-                                
-                                Image(systemName: "airplane")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .rotationEffect(.degrees(-20))
-                                    .frame(maxWidth: .infinity, alignment: .center)
-                                    .frame(height: 300)
-                                    .foregroundStyle(.mainApp.opacity(0.7).gradient)
-                                VStack(alignment: .leading, spacing: 10) {
-                                    Text("\(title)")
-                                        .font(.appFont(28))
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                    if let dates = dates {
-                                        if let firstDay = dates.first, let lastDay = dates.last {
-                                            Text("\(firstDay) ~ \(lastDay)")
-                                                .font(.appFont(18))
-                                                .foregroundStyle(.gray)
-                                        }
-                                    }
-                                }
-                                .foregroundStyle(.black.opacity(0.7))
-                                .padding(.top, 10)
-                                .padding(.horizontal, 10)
-                            }
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .frame(height: 150)
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
-                            .foregroundStyle(.subColor3.gradient)
-                        }
+                        TravelCoverView(title: $title, dates: $dates, image: $image)
                     }
                     .shadow(color: .gray.opacity(0.3), radius: 7)
                     .sheet(isPresented: $showPHPickeView) {
@@ -250,13 +182,6 @@ struct AddTravelPlannerView: View {
             }
             .padding(.horizontal, 20)
         }
-    }
-    
-    enum SettingPlan: String {
-        case title = "제목"
-        case date = "여행 날짜"
-        case concept = "컨셉"
-        case photo = "플랜 커버"
     }
 }
 

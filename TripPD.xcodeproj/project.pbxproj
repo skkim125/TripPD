@@ -25,6 +25,11 @@
 		04C995B92C992B7C0017E10A /* Finance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C995B82C992B7C0017E10A /* Finance.swift */; };
 		04C995BB2C992B9D0017E10A /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C995BA2C992B9D0017E10A /* Diary.swift */; };
 		04C995BD2C992BB50017E10A /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C995BC2C992BB50017E10A /* Category.swift */; };
+		04C995BF2C992F4F0017E10A /* TravelCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C995BE2C992F4F0017E10A /* TravelCoverView.swift */; };
+		04C995C22C992FC40017E10A /* AddPlannerElementTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C995C12C992FC40017E10A /* AddPlannerElementTitleView.swift */; };
+		04C995CA2C997AF90017E10A /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 04EBA0602C9317FC002B1CA2 /* RealmSwift */; };
+		04C995CD2C99B0850017E10A /* DayRangeSelectionHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C995CC2C99B0850017E10A /* DayRangeSelectionHelper.swift */; };
+		04C995CF2C99B1CA0017E10A /* CustomCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C995CE2C99B1CA0017E10A /* CustomCalendarView.swift */; };
 		04EBA0522C92E464002B1CA2 /* TripPDApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EBA0512C92E464002B1CA2 /* TripPDApp.swift */; };
 		04EBA0542C92E464002B1CA2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EBA0532C92E464002B1CA2 /* ContentView.swift */; };
 		04EBA0562C92E465002B1CA2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04EBA0552C92E465002B1CA2 /* Assets.xcassets */; };
@@ -33,6 +38,20 @@
 		04EBA0642C932D43002B1CA2 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 04EBA0632C932D43002B1CA2 /* Alamofire */; };
 		04EBA0672C932D5F002B1CA2 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 04EBA0662C932D5F002B1CA2 /* Toast */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		04C995CB2C997AF90017E10A /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				04C995CA2C997AF90017E10A /* RealmSwift in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		04A46BB52C945D30005ACE1C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -53,6 +72,10 @@
 		04C995B82C992B7C0017E10A /* Finance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Finance.swift; sourceTree = "<group>"; };
 		04C995BA2C992B9D0017E10A /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		04C995BC2C992BB50017E10A /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		04C995BE2C992F4F0017E10A /* TravelCoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelCoverView.swift; sourceTree = "<group>"; };
+		04C995C12C992FC40017E10A /* AddPlannerElementTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlannerElementTitleView.swift; sourceTree = "<group>"; };
+		04C995CC2C99B0850017E10A /* DayRangeSelectionHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayRangeSelectionHelper.swift; sourceTree = "<group>"; };
+		04C995CE2C99B1CA0017E10A /* CustomCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCalendarView.swift; sourceTree = "<group>"; };
 		04EBA04E2C92E464002B1CA2 /* TripPD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TripPD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04EBA0512C92E464002B1CA2 /* TripPDApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPDApp.swift; sourceTree = "<group>"; };
 		04EBA0532C92E464002B1CA2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -95,6 +118,7 @@
 		04A46BBE2C947B15005ACE1C /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				04C995C52C9961080017E10A /* ViewResource */,
 				04A46BAD2C945BA4005ACE1C /* DesignResource */,
 			);
 			path = Resource;
@@ -113,6 +137,8 @@
 			children = (
 				04A46BBC2C9478F0005ACE1C /* MainHomeView.swift */,
 				04A46BCC2C9487AC005ACE1C /* AddTravelPlannerView.swift */,
+				04C995C02C992F7A0017E10A /* AddPlannerElement */,
+				04C995BE2C992F4F0017E10A /* TravelCoverView.swift */,
 				04A46BD82C95B3BF005ACE1C /* AddPhotoView.swift */,
 				04A46BC02C947CD4005ACE1C /* UserView.swift */,
 				04A46BCE2C95497D005ACE1C /* TravelMapView.swift */,
@@ -141,6 +167,23 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		04C995C02C992F7A0017E10A /* AddPlannerElement */ = {
+			isa = PBXGroup;
+			children = (
+				04C995C12C992FC40017E10A /* AddPlannerElementTitleView.swift */,
+				04C995CE2C99B1CA0017E10A /* CustomCalendarView.swift */,
+			);
+			path = AddPlannerElement;
+			sourceTree = "<group>";
+		};
+		04C995C52C9961080017E10A /* ViewResource */ = {
+			isa = PBXGroup;
+			children = (
+				04C995CC2C99B0850017E10A /* DayRangeSelectionHelper.swift */,
+			);
+			path = ViewResource;
+			sourceTree = "<group>";
+		};
 		04EBA0452C92E464002B1CA2 = {
 			isa = PBXGroup;
 			children = (
@@ -164,10 +207,10 @@
 				04A46BD52C956C0F005ACE1C /* Modifier */,
 				04A46BC22C947CE5005ACE1C /* Reusable */,
 				04A46BBE2C947B15005ACE1C /* Resource */,
+				04C995B12C99299D0017E10A /* Model */,
 				04A46BB52C945D30005ACE1C /* Info.plist */,
 				04EBA0512C92E464002B1CA2 /* TripPDApp.swift */,
 				04EBA0532C92E464002B1CA2 /* ContentView.swift */,
-				04C995B12C99299D0017E10A /* Model */,
 				04A46BC92C9483D8005ACE1C /* View */,
 				04EBA0552C92E465002B1CA2 /* Assets.xcassets */,
 				04EBA0572C92E465002B1CA2 /* Preview Content */,
@@ -194,6 +237,7 @@
 				04EBA04A2C92E464002B1CA2 /* Sources */,
 				04EBA04B2C92E464002B1CA2 /* Frameworks */,
 				04EBA04C2C92E464002B1CA2 /* Resources */,
+				04C995CB2C997AF90017E10A /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -273,15 +317,19 @@
 				04A46BC82C948289005ACE1C /* LazyWrapperView.swift in Sources */,
 				04EBA0522C92E464002B1CA2 /* TripPDApp.swift in Sources */,
 				04A46BD42C956C0A005ACE1C /* NavigationTitleModifier.swift in Sources */,
+				04C995C22C992FC40017E10A /* AddPlannerElementTitleView.swift in Sources */,
 				04C995B72C992B510017E10A /* Place.swift in Sources */,
 				04A46BCF2C95497D005ACE1C /* TravelMapView.swift in Sources */,
 				04C995B92C992B7C0017E10A /* Finance.swift in Sources */,
 				04C995AB2C97EDDE0017E10A /* APIKey.swift in Sources */,
 				04A46BD72C956C6F005ACE1C /* DesignResource.swift in Sources */,
+				04C995CF2C99B1CA0017E10A /* CustomCalendarView.swift in Sources */,
 				04A46BD92C95B3BF005ACE1C /* AddPhotoView.swift in Sources */,
 				04C995BD2C992BB50017E10A /* Category.swift in Sources */,
+				04C995CD2C99B0850017E10A /* DayRangeSelectionHelper.swift in Sources */,
 				04C995B32C9929A90017E10A /* Travel.swift in Sources */,
 				04A46BCD2C9487AC005ACE1C /* AddTravelPlannerView.swift in Sources */,
+				04C995BF2C992F4F0017E10A /* TravelCoverView.swift in Sources */,
 				04C995B52C992B4D0017E10A /* Schedule.swift in Sources */,
 				04A46BC12C947CD4005ACE1C /* UserView.swift in Sources */,
 				04C995BB2C992B9D0017E10A /* Diary.swift in Sources */,
@@ -418,6 +466,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"TripPD/Preview Content\"";
+				DEVELOPMENT_TEAM = K7C455FTM9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TripPD/Info.plist;
@@ -452,6 +501,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"TripPD/Preview Content\"";
+				DEVELOPMENT_TEAM = K7C455FTM9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TripPD/Info.plist;

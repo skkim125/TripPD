@@ -20,7 +20,7 @@ struct MainHomeView: View {
                     Text("Trip PD")
                         .font(.appFont(28))
                         .padding(5)
-                        .foregroundStyle(.subColor2.gradient)
+                        .foregroundStyle(.mainApp.gradient)
                 }
                 
                 ToolbarItem(placement: .topBarTrailing) {
@@ -31,7 +31,7 @@ struct MainHomeView: View {
                             .bold()
                     }
                     .font(.appFont(18))
-                    .foregroundStyle(.subColor2.gradient)
+                    .foregroundStyle(.appBlack.gradient)
                     .fullScreenCover(isPresented: $showSheet) {
                         AddTravelPlannerView(showSheet: $showSheet)
                     }
