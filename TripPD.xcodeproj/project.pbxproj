@@ -18,6 +18,13 @@
 		04A46BD72C956C6F005ACE1C /* DesignResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A46BD62C956C6F005ACE1C /* DesignResource.swift */; };
 		04A46BD92C95B3BF005ACE1C /* AddPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A46BD82C95B3BF005ACE1C /* AddPhotoView.swift */; };
 		04C995A72C97EAEC0017E10A /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 04C995A62C97EAEC0017E10A /* .gitignore */; };
+		04C995AB2C97EDDE0017E10A /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C995AA2C97EDDE0017E10A /* APIKey.swift */; };
+		04C995B32C9929A90017E10A /* Travel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C995B22C9929A90017E10A /* Travel.swift */; };
+		04C995B52C992B4D0017E10A /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C995B42C992B4D0017E10A /* Schedule.swift */; };
+		04C995B72C992B510017E10A /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C995B62C992B510017E10A /* Place.swift */; };
+		04C995B92C992B7C0017E10A /* Finance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C995B82C992B7C0017E10A /* Finance.swift */; };
+		04C995BB2C992B9D0017E10A /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C995BA2C992B9D0017E10A /* Diary.swift */; };
+		04C995BD2C992BB50017E10A /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C995BC2C992BB50017E10A /* Category.swift */; };
 		04EBA0522C92E464002B1CA2 /* TripPDApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EBA0512C92E464002B1CA2 /* TripPDApp.swift */; };
 		04EBA0542C92E464002B1CA2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EBA0532C92E464002B1CA2 /* ContentView.swift */; };
 		04EBA0562C92E465002B1CA2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04EBA0552C92E465002B1CA2 /* Assets.xcassets */; };
@@ -39,6 +46,13 @@
 		04A46BD62C956C6F005ACE1C /* DesignResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignResource.swift; sourceTree = "<group>"; };
 		04A46BD82C95B3BF005ACE1C /* AddPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoView.swift; sourceTree = "<group>"; };
 		04C995A62C97EAEC0017E10A /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		04C995AA2C97EDDE0017E10A /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
+		04C995B22C9929A90017E10A /* Travel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Travel.swift; sourceTree = "<group>"; };
+		04C995B42C992B4D0017E10A /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
+		04C995B62C992B510017E10A /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
+		04C995B82C992B7C0017E10A /* Finance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Finance.swift; sourceTree = "<group>"; };
+		04C995BA2C992B9D0017E10A /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
+		04C995BC2C992BB50017E10A /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		04EBA04E2C92E464002B1CA2 /* TripPD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TripPD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04EBA0512C92E464002B1CA2 /* TripPDApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPDApp.swift; sourceTree = "<group>"; };
 		04EBA0532C92E464002B1CA2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -114,6 +128,19 @@
 			path = Modifier;
 			sourceTree = "<group>";
 		};
+		04C995B12C99299D0017E10A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				04C995B22C9929A90017E10A /* Travel.swift */,
+				04C995B42C992B4D0017E10A /* Schedule.swift */,
+				04C995B62C992B510017E10A /* Place.swift */,
+				04C995B82C992B7C0017E10A /* Finance.swift */,
+				04C995BA2C992B9D0017E10A /* Diary.swift */,
+				04C995BC2C992BB50017E10A /* Category.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		04EBA0452C92E464002B1CA2 = {
 			isa = PBXGroup;
 			children = (
@@ -140,9 +167,11 @@
 				04A46BB52C945D30005ACE1C /* Info.plist */,
 				04EBA0512C92E464002B1CA2 /* TripPDApp.swift */,
 				04EBA0532C92E464002B1CA2 /* ContentView.swift */,
+				04C995B12C99299D0017E10A /* Model */,
 				04A46BC92C9483D8005ACE1C /* View */,
 				04EBA0552C92E465002B1CA2 /* Assets.xcassets */,
 				04EBA0572C92E465002B1CA2 /* Preview Content */,
+				04C995AA2C97EDDE0017E10A /* APIKey.swift */,
 			);
 			path = TripPD;
 			sourceTree = "<group>";
@@ -244,11 +273,18 @@
 				04A46BC82C948289005ACE1C /* LazyWrapperView.swift in Sources */,
 				04EBA0522C92E464002B1CA2 /* TripPDApp.swift in Sources */,
 				04A46BD42C956C0A005ACE1C /* NavigationTitleModifier.swift in Sources */,
+				04C995B72C992B510017E10A /* Place.swift in Sources */,
 				04A46BCF2C95497D005ACE1C /* TravelMapView.swift in Sources */,
+				04C995B92C992B7C0017E10A /* Finance.swift in Sources */,
+				04C995AB2C97EDDE0017E10A /* APIKey.swift in Sources */,
 				04A46BD72C956C6F005ACE1C /* DesignResource.swift in Sources */,
 				04A46BD92C95B3BF005ACE1C /* AddPhotoView.swift in Sources */,
+				04C995BD2C992BB50017E10A /* Category.swift in Sources */,
+				04C995B32C9929A90017E10A /* Travel.swift in Sources */,
 				04A46BCD2C9487AC005ACE1C /* AddTravelPlannerView.swift in Sources */,
+				04C995B52C992B4D0017E10A /* Schedule.swift in Sources */,
 				04A46BC12C947CD4005ACE1C /* UserView.swift in Sources */,
+				04C995BB2C992B9D0017E10A /* Diary.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
