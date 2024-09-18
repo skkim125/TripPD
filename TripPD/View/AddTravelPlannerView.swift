@@ -9,13 +9,20 @@ import SwiftUI
 import PhotosUI
 
 struct AddTravelPlannerView: View {
+    @ObservedObject var travelManager: TravelManager
+    
     @Binding var showSheet: Bool
     @State private var title = ""
-    @State private var memo = ""
-    @State private var image: UIImage?
+    @State private var travelConcept = ""
+    @State private var image: Data?
     @State private var dates: [Date] = []
     @State private var showDatePickerView = false
     @State private var showPHPickeView = false
+    
+    var isFilled: Bool {
+        !title.trimmingCharacters(in: .whitespaces).isEmpty && !dates.isEmpty
+    }
+    
     var dateText: String {
         if let firstDay = dates.first, let lastDay = dates.last {
             let first = DateFormatter.customDateFormatter(date: firstDay, .coverView)
@@ -29,20 +36,22 @@ struct AddTravelPlannerView: View {
     
     var body: some View {
         NavigationStack {
-            VStack(spacing: 30) {
-                
-                plannerSettingView(.photo)
-                    .padding(.top, 15)
-                
-                plannerSettingView(.title)
-                
-                plannerSettingView(.date)
-                    .padding(.top, 5)
-                
-                plannerSettingView(.concept)
-                    .padding(.top, 5)
-                
-                Spacer()
+            ScrollView {
+                VStack(spacing: 30) {
+                    
+                    plannerSettingView(.photo)
+                        .padding(.top, 15)
+                    
+                    plannerSettingView(.title)
+                    
+                    plannerSettingView(.date)
+                        .padding(.top, 5)
+                    
+                    plannerSettingView(.concept)
+                        .padding(.top, 5)
+                    
+                    Spacer()
+                }
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -57,12 +66,21 @@ struct AddTravelPlannerView: View {
                 
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        showSheet.toggle()
+                        let url = ImageManager.shared.saveImage(imageData: image)
+                        
+                        travelManager.addTravelPlanner(date: Date(), title: title, travelConcept: travelConcept, travelDate: dates, coverImageURL: url)
+                        
+                        print("추가 완료")
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            showSheet.toggle()
+                        }
                     } label: {
                         Text("추가")
-                            .foregroundStyle(.mainApp.gradient).bold()
+                            .foregroundStyle(isFilled ? (Color.mainApp.gradient) : Color.gray.gradient).bold()
                             .font(.appFont(18))
                     }
+                    .disabled(!isFilled)
                 }
             }
             .navigationBarTitle(.mainApp, 20)
@@ -145,7 +163,7 @@ extension AddTravelPlannerView {
                     .foregroundStyle(.bar)
                     .overlay {
                         ZStack {
-                            TextEditor(text: $memo)
+                            TextEditor(text: $travelConcept)
                                 .font(.appFont(15))
                                 .padding(.all, 6)
                             
@@ -200,5 +218,5 @@ extension AddTravelPlannerView {
 }
 
 #Preview {
-    AddTravelPlannerView(showSheet: .constant(true))
+    AddTravelPlannerView(travelManager: TravelManager.shared, showSheet: .constant(true))
 }

@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 
 // MARK: 가계부(추후 업데이트)
-final class Finance: Object {
+final class Finance: Object, ObjectKeyIdentifiable {
     @Persisted(primaryKey: true) var id: ObjectId
     @Persisted var expendTitle: String // 지출 내역
     @Persisted var category: Category // 지출 카테고리

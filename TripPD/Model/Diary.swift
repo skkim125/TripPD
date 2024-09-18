@@ -9,9 +9,9 @@ import Foundation
 import RealmSwift
 
 // MARK: 일기(추후 업데이트)
-final class Diary: Object {
+final class Diary: Object, ObjectKeyIdentifiable {
     @Persisted(primaryKey: true) var id: ObjectId
     @Persisted var title: String // 일기 제목
     @Persisted var content: String? // 일기 내용
-    @Persisted var photos: List<String> // 사진 모음
+    @Persisted var photos: RealmList<String> // 사진 모음
 }

@@ -9,11 +9,12 @@ import Foundation
 
 extension DateFormatter {
     static func customDateFormatter(date: Date, _ type: DateFormatterType) -> String {
-        var dateformat = self.init()
+        let dateformat = self.init()
         
         switch type {
         case .day:
             dateformat.dateFormat = "yyyy년 M월 d일"
+            
         case .coverView:
             dateformat.dateFormat = "yyyy년 M월 d일"
         }

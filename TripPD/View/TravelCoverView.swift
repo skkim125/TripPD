@@ -10,13 +10,13 @@ import SwiftUI
 struct TravelCoverView: View {
     @Binding var title: String
     @Binding var dates: [Date]
-    @Binding var image: UIImage?
+    @Binding var image: Data?
     
     var body: some View {
-        if let image = image {
+        if let image = image, let uiimage = UIImage(data: image) {
             RoundedRectangle(cornerRadius: 12)
                 .background {
-                    Image(uiImage: image)
+                    Image(uiImage: uiimage)
                         .resizable()
                         .frame(maxWidth: .infinity, alignment: .center)
                         .frame(height: 150)

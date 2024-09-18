@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct ContentView: View {
+    var travelManager = TravelManager.shared
+    
     var body: some View {
         TabView {
-            LazyWrapperView(MainHomeView())
+            LazyWrapperView(MainHomeView(travelManager: travelManager))
                 .tabItem {
                     Image(systemName: "house")
                     Text("홈")
