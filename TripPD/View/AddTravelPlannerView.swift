@@ -18,6 +18,7 @@ struct AddTravelPlannerView: View {
     @State private var dates: [Date] = []
     @State private var showDatePickerView = false
     @State private var showPHPickeView = false
+    @FocusState var isFocused: Bool
     
     var isFilled: Bool {
         !title.trimmingCharacters(in: .whitespaces).isEmpty && !dates.isEmpty
@@ -36,22 +37,35 @@ struct AddTravelPlannerView: View {
     
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(spacing: 30) {
-                    
+            ScrollViewReader { proxy in
+                ScrollView {
                     plannerSettingView(.photo)
                         .padding(.top, 15)
                     
                     plannerSettingView(.title)
+                        .padding(.top, 20)
+                        .focused($isFocused)
+                        .id("title")
                     
                     plannerSettingView(.date)
-                        .padding(.top, 5)
+                        .padding(.top, 20)
                     
                     plannerSettingView(.concept)
-                        .padding(.top, 5)
-                    
-                    Spacer()
+                        .padding(.top, 20)
+                        .focused($isFocused)
+                        .id("concept")
+                        .onTapGesture {
+                            
+                        }
                 }
+                .scrollDismissesKeyboard(.automatic)
+                .onChange(of: isFocused, perform: { newValue in
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.22) {
+                        withAnimation {
+                            proxy.scrollTo("concept", anchor: .center)
+                        }
+                    }
+                })
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -87,6 +101,9 @@ struct AddTravelPlannerView: View {
             .navigationTitle("여행 플랜 생성하기")
             .navigationBarTitleDisplayMode(.inline)
         }
+        .onTapGesture {
+            self.hideKeyboard()
+        }
     }
 }
 
@@ -107,6 +124,7 @@ extension AddTravelPlannerView {
                             .textFieldStyle(.plain)
                             .padding(.horizontal, 10)
                             .font(.appFont(15))
+                            .submitLabel(.done)
                     }
                     .frame(height: 40)
             }
@@ -165,17 +183,20 @@ extension AddTravelPlannerView {
                         ZStack {
                             TextEditor(text: $travelConcept)
                                 .font(.appFont(15))
-                                .padding(.all, 6)
+                                .submitLabel(.done)
+                                .padding(.init(top: 6, leading: 7, bottom: 0, trailing: 0))
                             
-                            VStack {
-                                Text(type.descript)
-                                    .foregroundStyle(.gray.opacity(0.5))
-                                    .font(.appFont(15))
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .padding(.top, 15)
-                                    .padding(.leading, 15)
-                                
-                                Spacer()
+                            if travelConcept.isEmpty {
+                                VStack {
+                                    Text(type.descript)
+                                        .foregroundStyle(.gray.opacity(0.5))
+                                        .font(.appFont(15))
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .padding(.top, 15)
+                                        .padding(.leading, 15)
+                                    
+                                    Spacer()
+                                }
                             }
                         }
                     }

@@ -15,6 +15,24 @@ struct MainHomeView: View {
     var body: some View {
         NavigationStack {
             VStack {
+                Button {
+                    
+                } label: {
+                    HStack {
+                        Image(systemName: "arrow.up.arrow.down")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 20)
+                            .imageScale(.large).bold()
+                    }
+                }
+                .frame(maxWidth: .infinity, alignment: .topTrailing)
+                .padding(.trailing, 20)
+                .padding(.top)
+                .tint(.mainApp)
+                
+                Spacer()
+                
                 if travelManager.travelListForView.isEmpty {
                     Text("현재 계획된 여행이 없어요.")
                         .font(.footnote)
@@ -32,6 +50,8 @@ struct MainHomeView: View {
                         }
                     }
                 }
+                
+                Spacer()
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -59,10 +79,6 @@ struct MainHomeView: View {
         .onAppear {
             travelManager.detectRealmURL()
             travelManager.travelListForView = travelManager.convertArray()
-            
-            travelManager.travelListForView.map({ $0.coverImageURL }).forEach { url in
-                print(ImageManager.shared.loadImage(imageName: url))
-            }
         }
     }
 }

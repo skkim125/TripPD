@@ -30,7 +30,14 @@ final class TravelManager: ObservableObject {
         let listDate = RealmList<Date>()
         listDate.append(objectsIn: travelDate)
         
-        let travel = Travel(date: date, title: title, travelConcept: travelConcept, travelDate: listDate, schedules: RealmList<Schedule>(), coverImageURL: coverImageURL)
+        let schedules = RealmList<Schedule>()
+        
+        for date in travelDate {
+            let schedule = Schedule(day: date, places: List<Place>(), photos: List<String>(), finances: List<Finance>())
+            schedules.append(schedule)
+        }
+        
+        let travel = Travel(date: date, title: title, travelConcept: travelConcept, travelDate: listDate, schedules: schedules, coverImageURL: coverImageURL)
         dump(travel)
         $travelList.append(travel)
         travelListForView = convertArray()
