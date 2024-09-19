@@ -26,8 +26,8 @@ struct AddTravelPlannerView: View {
     
     var dateText: String {
         if let firstDay = dates.first, let lastDay = dates.last {
-            let first = DateFormatter.customDateFormatter(date: firstDay, .coverView)
-            let last = DateFormatter.customDateFormatter(date: lastDay, .coverView)
+            let first = firstDay.customDateFormatter(.coverView)
+            let last = lastDay.customDateFormatter(.coverView)
             
             return "\(first) ~ \(last)"
         } else {
@@ -54,6 +54,12 @@ struct AddTravelPlannerView: View {
                         .padding(.top, 20)
                         .focused($isFocused)
                         .id("concept")
+                        .onChange(of: travelConcept) { _ in
+                            if travelConcept.last?.isNewline == true {
+                                travelConcept.removeLast()
+                                isFocused = false
+                            }
+                        }
                         .onTapGesture {
                             
                         }
@@ -120,11 +126,24 @@ extension AddTravelPlannerView {
                     .stroke(.mainApp.gradient)
                     .foregroundStyle(.bar)
                     .overlay {
-                        TextField(type.descript, text: $title)
-                            .textFieldStyle(.plain)
-                            .padding(.horizontal, 10)
-                            .font(.appFont(15))
-                            .submitLabel(.done)
+                        ZStack {
+                            TextField(type.descript, text: $title)
+                                .textFieldStyle(.plain)
+                                .padding(.horizontal, 10)
+                                .font(.appFont(15))
+                                .submitLabel(.done)
+                                .onChange(of: title) { _ in
+                                    if title.count > 10 {
+                                        title = String(title.prefix(10))
+                                    }
+                                }
+                            
+                            Text("(\(title.count) / 10)")
+                                .font(.system(size: 14))
+                                .foregroundStyle(.gray)
+                                .padding(.init(top: 0, leading: 0, bottom: 0, trailing: 10))
+                                .frame(maxWidth: .infinity, alignment: .trailing)
+                        }
                     }
                     .frame(height: 40)
             }
@@ -184,19 +203,29 @@ extension AddTravelPlannerView {
                             TextEditor(text: $travelConcept)
                                 .font(.appFont(15))
                                 .submitLabel(.done)
-                                .padding(.init(top: 6, leading: 7, bottom: 0, trailing: 0))
-                            
-                            if travelConcept.isEmpty {
-                                VStack {
-                                    Text(type.descript)
-                                        .foregroundStyle(.gray.opacity(0.5))
-                                        .font(.appFont(15))
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .padding(.top, 15)
-                                        .padding(.leading, 15)
-                                    
-                                    Spacer()
+                                .padding(.init(top: 6, leading: 6, bottom: 5, trailing: 6))
+                                .onChange(of: travelConcept) { _ in
+                                    if travelConcept.count > 45 {
+                                        travelConcept = String(travelConcept.prefix(45))
+                                    }
                                 }
+                            
+                            VStack {
+                                Text(type.descript)
+                                    .foregroundStyle(Color(uiColor: .placeholderText))
+                                    .font(.appFont(15))
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .padding(.top, 15)
+                                    .padding(.leading, 11)
+                                    .opacity(travelConcept.isEmpty ? 1: 0)
+                                
+                                Spacer()
+                                
+                                Text("(\(travelConcept.count) / 45)")
+                                    .font(.system(size: 14))
+                                    .foregroundStyle(.gray)
+                                    .padding(.init(top: 0, leading: 0, bottom: 10, trailing: 10))
+                                    .frame(maxWidth: .infinity, alignment: .trailing)
                             }
                         }
                     }
@@ -221,7 +250,7 @@ extension AddTravelPlannerView {
                     Button {
                         showPHPickeView.toggle()
                     } label: {
-                        TravelCoverView(title: $title, dates: $dates, image: $image)
+                        TravelCoverView(title: $title, dates: $dates, image: $image, isStar: .constant(false))
                     }
                     .shadow(color: .gray.opacity(0.3), radius: 7)
                     .sheet(isPresented: $showPHPickeView) {

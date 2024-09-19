@@ -41,10 +41,10 @@ struct CustomCalendarView: View {
         let selectedEndDate = calendar.date(from: selectedDayRange.upperBound.components)!
         
         if selectedStartDate == selectedEndDate {
-            return DateFormatter.customDateFormatter(date: selectedStartDate, .coverView)
+            return selectedStartDate.customDateFormatter(.coverView)
         } else {
             
-            return "\(DateFormatter.customDateFormatter(date: selectedStartDate, .coverView)) ~ \(DateFormatter.customDateFormatter(date: selectedEndDate, .coverView))"
+            return "\(selectedStartDate.customDateFormatter(.coverView)) ~ \(selectedEndDate.customDateFormatter(.coverView))"
         }
     }
     

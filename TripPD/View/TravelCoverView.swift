@@ -11,6 +11,7 @@ struct TravelCoverView: View {
     @Binding var title: String
     @Binding var dates: [Date]
     @Binding var image: Data?
+    @Binding var isStar: Bool
     
     var body: some View {
         if let image = image, let uiimage = UIImage(data: image) {
@@ -31,9 +32,11 @@ struct TravelCoverView: View {
                 .frame(height: 150)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .foregroundStyle(.thinMaterial.opacity(0.7))
+                .shadow(radius: 1.5)
             
         } else {
             RoundedRectangle(cornerRadius: 12)
+                .fill(.mainApp.gradient)
                 .frame(maxWidth: .infinity, alignment: .center)
                 .overlay {
                     ZStack {
@@ -43,18 +46,18 @@ struct TravelCoverView: View {
                             .rotationEffect(.degrees(-20))
                             .frame(maxWidth: .infinity, alignment: .center)
                             .frame(height: 300)
-                            .foregroundStyle(.mainApp.opacity(0.5).gradient)
+                            .foregroundStyle(.mainAppConvert.opacity(0.5).gradient)
+                            .padding(.leading)
                                 
                         overlayView()
                             .frame(maxWidth: .infinity, alignment: .bottomLeading)
-                            .foregroundStyle(Color(uiColor: .label).gradient)
+                            .foregroundStyle(.thickMaterial)
                             .padding(.horizontal, 10)
                     }
                 }
-                .background(.mainApp)
                 .frame(height: 150)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
-                .foregroundStyle(.mainAppConvert.gradient)
+                .shadow(radius: 1.5)
         }
     }
     
@@ -73,6 +76,7 @@ extension TravelCoverView{
             dateText(dates)
         }
         .frame(height: 100)
+        .padding(.top)
     }
     
     @ViewBuilder
@@ -82,14 +86,14 @@ extension TravelCoverView{
         if isNotEmpty {
             if dates.count == 1 {
                 if let firstDay = dates.first {
-                    let first = DateFormatter.customDateFormatter(date: firstDay, .coverView)
+                    let first = firstDay.customDateFormatter(.coverView)
                     Text("\(first)")
                         .font(.appFont(12))
                 }
             } else {
                 if let firstDay = dates.first, let lastDay = dates.last {
-                    let first = DateFormatter.customDateFormatter(date: firstDay, .coverView)
-                    let last = DateFormatter.customDateFormatter(date: lastDay, .coverView)
+                    let first = firstDay.customDateFormatter(.coverView)
+                    let last = lastDay.customDateFormatter(.coverView)
                     Text("\(first) ~ \(last)")
                         .font(.appFont(12))
                 }

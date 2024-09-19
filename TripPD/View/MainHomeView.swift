@@ -10,20 +10,48 @@ import RealmSwift
 
 struct MainHomeView: View {
     @ObservedObject var travelManager: TravelManager
+    @State private var isStarSorted = false
     @State private var showSheet = false
     
     var body: some View {
         NavigationStack {
             VStack {
-                Button {
-                    
-                } label: {
-                    HStack {
-                        Image(systemName: "arrow.up.arrow.down")
+                HStack(spacing: 20) {
+                    Button {
+                        if !travelManager.convertArray().isEmpty {
+                            isStarSorted.toggle()
+                        }
+                    } label: {
+                        Image(systemName: isStarSorted ? "star.fill": "star")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 20)
                             .imageScale(.large).bold()
+                            .foregroundStyle(.yellow)
+                    }
+                    
+                    Menu {
+                        Button {
+                            print("최근 생성순")
+                        } label: {
+                            Text("최근 생성순")
+                            Image(systemName: "list.number")
+                        }
+                        
+                        Button {
+                            print("여행 시작일순")
+                        } label: {
+                            Text("여행 시작일순")
+                            Image(systemName: "d.circle")
+                        }
+                    } label: {
+                        HStack {
+                            Image(systemName: "arrow.up.arrow.down")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 20)
+                                .imageScale(.large).bold()
+                        }
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .topTrailing)
@@ -43,7 +71,7 @@ struct MainHomeView: View {
                             NavigationLink {
                                 TravelScheduleListView(travelManager: travelManager, travel: travel)
                             } label: {
-                                TravelCoverView(title: .constant(travel.title), dates: .constant(Array(travel.travelDate)), image: .constant(ImageManager.shared.loadImage(imageName: travel.coverImageURL ?? "")))
+                                TravelCoverView(title: .constant(travel.title), dates: .constant(Array(travel.travelDate)), image: .constant(ImageManager.shared.loadImage(imageName: travel.coverImageURL ?? "")), isStar: .constant(travel.isStar))
                                     .padding(.horizontal, 20)
                                     .padding(.top, 15)
                             }
@@ -75,6 +103,7 @@ struct MainHomeView: View {
                     }
                 }
             }
+            .navigationBarTitle(.mainApp, 20)
         }
         .onAppear {
             travelManager.detectRealmURL()
