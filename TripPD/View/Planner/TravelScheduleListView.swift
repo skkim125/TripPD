@@ -14,6 +14,20 @@ struct TravelScheduleListView: View {
     private let columns = [GridItem(.flexible()), GridItem(.flexible())]
     @State private var showEditView = false
     
+    init(travelManager: TravelManager, travel: Travel, showEditView: Bool = false) {
+        self.travelManager = travelManager
+        self.travel = travel
+        self.showEditView = showEditView
+        
+        let fontAppearance = UINavigationBarAppearance()
+        fontAppearance.titleTextAttributes = [.font: UIFont.appFont(30), .foregroundColor: UIColor.mainApp]
+        fontAppearance.largeTitleTextAttributes = [.font: UIFont.appFont(30), .foregroundColor: UIColor.mainApp]
+        
+        let navBar = UINavigationBar.appearance()
+        navBar.standardAppearance = fontAppearance
+        navBar.prefersLargeTitles = true
+    }
+    
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -22,7 +36,7 @@ struct TravelScheduleListView: View {
                         NavigationLink {
                             
                         } label: {
-//                            RoundedRectangle(cornerRadius: 15)
+                            //                            RoundedRectangle(cornerRadius: 15)
                             Circle()
                                 .foregroundStyle(.mainApp.gradient)
                                 .frame(width: 165, height: 165)
@@ -57,23 +71,24 @@ struct TravelScheduleListView: View {
                             Text("수정")
                             Image(systemName: "pencil")
                         }
-
+                        
                         Button(role: .destructive) {
                             
                         } label: {
                             Text("여행 삭제")
                             Image(systemName: "trash")
                         }
-
+                        
                     } label: {
                         Image(systemName: "ellipsis")
                     }
                     .tint(.mainApp)
-
+                    
                 }
             }
-            .navigationTitle("\(travel.title)")
         }
+        .navigationTitle("\(travel.title)")
+        .navigationBarTitleDisplayMode(.large)
     }
 }
 

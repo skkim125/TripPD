@@ -45,6 +45,7 @@ struct CustomTabBar: View {
                 .padding(.bottom, geometry.safeAreaInsets.bottom != 0 ? geometry.safeAreaInsets.bottom : 15)
                 .background(.mainApp.gradient)
                 .clipShape(.rect(cornerRadius: 25))
+                .shadow(radius: 5)
             }
         }
     }

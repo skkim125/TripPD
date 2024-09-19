@@ -51,7 +51,7 @@ struct TravelMapView: View {
                     .frame(width: 25, height: 25)
             }
         }
-        .ignoresSafeArea(.container, edges: .top)
+        .ignoresSafeArea(.all)
     }
 }
 

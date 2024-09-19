@@ -149,14 +149,9 @@
 		04A46BC92C9483D8005ACE1C /* View */ = {
 			isa = PBXGroup;
 			children = (
-				04A46BBC2C9478F0005ACE1C /* MainHomeView.swift */,
-				04A46BCC2C9487AC005ACE1C /* AddTravelPlannerView.swift */,
-				04C995D92C9AA0180017E10A /* TravelScheduleListView.swift */,
-				04C995C02C992F7A0017E10A /* AddPlannerElement */,
-				04C995BE2C992F4F0017E10A /* TravelCoverView.swift */,
-				04A46BD82C95B3BF005ACE1C /* AddPhotoView.swift */,
-				04A46BC02C947CD4005ACE1C /* UserView.swift */,
-				04A46BCE2C95497D005ACE1C /* TravelMapView.swift */,
+				04DE1F352C9C7A49000A25E4 /* Planner */,
+				04DE1F372C9C7A87000A25E4 /* TravelMap */,
+				04DE1F362C9C7A7F000A25E4 /* User */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -185,6 +180,8 @@
 		04C995C02C992F7A0017E10A /* AddPlannerElement */ = {
 			isa = PBXGroup;
 			children = (
+				04A46BD82C95B3BF005ACE1C /* AddPhotoView.swift */,
+				04C995BE2C992F4F0017E10A /* TravelCoverView.swift */,
 				04C995C12C992FC40017E10A /* AddPlannerElementTitleView.swift */,
 				04C995CE2C99B1CA0017E10A /* CustomCalendarView.swift */,
 			);
@@ -207,6 +204,33 @@
 				04DE1F2B2C9BEEFF000A25E4 /* Date+Extension.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		04DE1F352C9C7A49000A25E4 /* Planner */ = {
+			isa = PBXGroup;
+			children = (
+				04A46BBC2C9478F0005ACE1C /* MainHomeView.swift */,
+				04A46BCC2C9487AC005ACE1C /* AddTravelPlannerView.swift */,
+				04C995D92C9AA0180017E10A /* TravelScheduleListView.swift */,
+				04C995C02C992F7A0017E10A /* AddPlannerElement */,
+			);
+			path = Planner;
+			sourceTree = "<group>";
+		};
+		04DE1F362C9C7A7F000A25E4 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				04A46BC02C947CD4005ACE1C /* UserView.swift */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		04DE1F372C9C7A87000A25E4 /* TravelMap */ = {
+			isa = PBXGroup;
+			children = (
+				04A46BCE2C95497D005ACE1C /* TravelMapView.swift */,
+			);
+			path = TravelMap;
 			sourceTree = "<group>";
 		};
 		04EBA0452C92E464002B1CA2 = {
