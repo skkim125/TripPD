@@ -34,7 +34,7 @@ struct CustomTabBar: View {
                         .tag(tabs[2])
                 }
                 
-                HStack(spacing: 35) {
+                LazyHStack(spacing: 35) {
                     ForEach(tabs, id: \.self) { tabImage in
                         TabBarButton(image: tabImage, selected: $currentTab, animation: animation)
                     }
@@ -46,6 +46,7 @@ struct CustomTabBar: View {
                 .background(.mainApp.gradient)
                 .clipShape(.rect(cornerRadius: 25))
                 .shadow(radius: 5)
+                .padding(.bottom, 18)
             }
         }
     }

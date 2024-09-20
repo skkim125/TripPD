@@ -33,7 +33,8 @@ final class TravelManager: ObservableObject {
         let schedules = RealmList<Schedule>()
         
         for date in travelDate {
-            let schedule = Schedule(day: date, places: List<Place>(), photos: List<String>(), finances: List<Finance>())
+            let dayString = date.customDateFormatter(.day)
+            let schedule = Schedule(day: date, dayString: dayString, places: List<Place>(), photos: List<String>(), finances: List<Finance>())
             schedules.append(schedule)
         }
         

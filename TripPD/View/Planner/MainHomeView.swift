@@ -56,7 +56,7 @@ struct MainHomeView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .topTrailing)
                 .padding(.trailing, 20)
-                .padding(.top)
+                .padding(.top, 10)
                 .tint(.mainApp)
                 
                 Spacer()
@@ -64,7 +64,10 @@ struct MainHomeView: View {
                 if travelManager.travelListForView.isEmpty {
                     Text("현재 계획된 여행이 없어요.")
                         .font(.footnote)
+                        .foregroundStyle(.gray)
                         .multilineTextAlignment(.center)
+                        .position(x: UIScreen.main.bounds.width * 0.5, y: UIScreen.main.bounds.height * 0.35)
+                    
                 } else {
                     ScrollView {
                         ForEach(travelManager.travelListForView, id: \.id) { travel in
@@ -103,7 +106,7 @@ struct MainHomeView: View {
                     }
                 }
             }
-            .navigationBarTitle(.mainApp, 20)
+            .navigationBarTitle(20, 30)
         }
         .onAppear {
             travelManager.detectRealmURL()

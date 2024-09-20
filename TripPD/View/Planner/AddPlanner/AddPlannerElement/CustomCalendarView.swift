@@ -93,7 +93,7 @@ struct CustomCalendarView: View {
                 .padding(.horizontal, 16)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-            .navigationBarTitle(.mainApp, 13)
+            .navigationBarTitle(13, 0)
             .navigationTitle(navigationTitle)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {

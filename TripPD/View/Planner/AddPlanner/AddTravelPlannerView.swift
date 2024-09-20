@@ -103,7 +103,7 @@ struct AddTravelPlannerView: View {
                     .disabled(!isFilled)
                 }
             }
-            .navigationBarTitle(.mainApp, 20)
+            .navigationBarTitle(20, 30)
             .navigationTitle("여행 플랜 생성하기")
             .navigationBarTitleDisplayMode(.inline)
         }
@@ -130,7 +130,7 @@ extension AddTravelPlannerView {
                             TextField(type.descript, text: $title)
                                 .textFieldStyle(.plain)
                                 .padding(.horizontal, 10)
-                                .font(.appFont(15))
+                                .font(.appFont(14))
                                 .submitLabel(.done)
                                 .onChange(of: title) { _ in
                                     if title.count > 10 {
@@ -139,7 +139,7 @@ extension AddTravelPlannerView {
                                 }
                             
                             Text("(\(title.count) / 10)")
-                                .font(.system(size: 14))
+                                .font(.system(size: 13))
                                 .foregroundStyle(.gray)
                                 .padding(.init(top: 0, leading: 0, bottom: 0, trailing: 10))
                                 .frame(maxWidth: .infinity, alignment: .trailing)
@@ -162,7 +162,7 @@ extension AddTravelPlannerView {
                                 Text(dates.isEmpty ? type.descript : dateText)
                                     .foregroundStyle(dates.isEmpty ? .gray.opacity(0.5) : .mainApp)
                                     .padding(.horizontal, 10)
-                                    .font(.appFont(15))
+                                    .font(.appFont(14))
                                     .multilineTextAlignment(.leading)
                                 
                                 Spacer()
@@ -201,7 +201,7 @@ extension AddTravelPlannerView {
                     .overlay {
                         ZStack {
                             TextEditor(text: $travelConcept)
-                                .font(.appFont(15))
+                                .font(.appFont(14))
                                 .submitLabel(.done)
                                 .padding(.init(top: 6, leading: 6, bottom: 5, trailing: 6))
                                 .onChange(of: travelConcept) { _ in
@@ -213,7 +213,7 @@ extension AddTravelPlannerView {
                             VStack {
                                 Text(type.descript)
                                     .foregroundStyle(Color(uiColor: .placeholderText))
-                                    .font(.appFont(15))
+                                    .font(.appFont(14))
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .padding(.top, 15)
                                     .padding(.leading, 11)
@@ -222,7 +222,7 @@ extension AddTravelPlannerView {
                                 Spacer()
                                 
                                 Text("(\(travelConcept.count) / 45)")
-                                    .font(.system(size: 14))
+                                    .font(.system(size: 13))
                                     .foregroundStyle(.gray)
                                     .padding(.init(top: 0, leading: 0, bottom: 10, trailing: 10))
                                     .frame(maxWidth: .infinity, alignment: .trailing)

@@ -20,7 +20,7 @@ struct TravelScheduleListView: View {
         self.showEditView = showEditView
         
         let fontAppearance = UINavigationBarAppearance()
-        fontAppearance.titleTextAttributes = [.font: UIFont.appFont(30), .foregroundColor: UIColor.mainApp]
+        fontAppearance.titleTextAttributes = [.font: UIFont.appFont(20), .foregroundColor: UIColor.mainApp]
         fontAppearance.largeTitleTextAttributes = [.font: UIFont.appFont(30), .foregroundColor: UIColor.mainApp]
         
         let navBar = UINavigationBar.appearance()
@@ -34,9 +34,8 @@ struct TravelScheduleListView: View {
                 LazyVGrid(columns: columns) {
                     ForEach(Array(travel.schedules), id: \.id) { schedule in
                         NavigationLink {
-                            
+                            PlanningScheduleView(schedule: schedule)
                         } label: {
-                            //                            RoundedRectangle(cornerRadius: 15)
                             Circle()
                                 .foregroundStyle(.mainApp.gradient)
                                 .frame(width: 165, height: 165)
@@ -89,6 +88,7 @@ struct TravelScheduleListView: View {
         }
         .navigationTitle("\(travel.title)")
         .navigationBarTitleDisplayMode(.large)
+        .navigationBarTitle(20, 30)
     }
 }
 

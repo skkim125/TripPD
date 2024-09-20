@@ -8,21 +8,21 @@
 import SwiftUI
 
 extension View {
-    func navigationBarTitle(_ color: UIColor, _ fontSize: CGFloat) -> some View {
-        return self.modifier(NavigationTitleModifier(color: color, fontSize: fontSize))
+    func navigationBarTitle(_ inlineFontSize: CGFloat, _ largeFontSize: CGFloat) -> some View {
+        return self.modifier(NavigationTitleModifier(inlineFontSize: inlineFontSize, largeFontSize: largeFontSize))
     }
 }
 
 struct NavigationTitleModifier: ViewModifier {
-    var color: UIColor
-    var fontSize: CGFloat
+    var inlineFontSize: CGFloat
+    var largeFontSize: CGFloat
     
     func body(content: Content) -> some View {
         content
             .onAppear {
                 let fontAppearance = UINavigationBarAppearance()
-                fontAppearance.titleTextAttributes = [.font: UIFont.appFont(fontSize), .foregroundColor: color]
-                fontAppearance.largeTitleTextAttributes = [.font: UIFont.appFont(fontSize), .foregroundColor: color]
+                fontAppearance.titleTextAttributes = [.font: UIFont.appFont(inlineFontSize), .foregroundColor: UIColor.mainApp]
+                fontAppearance.largeTitleTextAttributes = [.font: UIFont.appFont(largeFontSize), .foregroundColor: UIColor.mainApp]
                 
                 UINavigationBar.appearance().standardAppearance = fontAppearance
                 UINavigationBar.appearance().prefersLargeTitles = true
