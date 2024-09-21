@@ -7,11 +7,13 @@
 
 import SwiftUI
 import RealmSwift
+import PopupView
 
 struct MainHomeView: View {
     @ObservedObject var travelManager: TravelManager
     @State private var isStarSorted = false
     @State private var showSheet = false
+    @State private var showToastView = false
     
     var body: some View {
         NavigationStack {
@@ -81,8 +83,28 @@ struct MainHomeView: View {
                         }
                     }
                 }
+            }
+            .popup(isPresented: $showToastView) {
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(.mainApp.gradient, lineWidth: 2)
+                    .background(.background)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .overlay {
+                        Text("여행 플래너가 생성되었습니다.")
+                            .foregroundStyle(Color(uiColor: .label).gradient)
+                            .font(.appFont(14))
+                            .multilineTextAlignment(.center)
+                    }
+                    .frame(width: 200, height: 40)
+                    .padding(.top, 90)
                 
-                Spacer()
+            } customize: {
+                $0
+                    .autohideIn(3)
+                    .closeOnTap(true)
+                    .closeOnTapOutside(true)
+                    .type(.toast)
+                    .position(.top)
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -102,7 +124,7 @@ struct MainHomeView: View {
                     .font(.appFont(18))
                     .foregroundStyle(.appBlack.gradient)
                     .fullScreenCover(isPresented: $showSheet) {
-                        AddTravelPlannerView(travelManager: travelManager, showSheet: $showSheet)
+                        AddTravelPlannerView(travelManager: travelManager, showSheet: $showSheet, showToastView: $showToastView)
                     }
                 }
             }

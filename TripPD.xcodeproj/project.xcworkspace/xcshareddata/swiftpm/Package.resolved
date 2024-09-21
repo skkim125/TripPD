@@ -1,5 +1,5 @@
 {
-  "originHash" : "5cc7f7d3925761d7afdb252666234e5aba1b6a7e49e081bfa78dc2b2fd291413",
+  "originHash" : "c75466d38472616199493526fae141d079970e9e9e66d8afed264f315a66f886",
   "pins" : [
     {
       "identity" : "alamofire",
@@ -17,6 +17,15 @@
       "state" : {
         "branch" : "master",
         "revision" : "7ad26c07e995c185630954016055ab4453c3ea49"
+      }
+    },
+    {
+      "identity" : "popupview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/exyte/PopupView.git",
+      "state" : {
+        "revision" : "e0356204053793d63b09eef5e8d87b7108bfd68f",
+        "version" : "3.1.0"
       }
     },
     {
@@ -38,12 +47,12 @@
       }
     },
     {
-      "identity" : "toast-swift",
+      "identity" : "swiftui-introspect",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/scalessec/Toast-Swift.git",
+      "location" : "https://github.com/siteline/swiftui-introspect",
       "state" : {
-        "revision" : "ddccd20d6fb718448d9b179c454c561653fda7d5",
-        "version" : "5.1.1"
+        "revision" : "807f73ce09a9b9723f12385e592b4e0aaebd3336",
+        "version" : "1.3.0"
       }
     }
   ],

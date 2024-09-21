@@ -25,12 +25,9 @@ struct NavigationTitleModifier: ViewModifier {
                 fontAppearance.largeTitleTextAttributes = [.font: UIFont.appFont(largeFontSize), .foregroundColor: UIColor.mainApp]
                 
                 UINavigationBar.appearance().standardAppearance = fontAppearance
+                UINavigationBar.appearance().compactAppearance = fontAppearance
                 UINavigationBar.appearance().prefersLargeTitles = true
-                
-                if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-                    windowScene.windows.first?.rootViewController?.view.setNeedsLayout()
-                    windowScene.windows.first?.rootViewController?.view.layoutIfNeeded()
-                }
+                UINavigationBar.appearance().isHidden = false
             }
     }
 }

@@ -39,14 +39,13 @@ struct CustomTabBar: View {
                         TabBarButton(image: tabImage, selected: $currentTab, animation: animation)
                     }
                 }
-                .frame(height: 20)
-                .padding(.horizontal, 30)
+                .frame(height: 10)
+                .padding(.horizontal, 20)
                 .padding(.top)
-                .padding(.bottom, geometry.safeAreaInsets.bottom != 0 ? geometry.safeAreaInsets.bottom : 15)
+                .padding(.bottom, geometry.safeAreaInsets.bottom != 0 ? geometry.safeAreaInsets.bottom : 10)
                 .background(.mainApp.gradient)
-                .clipShape(.rect(cornerRadius: 25))
+                .clipShape(.capsule)
                 .shadow(radius: 5)
-                .padding(.bottom, 18)
             }
         }
     }
@@ -65,7 +64,7 @@ struct TabBarButton: View {
         } label: {
             VStack {
                 Image(systemName: "\(image)")
-                    .font(.appFont(25))
+                    .font(.appFont(24))
                     .foregroundStyle(selected == image ? .white : .black.opacity(0.5))
                     .padding(.top, 10)
                 

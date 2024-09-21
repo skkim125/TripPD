@@ -12,6 +12,7 @@ struct AddTravelPlannerView: View {
     @ObservedObject var travelManager: TravelManager
     
     @Binding var showSheet: Bool
+    @Binding var showToastView: Bool
     @State private var title = ""
     @State private var travelConcept = ""
     @State private var image: Data?
@@ -29,7 +30,11 @@ struct AddTravelPlannerView: View {
             let first = firstDay.customDateFormatter(.coverView)
             let last = lastDay.customDateFormatter(.coverView)
             
-            return "\(first) ~ \(last)"
+            if first == last {
+                return "\(first)"
+            } else {
+                return "\(first) ~ \(last)"
+            }
         } else {
             return ""
         }
@@ -94,6 +99,7 @@ struct AddTravelPlannerView: View {
                         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                             showSheet.toggle()
+                            showToastView.toggle()
                         }
                     } label: {
                         Text("추가")
@@ -268,5 +274,5 @@ extension AddTravelPlannerView {
 }
 
 #Preview {
-    AddTravelPlannerView(travelManager: TravelManager.shared, showSheet: .constant(true))
+    AddTravelPlannerView(travelManager: TravelManager.shared, showSheet: .constant(true), showToastView: .constant(false))
 }

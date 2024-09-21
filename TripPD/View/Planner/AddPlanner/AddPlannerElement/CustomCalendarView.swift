@@ -36,7 +36,7 @@ struct CustomCalendarView: View {
     }
     
     var navigationTitle: String {
-        guard let selectedDayRange else { return "" }
+        guard let selectedDayRange else { return "날짜 선택" }
         let selectedStartDate = calendar.date(from: selectedDayRange.lowerBound.components)!
         let selectedEndDate = calendar.date(from: selectedDayRange.upperBound.components)!
         
@@ -57,44 +57,81 @@ struct CustomCalendarView: View {
     }
     
     var body: some View {
-        NavigationStack {
+        VStack {
             VStack {
-                CalendarViewRepresentable(
-                    calendar: calendar,
-                    visibleDateRange: visibleDateRange ,
-                    monthsLayout: .vertical(options: .init()),
-                    dataDependency: nil)
-                .interMonthSpacing(20)
-                .dayRangeItemProvider(for: selectedDateRanges) { dayRangeLayoutContext in
-                    let framesOfDaysToHighlight = dayRangeLayoutContext.daysAndFrames.map { $0.frame }
-                    
-                    return DayRangeIndicatorView.calendarItemModel(
-                        invariantViewProperties: .init(),
-                        content: .init(framesOfDaysToHighlight: framesOfDaysToHighlight))
-                }
-                .days { day in
-                    calendarTextView(day: day.components, isSelected: isDaySelected(day))
-                }
-                .monthHeaders { month in
-                    let monthHeaderText = dateFormatter.string(from: calendar.date(from: month.components)!)
-                    
-                    Text(monthHeaderText)
-                        .font(.system(size: 18))
-                        .foregroundStyle(.mainApp)
-                }
-                .onDaySelection { day in
-                    if !isTodayUnder(day.components, calendar.dateComponents(in: .current, from: Date())) {
-                        DayRangeSelectionHelper.updateDayRange(
-                            afterTapSelectionOf: day,
-                            existingDayRange: &selectedDayRange)
+                Rectangle()
+                    .fill(.ultraThinMaterial)
+                    .overlay {
+                        HStack {
+                            Button {
+                                showDatePickerView = false
+                            } label: {
+                                Text("닫기")
+                                    .font(.appFont(20))
+                                    .foregroundStyle(.red)
+                            }
+                            .padding(.leading, 10)
+                            
+                            Spacer()
+                            
+                            Button {
+                                selectedDates = transformDates(selectedDateRanges: selectedDateRanges)
+                                showDatePickerView = false
+                            } label: {
+                                Text("저장")
+                                    .font(.appFont(20))
+                                    .foregroundStyle(!selectedDateRanges.isEmpty ? (Color.mainApp.gradient) : Color.gray.gradient).bold()
+                            }
+                            .padding(.trailing, 10)
+                            .disabled(selectedDateRanges.isEmpty)
+                        }
+                        .padding(.top, 10)
+                        .padding(.bottom, 5)
                     }
-                }
-                .layoutMargins(.init(top: 8, leading: 8, bottom: 8, trailing: 8))
-                .padding(.horizontal, 16)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .frame(height: 50)
+                
+                Rectangle()
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .foregroundStyle(Color(uiColor: .placeholderText).opacity(0.3))
+                    .frame(height: 1)
+                    .padding(.vertical, -8)
             }
-            .navigationBarTitle(13, 0)
-            .navigationTitle(navigationTitle)
+            .padding(.bottom, -15)
+            
+            CalendarViewRepresentable(
+                calendar: calendar,
+                visibleDateRange: visibleDateRange ,
+                monthsLayout: .vertical(options: .init()),
+                dataDependency: nil)
+            .interMonthSpacing(20)
+            .dayRangeItemProvider(for: selectedDateRanges) { dayRangeLayoutContext in
+                let framesOfDaysToHighlight = dayRangeLayoutContext.daysAndFrames.map { $0.frame }
+                
+                return DayRangeIndicatorView.calendarItemModel(
+                    invariantViewProperties: .init(),
+                    content: .init(framesOfDaysToHighlight: framesOfDaysToHighlight))
+            }
+            .days { day in
+                calendarTextView(day: day.components, isSelected: isDaySelected(day))
+            }
+            .monthHeaders { month in
+                let monthHeaderText = dateFormatter.string(from: calendar.date(from: month.components)!)
+                
+                Text(monthHeaderText)
+                    .font(.system(size: 18))
+                    .foregroundStyle(.mainApp)
+            }
+            .onDaySelection { day in
+                if !isTodayUnder(day.components, calendar.dateComponents(in: .current, from: Date())) {
+                    DayRangeSelectionHelper.updateDayRange(
+                        afterTapSelectionOf: day,
+                        existingDayRange: &selectedDayRange)
+                }
+            }
+            .layoutMargins(.init(top: 8, leading: 8, bottom: 8, trailing: 8))
+            .padding(.horizontal, 16)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {

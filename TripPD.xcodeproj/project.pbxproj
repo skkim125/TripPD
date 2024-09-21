@@ -19,6 +19,7 @@
 		04A46BD72C956C6F005ACE1C /* DesignResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A46BD62C956C6F005ACE1C /* DesignResource.swift */; };
 		04A46BD92C95B3BF005ACE1C /* AddPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A46BD82C95B3BF005ACE1C /* AddPhotoView.swift */; };
 		04BB5F0A2C9D93E200DE7DE3 /* PlanningScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BB5F092C9D93E200DE7DE3 /* PlanningScheduleView.swift */; };
+		04BB5F102C9E91A400DE7DE3 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 04BB5F0F2C9E91A400DE7DE3 /* PopupView */; };
 		04C995A72C97EAEC0017E10A /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 04C995A62C97EAEC0017E10A /* .gitignore */; };
 		04C995AB2C97EDDE0017E10A /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C995AA2C97EDDE0017E10A /* APIKey.swift */; };
 		04C995B32C9929A90017E10A /* Travel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C995B22C9929A90017E10A /* Travel.swift */; };
@@ -44,7 +45,6 @@
 		04EBA0592C92E465002B1CA2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04EBA0582C92E465002B1CA2 /* Preview Assets.xcassets */; };
 		04EBA0612C9317FC002B1CA2 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 04EBA0602C9317FC002B1CA2 /* RealmSwift */; };
 		04EBA0642C932D43002B1CA2 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 04EBA0632C932D43002B1CA2 /* Alamofire */; };
-		04EBA0672C932D5F002B1CA2 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 04EBA0662C932D5F002B1CA2 /* Toast */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -104,7 +104,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04EBA0672C932D5F002B1CA2 /* Toast in Frameworks */,
+				04BB5F102C9E91A400DE7DE3 /* PopupView in Frameworks */,
 				04EBA0612C9317FC002B1CA2 /* RealmSwift in Frameworks */,
 				04A46BD22C9566A2005ACE1C /* HorizonCalendar in Frameworks */,
 				04EBA0642C932D43002B1CA2 /* Alamofire in Frameworks */,
@@ -184,6 +184,13 @@
 			path = AddPlanner;
 			sourceTree = "<group>";
 		};
+		04BB5F0B2C9DB20B00DE7DE3 /* AddPlace */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = AddPlace;
+			sourceTree = "<group>";
+		};
 		04C995B12C99299D0017E10A /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -232,6 +239,7 @@
 				04A46BBC2C9478F0005ACE1C /* MainHomeView.swift */,
 				04BB5F082C9D93BA00DE7DE3 /* AddPlanner */,
 				04BB5F072C9D93B100DE7DE3 /* Schedule */,
+				04BB5F0B2C9DB20B00DE7DE3 /* AddPlace */,
 			);
 			path = Planner;
 			sourceTree = "<group>";
@@ -319,8 +327,8 @@
 			packageProductDependencies = (
 				04EBA0602C9317FC002B1CA2 /* RealmSwift */,
 				04EBA0632C932D43002B1CA2 /* Alamofire */,
-				04EBA0662C932D5F002B1CA2 /* Toast */,
 				04A46BD12C9566A2005ACE1C /* HorizonCalendar */,
+				04BB5F0F2C9E91A400DE7DE3 /* PopupView */,
 			);
 			productName = TripPD;
 			productReference = 04EBA04E2C92E464002B1CA2 /* TripPD.app */;
@@ -353,8 +361,8 @@
 			packageReferences = (
 				04EBA05F2C9317FC002B1CA2 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				04EBA0622C932D43002B1CA2 /* XCRemoteSwiftPackageReference "Alamofire" */,
-				04EBA0652C932D5F002B1CA2 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 				04A46BD02C9566A2005ACE1C /* XCRemoteSwiftPackageReference "HorizonCalendar" */,
+				04BB5F0E2C9E91A400DE7DE3 /* XCRemoteSwiftPackageReference "PopupView" */,
 			);
 			productRefGroup = 04EBA04F2C92E464002B1CA2 /* Products */;
 			projectDirPath = "";
@@ -640,6 +648,14 @@
 				kind = branch;
 			};
 		};
+		04BB5F0E2C9E91A400DE7DE3 /* XCRemoteSwiftPackageReference "PopupView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/PopupView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.1.0;
+			};
+		};
 		04EBA05F2C9317FC002B1CA2 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-swift.git";
@@ -656,14 +672,6 @@
 				minimumVersion = 5.9.1;
 			};
 		};
-		04EBA0652C932D5F002B1CA2 /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/scalessec/Toast-Swift.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.1.1;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -671,6 +679,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 04A46BD02C9566A2005ACE1C /* XCRemoteSwiftPackageReference "HorizonCalendar" */;
 			productName = HorizonCalendar;
+		};
+		04BB5F0F2C9E91A400DE7DE3 /* PopupView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 04BB5F0E2C9E91A400DE7DE3 /* XCRemoteSwiftPackageReference "PopupView" */;
+			productName = PopupView;
 		};
 		04EBA0602C9317FC002B1CA2 /* RealmSwift */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -681,11 +694,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 04EBA0622C932D43002B1CA2 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
-		};
-		04EBA0662C932D5F002B1CA2 /* Toast */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 04EBA0652C932D5F002B1CA2 /* XCRemoteSwiftPackageReference "Toast-Swift" */;
-			productName = Toast;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -51,7 +51,7 @@ struct TravelCoverView: View {
                                 
                         overlayView()
                             .frame(maxWidth: .infinity, alignment: .bottomLeading)
-                            .foregroundStyle(.thickMaterial)
+                            .foregroundStyle(Color(uiColor: .label).gradient)
                             .padding(.horizontal, 10)
                     }
                 }
