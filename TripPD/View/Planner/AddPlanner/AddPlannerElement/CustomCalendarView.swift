@@ -74,6 +74,11 @@ struct CustomCalendarView: View {
                             
                             Spacer()
                             
+                            Text("\(navigationTitle)")
+                                .font(.appFont(14))
+                            
+                            Spacer()
+                            
                             Button {
                                 selectedDates = transformDates(selectedDateRanges: selectedDateRanges)
                                 showDatePickerView = false

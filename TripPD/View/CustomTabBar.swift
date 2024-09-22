@@ -25,7 +25,7 @@ struct CustomTabBar: View {
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .tag(tabs[0])
                     
-                    LazyWrapperView(TravelMapView())
+                    LazyWrapperView(TravelMapView().ignoresSafeArea(.all))
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .tag(tabs[1])
                     
@@ -65,7 +65,7 @@ struct TabBarButton: View {
             VStack {
                 Image(systemName: "\(image)")
                     .font(.appFont(24))
-                    .foregroundStyle(selected == image ? .white : .black.opacity(0.5))
+                    .foregroundStyle(selected == image ? .ultraThickMaterial : .ultraThinMaterial)
                     .padding(.top, 10)
                 
                 ZStack {
@@ -75,7 +75,7 @@ struct TabBarButton: View {
                     
                     if selected == image {
                         Circle()
-                            .fill(.white)
+                            .fill(.ultraThickMaterial)
                             .matchedGeometryEffect(id: "Tab", in: animation)
                             .frame(width: 8, height: 8)
                     }

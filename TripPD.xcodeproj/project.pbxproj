@@ -39,6 +39,12 @@
 		04C995DA2C9AA0180017E10A /* TravelScheduleListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C995D92C9AA0180017E10A /* TravelScheduleListView.swift */; };
 		04DE1F2C2C9BEEFF000A25E4 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DE1F2B2C9BEEFF000A25E4 /* Date+Extension.swift */; };
 		04DE1F322C9C1A5D000A25E4 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DE1F312C9C1A5D000A25E4 /* CustomTabBar.swift */; };
+		04DF056E2C9FF313008B2651 /* KakaoLocalManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DF056D2C9FF313008B2651 /* KakaoLocalManager.swift */; };
+		04DF05712C9FF468008B2651 /* KakaoLocalRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DF05702C9FF468008B2651 /* KakaoLocalRouter.swift */; };
+		04DF05732C9FF79C008B2651 /* TargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DF05722C9FF79C008B2651 /* TargetType.swift */; };
+		04DF057D2C9FFDFD008B2651 /* SearchPlaceResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DF057C2C9FFDFD008B2651 /* SearchPlaceResponseModel.swift */; };
+		04DF057F2C9FFE18008B2651 /* KakaoLocalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DF057E2C9FFE18008B2651 /* KakaoLocalModel.swift */; };
+		04DF05812CA00735008B2651 /* SearchQueryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DF05802CA00735008B2651 /* SearchQueryModel.swift */; };
 		04EBA0522C92E464002B1CA2 /* TripPDApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EBA0512C92E464002B1CA2 /* TripPDApp.swift */; };
 		04EBA0542C92E464002B1CA2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EBA0532C92E464002B1CA2 /* ContentView.swift */; };
 		04EBA0562C92E465002B1CA2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04EBA0552C92E465002B1CA2 /* Assets.xcassets */; };
@@ -92,6 +98,12 @@
 		04C995D92C9AA0180017E10A /* TravelScheduleListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelScheduleListView.swift; sourceTree = "<group>"; };
 		04DE1F2B2C9BEEFF000A25E4 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		04DE1F312C9C1A5D000A25E4 /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
+		04DF056D2C9FF313008B2651 /* KakaoLocalManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLocalManager.swift; sourceTree = "<group>"; };
+		04DF05702C9FF468008B2651 /* KakaoLocalRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLocalRouter.swift; sourceTree = "<group>"; };
+		04DF05722C9FF79C008B2651 /* TargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetType.swift; sourceTree = "<group>"; };
+		04DF057C2C9FFDFD008B2651 /* SearchPlaceResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPlaceResponseModel.swift; sourceTree = "<group>"; };
+		04DF057E2C9FFE18008B2651 /* KakaoLocalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLocalModel.swift; sourceTree = "<group>"; };
+		04DF05802CA00735008B2651 /* SearchQueryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchQueryModel.swift; sourceTree = "<group>"; };
 		04EBA04E2C92E464002B1CA2 /* TripPD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TripPD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04EBA0512C92E464002B1CA2 /* TripPDApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPDApp.swift; sourceTree = "<group>"; };
 		04EBA0532C92E464002B1CA2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -144,6 +156,7 @@
 			isa = PBXGroup;
 			children = (
 				04A46BC72C948289005ACE1C /* LazyWrapperView.swift */,
+				04DF05722C9FF79C008B2651 /* TargetType.swift */,
 			);
 			path = Reusable;
 			sourceTree = "<group>";
@@ -151,6 +164,8 @@
 		04A46BC92C9483D8005ACE1C /* View */ = {
 			isa = PBXGroup;
 			children = (
+				04EBA0532C92E464002B1CA2 /* ContentView.swift */,
+				04DE1F312C9C1A5D000A25E4 /* CustomTabBar.swift */,
 				04DE1F352C9C7A49000A25E4 /* Planner */,
 				04DE1F372C9C7A87000A25E4 /* TravelMap */,
 				04DE1F362C9C7A7F000A25E4 /* User */,
@@ -194,12 +209,9 @@
 		04C995B12C99299D0017E10A /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				04C995B22C9929A90017E10A /* Travel.swift */,
-				04C995B42C992B4D0017E10A /* Schedule.swift */,
-				04C995B62C992B510017E10A /* Place.swift */,
-				04C995B82C992B7C0017E10A /* Finance.swift */,
-				04C995BA2C992B9D0017E10A /* Diary.swift */,
-				04C995BC2C992BB50017E10A /* Category.swift */,
+				04DF05742C9FF8F5008B2651 /* Travel */,
+				04DF05752C9FF900008B2651 /* QueryModel */,
+				04DF05782C9FF9A3008B2651 /* ResponseModel */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -208,9 +220,9 @@
 			isa = PBXGroup;
 			children = (
 				04A46BD82C95B3BF005ACE1C /* AddPhotoView.swift */,
-				04C995BE2C992F4F0017E10A /* TravelCoverView.swift */,
 				04C995C12C992FC40017E10A /* AddPlannerElementTitleView.swift */,
 				04C995CE2C99B1CA0017E10A /* CustomCalendarView.swift */,
+				04C995BE2C992F4F0017E10A /* TravelCoverView.swift */,
 			);
 			path = AddPlannerElement;
 			sourceTree = "<group>";
@@ -260,6 +272,53 @@
 			path = TravelMap;
 			sourceTree = "<group>";
 		};
+		04DF056F2C9FF450008B2651 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				04DF056D2C9FF313008B2651 /* KakaoLocalManager.swift */,
+				04DF057B2C9FFAC8008B2651 /* Router */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		04DF05742C9FF8F5008B2651 /* Travel */ = {
+			isa = PBXGroup;
+			children = (
+				04C995B22C9929A90017E10A /* Travel.swift */,
+				04C995B42C992B4D0017E10A /* Schedule.swift */,
+				04C995B62C992B510017E10A /* Place.swift */,
+				04C995B82C992B7C0017E10A /* Finance.swift */,
+				04C995BA2C992B9D0017E10A /* Diary.swift */,
+				04C995BC2C992BB50017E10A /* Category.swift */,
+			);
+			path = Travel;
+			sourceTree = "<group>";
+		};
+		04DF05752C9FF900008B2651 /* QueryModel */ = {
+			isa = PBXGroup;
+			children = (
+				04DF05802CA00735008B2651 /* SearchQueryModel.swift */,
+			);
+			path = QueryModel;
+			sourceTree = "<group>";
+		};
+		04DF05782C9FF9A3008B2651 /* ResponseModel */ = {
+			isa = PBXGroup;
+			children = (
+				04DF057C2C9FFDFD008B2651 /* SearchPlaceResponseModel.swift */,
+				04DF057E2C9FFE18008B2651 /* KakaoLocalModel.swift */,
+			);
+			path = ResponseModel;
+			sourceTree = "<group>";
+		};
+		04DF057B2C9FFAC8008B2651 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				04DF05702C9FF468008B2651 /* KakaoLocalRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
 		04EBA0452C92E464002B1CA2 = {
 			isa = PBXGroup;
 			children = (
@@ -284,13 +343,12 @@
 				04A46BD52C956C0F005ACE1C /* Modifier */,
 				04A46BC22C947CE5005ACE1C /* Reusable */,
 				04A46BBE2C947B15005ACE1C /* Resource */,
+				04DF056F2C9FF450008B2651 /* Network */,
 				04C995B12C99299D0017E10A /* Model */,
 				04A46BB52C945D30005ACE1C /* Info.plist */,
 				04EBA0512C92E464002B1CA2 /* TripPDApp.swift */,
 				04C995D32C9A8A890017E10A /* TravelManager.swift */,
 				04C995D72C9A9F9C0017E10A /* ImageManager.swift */,
-				04EBA0532C92E464002B1CA2 /* ContentView.swift */,
-				04DE1F312C9C1A5D000A25E4 /* CustomTabBar.swift */,
 				04A46BC92C9483D8005ACE1C /* View */,
 				04EBA0552C92E465002B1CA2 /* Assets.xcassets */,
 				04EBA0572C92E465002B1CA2 /* Preview Content */,
@@ -397,6 +455,7 @@
 				04A46BC82C948289005ACE1C /* LazyWrapperView.swift in Sources */,
 				04EBA0522C92E464002B1CA2 /* TripPDApp.swift in Sources */,
 				04A46BD42C956C0A005ACE1C /* NavigationTitleModifier.swift in Sources */,
+				04DF056E2C9FF313008B2651 /* KakaoLocalManager.swift in Sources */,
 				04C995C22C992FC40017E10A /* AddPlannerElementTitleView.swift in Sources */,
 				04C995B72C992B510017E10A /* Place.swift in Sources */,
 				04A46BCF2C95497D005ACE1C /* TravelMapView.swift in Sources */,
@@ -411,6 +470,8 @@
 				04BB5F0A2C9D93E200DE7DE3 /* PlanningScheduleView.swift in Sources */,
 				04DE1F322C9C1A5D000A25E4 /* CustomTabBar.swift in Sources */,
 				04974DC32C9B2D39004319DA /* View+Extension.swift in Sources */,
+				04DF05732C9FF79C008B2651 /* TargetType.swift in Sources */,
+				04DF057F2C9FFE18008B2651 /* KakaoLocalModel.swift in Sources */,
 				04C995B32C9929A90017E10A /* Travel.swift in Sources */,
 				04A46BCD2C9487AC005ACE1C /* AddTravelPlannerView.swift in Sources */,
 				04C995BF2C992F4F0017E10A /* TravelCoverView.swift in Sources */,
@@ -418,7 +479,10 @@
 				04C995B52C992B4D0017E10A /* Schedule.swift in Sources */,
 				04A46BC12C947CD4005ACE1C /* UserView.swift in Sources */,
 				04C995D82C9A9F9C0017E10A /* ImageManager.swift in Sources */,
+				04DF05812CA00735008B2651 /* SearchQueryModel.swift in Sources */,
 				04DE1F2C2C9BEEFF000A25E4 /* Date+Extension.swift in Sources */,
+				04DF05712C9FF468008B2651 /* KakaoLocalRouter.swift in Sources */,
+				04DF057D2C9FFDFD008B2651 /* SearchPlaceResponseModel.swift in Sources */,
 				04C995D62C9A91E50017E10A /* Typealias.swift in Sources */,
 				04C995BB2C992B9D0017E10A /* Diary.swift in Sources */,
 			);

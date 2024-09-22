@@ -10,6 +10,7 @@ import RealmSwift
 
 struct PlanningScheduleView: View {
     @ObservedRealmObject var schedule: Schedule
+    @State private var showMapView = false
     
     var body: some View {
         ScrollView(.vertical) {
@@ -33,6 +34,35 @@ struct PlanningScheduleView: View {
             }
         }
         .navigationTitle("\(schedule.dayString)")
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    showMapView.toggle()
+                } label: {
+                    Image(systemName: "plus")
+                        .font(.appFont(20)).bold()
+                }
+                .tint(.mainApp)
+                .fullScreenCover(isPresented: $showMapView) {
+                    NavigationStack {
+                        TravelMapView()
+                            .toolbar {
+                                ToolbarItem(placement: .topBarLeading) {
+                                    Button {
+                                        showMapView.toggle()
+                                    } label: {
+                                        Text("닫기")
+                                    }
+                                }
+                            }
+                            .navigationTitle("장소 추가")
+                            .navigationBarTitleDisplayMode(.inline)
+                            .navigationBarTitle(20, 0)
+                            .ignoresSafeArea(edges: .bottom)
+                    }
+                }
+            }
+        }
     }
     
     @ViewBuilder

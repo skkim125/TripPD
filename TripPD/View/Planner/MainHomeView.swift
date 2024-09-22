@@ -96,7 +96,7 @@ struct MainHomeView: View {
                             .multilineTextAlignment(.center)
                     }
                     .frame(width: 200, height: 40)
-                    .padding(.top, 90)
+                    .padding(.top, 95)
                 
             } customize: {
                 $0
