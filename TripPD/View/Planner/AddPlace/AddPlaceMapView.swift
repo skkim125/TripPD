@@ -16,11 +16,12 @@ struct AddPlaceMapView: View {
     @State private var mapRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37.517742, longitude: 126.886463), latitudinalMeters: 3000, longitudinalMeters: 3000)
     @State private var tappedCoordinate: CLLocationCoordinate2D?
     @State private var annotations: [MKPointAnnotation] = []
+    @State private var showAlert = false
     
     var body: some View {
         NavigationStack {
             ZStack {
-                MapView(annotations: $annotations, type: .addPlace)
+                MapView(annotations: $annotations, showAlert: $showAlert, type: .addPlace)
                 
                 GeometryReader { geometry in
                     VStack {
@@ -109,5 +110,15 @@ struct AddPlaceMapView: View {
                 KeyboardNotificationManager.shared.removeNotiObserver()
             }
         }
+    }
+    
+    private func convertToMapCoordinate(location: CGPoint, mapSize: CGSize) -> CLLocationCoordinate2D {
+        let mapCenter = mapRegion.center
+        let span = mapRegion.span
+        
+        let longitude = mapCenter.longitude + (Double(location.x / mapSize.width) - 0.5) * span.longitudeDelta
+        let latitude = mapCenter.latitude - (Double(location.y / mapSize.height) - 0.5) * span.latitudeDelta
+        
+        return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
 }

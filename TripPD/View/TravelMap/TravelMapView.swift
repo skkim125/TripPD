@@ -15,16 +15,30 @@ struct Annotation: Identifiable {
 }
 
 struct TravelMapView: View {
-    @State private var mapRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37.517742, longitude: 126.886463), latitudinalMeters: 3000, longitudinalMeters: 3000)
+    @State private var mapRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37.517742, longitude: 126.886463), span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
     @State private var tappedCoordinate: CLLocationCoordinate2D?
+    @State private var myLocation: CLLocationCoordinate2D = CLLocationCoordinate2D()
     @State private var annotations: [MKPointAnnotation] = []
-    
+    @State private var showAlert = false
     
     var body: some View {
         NavigationStack {
             VStack {
-                MapView(annotations: $annotations, type: .myAround)
-                    .edgesIgnoringSafeArea(.all)
+                MapView(annotations: $annotations, showAlert: $showAlert, type: .myAround)
+                    .alert(isPresented: $showAlert) {
+                        Alert(
+                            title: Text("위치 권한 필요"),
+                            message: Text("위치 권한이 필요합니다. 설정에서 권한을 허용해주세요."),
+                            primaryButton: .default(Text("설정으로 이동"), action: {
+                                if let url = URL(string: UIApplication.openSettingsURLString) {
+                                    DispatchQueue.main.async {
+                                        UIApplication.shared.open(url)
+                                    }
+                                }
+                            }),
+                            secondaryButton: .cancel(Text("닫기"))
+                        )
+                    }
                 
                 if !annotations.isEmpty {
                     Text("마커 개수: \(annotations.count)")
@@ -35,18 +49,6 @@ struct TravelMapView: View {
             .navigationBarTitleDisplayMode(.inline)
             .ignoresSafeArea(.all, edges: .bottom)
         }
-    }
-    
-    // 좌표 변환 함수
-    private func convertToMapCoordinate(location: CGPoint, mapSize: CGSize) -> CLLocationCoordinate2D {
-        let mapCenter = mapRegion.center
-        let span = mapRegion.span
-        
-        // X, Y 좌표를 위도와 경도로 변환
-        let longitude = mapCenter.longitude + (Double(location.x / mapSize.width) - 0.5) * span.longitudeDelta
-        let latitude = mapCenter.latitude - (Double(location.y / mapSize.height) - 0.5) * span.latitudeDelta
-        
-        return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
 }
 
