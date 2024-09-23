@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct CustomTabBar: View {
     var travelManager: TravelManager
@@ -25,7 +26,7 @@ struct CustomTabBar: View {
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .tag(tabs[0])
                     
-                    LazyWrapperView(TravelMapView().ignoresSafeArea(.all))
+                    LazyWrapperView(TravelMapView())
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .tag(tabs[1])
                     
@@ -64,9 +65,9 @@ struct TabBarButton: View {
         } label: {
             VStack {
                 Image(systemName: "\(image)")
-                    .font(.appFont(24))
+                    .font(.appFont(25))
                     .foregroundStyle(selected == image ? .ultraThickMaterial : .ultraThinMaterial)
-                    .padding(.top, 10)
+                    .padding(.top, 15)
                 
                 ZStack {
                     Circle()

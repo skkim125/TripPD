@@ -19,7 +19,7 @@ struct Meta: Decodable {
     }
 }
 
-struct PlaceInfo: Decodable {
+struct PlaceInfo: Hashable, Decodable {
     let id: String
     let placeName: String // place_name
     let categoryName: String // category_name

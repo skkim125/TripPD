@@ -34,6 +34,8 @@ struct PlanningScheduleView: View {
             }
         }
         .navigationTitle("\(schedule.dayString)")
+        .navigationBarTitleDisplayMode(.large)
+        .navigationBarTitle(20, 30)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
@@ -44,22 +46,7 @@ struct PlanningScheduleView: View {
                 }
                 .tint(.mainApp)
                 .fullScreenCover(isPresented: $showMapView) {
-                    NavigationStack {
-                        TravelMapView()
-                            .toolbar {
-                                ToolbarItem(placement: .topBarLeading) {
-                                    Button {
-                                        showMapView.toggle()
-                                    } label: {
-                                        Text("닫기")
-                                    }
-                                }
-                            }
-                            .navigationTitle("장소 추가")
-                            .navigationBarTitleDisplayMode(.inline)
-                            .navigationBarTitle(20, 0)
-                            .ignoresSafeArea(edges: .bottom)
-                    }
+                    AddPlaceMapView(showMapView: $showMapView)
                 }
             }
         }

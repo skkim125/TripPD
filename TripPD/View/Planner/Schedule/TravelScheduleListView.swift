@@ -11,7 +11,7 @@ import RealmSwift
 struct TravelScheduleListView: View {
     @ObservedObject var travelManager: TravelManager
     @ObservedRealmObject var travel: Travel
-    private let columns = [GridItem(.flexible()), GridItem(.flexible())]
+    private let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     @State private var showEditView = false
     
     init(travelManager: TravelManager, travel: Travel, showEditView: Bool = false) {
@@ -36,27 +36,11 @@ struct TravelScheduleListView: View {
                         NavigationLink {
                             PlanningScheduleView(schedule: schedule)
                         } label: {
-                            Circle()
-                                .foregroundStyle(.mainApp.gradient)
-                                .frame(width: 165, height: 165)
-                                .shadow(radius: 5)
-                                .overlay {
-                                    VStack(spacing: 10) {
-                                        Text("\(schedule.day.convertDay(dates: Array(travel.travelDate)))")
-                                            .font(.appFont(30))
-                                            .frame(maxWidth: .infinity, alignment: .center)
-                                            .padding(.top, 10)
-                                        
-                                        Text("\(schedule.day.customDateFormatter(.day))")
-                                            .font(.appFont(15))
-                                            .frame(maxWidth: .infinity, alignment: .center)
-                                            .padding(.top, 10)
-                                    }
-                                    .foregroundStyle(.thickMaterial)
-                                    .padding(.vertical, 10)
-                                }
-                                .padding(10)
+                            scheduleRow(schedule.day.customDateFormatter(.scheduleViewMonth), schedule.day.customDateFormatter(.scheduleViewDay))
                         }
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 5)
+                        
                     }
                 }
                 .padding(.init(top: 5, leading: 15, bottom: 0, trailing: 15))
@@ -89,6 +73,38 @@ struct TravelScheduleListView: View {
         .navigationTitle("\(travel.title)")
         .navigationBarTitleDisplayMode(.large)
         .navigationBarTitle(20, 30)
+    }
+    
+    func scheduleRow(_ month: String, _ day: String) -> some View {
+        VStack {
+            RoundedRectangle(cornerRadius: 15)
+                .stroke(.mainApp.gradient , lineWidth: 3)
+                .frame(width: 110, height: 130)
+                .overlay {
+                    VStack {
+                        Rectangle()
+                            .fill(.mainApp.gradient)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 40)
+                            .overlay {
+                                Text("\(month)")
+                                    .font(.appFont(20))
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                                    .foregroundStyle(.ultraThickMaterial)
+                            }
+                        
+                        Spacer()
+                        
+                        Text("\(day)")
+                            .font(.appFont(40))
+                            .foregroundStyle(.mainApp.gradient)
+                        
+                        Spacer()
+                    }
+                }
+                .background(.clear)
+                .clipShape(RoundedRectangle(cornerRadius: 15))
+        }
     }
 }
 

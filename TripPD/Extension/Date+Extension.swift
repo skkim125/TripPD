@@ -12,11 +12,17 @@ extension Date {
         let dateformat = DateFormatter()
         
         switch type {
-        case .day:
+        case .dayString:
             dateformat.dateFormat = "M월 d일"
             
         case .coverView:
             dateformat.dateFormat = "yyyy년 M월 d일"
+            
+        case .scheduleViewMonth:
+            dateformat.dateFormat = "M월"
+            
+        case .scheduleViewDay:
+            dateformat.dateFormat = "d일"
         }
         
         return dateformat.string(from: self)
@@ -36,6 +42,8 @@ extension Date {
 }
 
 enum DateFormatterType {
-    case day
+    case dayString
     case coverView
+    case scheduleViewMonth
+    case scheduleViewDay
 }

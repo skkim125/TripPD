@@ -11,7 +11,7 @@ import RealmSwift
 // MARK: 여행 일정
 final class Schedule: Object, ObjectKeyIdentifiable {
     @Persisted(primaryKey: true) var id: ObjectId
-    @Persisted var day: Date // 날짜(n일차)
+    @Persisted var day: Date // 여행 날짜
     @Persisted var dayString: String // 날짜(n일차)
     @Persisted var places: RealmList<Place> // 여행 타임테이블
     @Persisted var photos: RealmList<String> // 해당 날의 사진
