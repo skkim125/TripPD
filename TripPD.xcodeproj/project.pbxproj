@@ -45,7 +45,6 @@
 		04DF057D2C9FFDFD008B2651 /* SearchPlaceResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DF057C2C9FFDFD008B2651 /* SearchPlaceResponseModel.swift */; };
 		04DF057F2C9FFE18008B2651 /* KakaoLocalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DF057E2C9FFE18008B2651 /* KakaoLocalModel.swift */; };
 		04DF05812CA00735008B2651 /* SearchQueryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DF05802CA00735008B2651 /* SearchQueryModel.swift */; };
-		04DF05832CA00F33008B2651 /* CustomBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DF05822CA00F33008B2651 /* CustomBottomSheet.swift */; };
 		04DF05852CA08304008B2651 /* AddPlaceMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DF05842CA08304008B2651 /* AddPlaceMapView.swift */; };
 		04DF05872CA0F11D008B2651 /* KeyboardNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DF05862CA0F11D008B2651 /* KeyboardNotificationManager.swift */; };
 		04DF05892CA156AD008B2651 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DF05882CA156AD008B2651 /* MapView.swift */; };
@@ -55,6 +54,9 @@
 		04EBA0592C92E465002B1CA2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04EBA0582C92E465002B1CA2 /* Preview Assets.xcassets */; };
 		04EBA0612C9317FC002B1CA2 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 04EBA0602C9317FC002B1CA2 /* RealmSwift */; };
 		04EBA0642C932D43002B1CA2 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 04EBA0632C932D43002B1CA2 /* Alamofire */; };
+		04F7CF2D2CA1CE5F0061A056 /* BottomSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 04F7CF2C2CA1CE5F0061A056 /* BottomSheet */; };
+		04F7CF2F2CA29D580061A056 /* SearchListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F7CF2E2CA29D580061A056 /* SearchListView.swift */; };
+		04F7CF312CA29DF80061A056 /* SearchListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F7CF302CA29DF80061A056 /* SearchListHeaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -108,7 +110,6 @@
 		04DF057C2C9FFDFD008B2651 /* SearchPlaceResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPlaceResponseModel.swift; sourceTree = "<group>"; };
 		04DF057E2C9FFE18008B2651 /* KakaoLocalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLocalModel.swift; sourceTree = "<group>"; };
 		04DF05802CA00735008B2651 /* SearchQueryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchQueryModel.swift; sourceTree = "<group>"; };
-		04DF05822CA00F33008B2651 /* CustomBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBottomSheet.swift; sourceTree = "<group>"; };
 		04DF05842CA08304008B2651 /* AddPlaceMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlaceMapView.swift; sourceTree = "<group>"; };
 		04DF05862CA0F11D008B2651 /* KeyboardNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardNotificationManager.swift; sourceTree = "<group>"; };
 		04DF05882CA156AD008B2651 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
@@ -117,6 +118,8 @@
 		04EBA0532C92E464002B1CA2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		04EBA0552C92E465002B1CA2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		04EBA0582C92E465002B1CA2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		04F7CF2E2CA29D580061A056 /* SearchListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchListView.swift; sourceTree = "<group>"; };
+		04F7CF302CA29DF80061A056 /* SearchListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchListHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +127,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04F7CF2D2CA1CE5F0061A056 /* BottomSheet in Frameworks */,
 				04BB5F102C9E91A400DE7DE3 /* PopupView in Frameworks */,
 				04EBA0612C9317FC002B1CA2 /* RealmSwift in Frameworks */,
 				04A46BD22C9566A2005ACE1C /* HorizonCalendar in Frameworks */,
@@ -185,7 +189,6 @@
 			isa = PBXGroup;
 			children = (
 				04A46BD32C956C0A005ACE1C /* NavigationTitleModifier.swift */,
-				04DF05822CA00F33008B2651 /* CustomBottomSheet.swift */,
 			);
 			path = Modifier;
 			sourceTree = "<group>";
@@ -212,6 +215,8 @@
 			isa = PBXGroup;
 			children = (
 				04DF05842CA08304008B2651 /* AddPlaceMapView.swift */,
+				04F7CF302CA29DF80061A056 /* SearchListHeaderView.swift */,
+				04F7CF2E2CA29D580061A056 /* SearchListView.swift */,
 			);
 			path = AddPlace;
 			sourceTree = "<group>";
@@ -407,6 +412,7 @@
 				04EBA0632C932D43002B1CA2 /* Alamofire */,
 				04A46BD12C9566A2005ACE1C /* HorizonCalendar */,
 				04BB5F0F2C9E91A400DE7DE3 /* PopupView */,
+				04F7CF2C2CA1CE5F0061A056 /* BottomSheet */,
 			);
 			productName = TripPD;
 			productReference = 04EBA04E2C92E464002B1CA2 /* TripPD.app */;
@@ -441,6 +447,7 @@
 				04EBA0622C932D43002B1CA2 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				04A46BD02C9566A2005ACE1C /* XCRemoteSwiftPackageReference "HorizonCalendar" */,
 				04BB5F0E2C9E91A400DE7DE3 /* XCRemoteSwiftPackageReference "PopupView" */,
+				04F7CF2B2CA1CE5F0061A056 /* XCRemoteSwiftPackageReference "BottomSheet" */,
 			);
 			productRefGroup = 04EBA04F2C92E464002B1CA2 /* Products */;
 			projectDirPath = "";
@@ -474,12 +481,14 @@
 				04A46BBD2C9478F0005ACE1C /* MainHomeView.swift in Sources */,
 				04A46BC82C948289005ACE1C /* LazyWrapperView.swift in Sources */,
 				04EBA0522C92E464002B1CA2 /* TripPDApp.swift in Sources */,
+				04F7CF2F2CA29D580061A056 /* SearchListView.swift in Sources */,
 				04DF05892CA156AD008B2651 /* MapView.swift in Sources */,
 				04A46BD42C956C0A005ACE1C /* NavigationTitleModifier.swift in Sources */,
 				04DF05872CA0F11D008B2651 /* KeyboardNotificationManager.swift in Sources */,
 				04DF056E2C9FF313008B2651 /* KakaoLocalManager.swift in Sources */,
 				04C995C22C992FC40017E10A /* AddPlannerElementTitleView.swift in Sources */,
 				04C995B72C992B510017E10A /* Place.swift in Sources */,
+				04F7CF312CA29DF80061A056 /* SearchListHeaderView.swift in Sources */,
 				04DF05852CA08304008B2651 /* AddPlaceMapView.swift in Sources */,
 				04A46BCF2C95497D005ACE1C /* TravelMapView.swift in Sources */,
 				04C995B92C992B7C0017E10A /* Finance.swift in Sources */,
@@ -492,7 +501,6 @@
 				04C995CD2C99B0850017E10A /* DayRangeSelectionHelper.swift in Sources */,
 				04BB5F0A2C9D93E200DE7DE3 /* PlanningScheduleView.swift in Sources */,
 				04DE1F322C9C1A5D000A25E4 /* CustomTabBar.swift in Sources */,
-				04DF05832CA00F33008B2651 /* CustomBottomSheet.swift in Sources */,
 				04974DC32C9B2D39004319DA /* View+Extension.swift in Sources */,
 				04DF05732C9FF79C008B2651 /* TargetType.swift in Sources */,
 				04DF057F2C9FFE18008B2651 /* KakaoLocalModel.swift in Sources */,
@@ -762,6 +770,14 @@
 				minimumVersion = 5.9.1;
 			};
 		};
+		04F7CF2B2CA1CE5F0061A056 /* XCRemoteSwiftPackageReference "BottomSheet" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/lucaszischka/BottomSheet.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.1.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -784,6 +800,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 04EBA0622C932D43002B1CA2 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		04F7CF2C2CA1CE5F0061A056 /* BottomSheet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 04F7CF2B2CA1CE5F0061A056 /* XCRemoteSwiftPackageReference "BottomSheet" */;
+			productName = BottomSheet;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

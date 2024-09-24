@@ -24,7 +24,7 @@ struct TravelMapView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                MapView(annotations: $annotations, showAlert: $showAlert, type: .myAround)
+                MapView(annotations: $annotations, showAlert: $showAlert, isSelected: .constant(false), type: .myAround)
                     .alert(isPresented: $showAlert) {
                         Alert(
                             title: Text("위치 권한 필요"),

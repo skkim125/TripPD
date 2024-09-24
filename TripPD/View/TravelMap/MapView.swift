@@ -11,6 +11,7 @@ import MapKit
 struct MapView: UIViewRepresentable {
     @Binding var annotations: [MKPointAnnotation]
     @Binding var showAlert: Bool
+    @Binding var isSelected: Bool
     
     var type: MapType
     
@@ -25,13 +26,13 @@ struct MapView: UIViewRepresentable {
         mapView.showsUserLocation = true
         
         context.coordinator.mapView = mapView
-
         switch type {
         case .myAround:
             break
         case .addPlace:
             let tapGesture = UITapGestureRecognizer(target: context.coordinator, action: #selector(context.coordinator.tapLocation(_:)))
             mapView.addGestureRecognizer(tapGesture)
+            context.coordinator.isSelectedAction()
         }
         
         return mapView
@@ -40,6 +41,13 @@ struct MapView: UIViewRepresentable {
     func updateUIView(_ uiView: MKMapView, context: Context) {
         uiView.removeAnnotations(uiView.annotations)
         uiView.addAnnotations(annotations)
+        
+        context.coordinator.updateAnnotations(annotations)
+        
+        if isSelected {
+            print("\(self.annotations)")
+            context.coordinator.isSelectedAction()
+        }
     }
     
     class Coordinator: NSObject, MKMapViewDelegate {
@@ -47,6 +55,7 @@ struct MapView: UIViewRepresentable {
         var parent: MapView
         var mapView: MKMapView?
         var locationManager: CLLocationManager?
+        var localAnnotations: [MKPointAnnotation] = []
         
         init(parent: MapView) {
             self.parent = parent
@@ -57,7 +66,17 @@ struct MapView: UIViewRepresentable {
         }
         
         func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+            guard let annotation = view.annotation else { return }
+            let region = MKCoordinateRegion(
+                center: annotation.coordinate,
+                span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+            )
             
+            mapView.setRegion(region, animated: true)
+        }
+        
+        func updateAnnotations(_ annotations: [MKPointAnnotation]) {
+            self.localAnnotations = annotations
         }
         
         func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
@@ -86,10 +105,14 @@ extension MapView.Coordinator: CLLocationManagerDelegate {
         guard let location = locations.first else { return }
         let region = MKCoordinateRegion(
             center: location.coordinate,
-            span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+            span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
         )
         
         mapView?.setRegion(region, animated: true)
+        
+        DispatchQueue.main.async {
+            self.locationManager?.stopUpdatingLocation()
+        }
     }
 }
 
@@ -105,6 +128,31 @@ extension MapView.Coordinator {
             
             self.parent.annotations.removeAll()
             self.parent.annotations.append(annotation)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.1) {
+                if let map = self.mapView {
+                    withAnimation {
+                        self.mapView(map, didSelect: map.view(for: annotation) ?? MKAnnotationView())
+                    }
+                }
+            }
+        }
+    }
+    
+    func isSelectedAction() {
+        guard let annotation = localAnnotations.first else { return }
+        
+        let region = MKCoordinateRegion(
+            center: annotation.coordinate,
+            span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
+        )
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            if let map = self.mapView {
+                withAnimation {
+                    map.setRegion(region, animated: true)
+                }
+            }
         }
     }
     

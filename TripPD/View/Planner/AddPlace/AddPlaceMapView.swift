@@ -7,8 +7,10 @@
 
 import SwiftUI
 import MapKit
+import BottomSheet
 
 struct AddPlaceMapView: View {
+    @ObservedObject var kakaoLocalManager = KakaoLocalManager.shared
     @Binding var showMapView: Bool
     @State var offset: CGFloat = 0
     @State private var keyboardHeight: CGFloat = 0
@@ -17,98 +19,59 @@ struct AddPlaceMapView: View {
     @State private var tappedCoordinate: CLLocationCoordinate2D?
     @State private var annotations: [MKPointAnnotation] = []
     @State private var showAlert = false
+    @State private var detentsOption: PresentationDetent = PresentationDetent.height(200)
+    @State private var sheetHeight: BottomSheetPosition = .relative(0.15)
+    @State private var isSelected = false
     
     var body: some View {
         NavigationStack {
-            ZStack {
-                MapView(annotations: $annotations, showAlert: $showAlert, type: .addPlace)
-                
-                GeometryReader { geometry in
-                    VStack {
-                        BottomSheet(offset: $offset, isSearched: $isSearched, value: (-geometry.frame(in: .global).height + 150))
-                            .offset(y: geometry.frame(in: .global).height - 70)
-                            .offset(y: offset-keyboardHeight)
-                            .gesture(DragGesture().onChanged({ value in
-                                withAnimation {
-                                    if value.startLocation.y > geometry.frame(in: .global).midX {
-                                        
-                                        if value.translation.height < 0 && offset > (-geometry.frame(in: .global).height + 150) {
-                                            
-                                            offset = value.translation.height
-                                        }
-                                    }
-                                    
-                                    if value.startLocation.y < geometry.frame(in: .global).midX {
-                                        
-                                        if value.translation.height > 0 && offset < 0 {
-                                            
-                                            offset = (-geometry.frame(in: .global).height + 150) + value.translation.height
-                                        }
-                                    }
-                                }
-                            }).onEnded({ value in
-                                withAnimation {
-                                    if value.startLocation.y > geometry.frame(in: .global).midX {
-                                        
-                                        if -value.translation.height > geometry.frame(in: .global).midX {
-                                            
-                                            offset = (-geometry.frame(in: .global).height + 150)
-                                            
-                                            return
-                                        }
-                                        offset = 0
-                                    }
-                                    
-                                    if value.startLocation.y < geometry.frame(in: .global).midX {
-                                        
-                                        if value.translation.height < geometry.frame(in: .global).midX {
-                                            
-                                            offset = (-geometry.frame(in: .global).height + 150)
-                                            
-                                            return
-                                        } else {
-                                            isSearched = false
-                                        }
-                                        
-                                        offset = 0
-                                    }
-                                }
-                            }))
-                    }
+            MapView(annotations: $annotations, showAlert: $showAlert, isSelected: $isSelected, type: .addPlace)
+                .bottomSheet(bottomSheetPosition: $sheetHeight, switchablePositions: [.relative(0.1), .relative(0.55), .relativeTop(0.9)], headerContent: {
+                    SearchListHeaderView(sheetHeight: $sheetHeight, isSelected: $isSelected)
+                }){
+                    SearchListView(sheetHeight: $sheetHeight, annotations: $annotations, isSelected: $isSelected)
                 }
-            }
-            .onTapGesture {
-                hideKeyboard()
-            }
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        showMapView.toggle()
-                    } label: {
-                        Text("닫기")
-                    }
+                .showDragIndicator(false)
+                .customBackground {
+                    RoundedRectangle(cornerRadius: 20)
+                        .foregroundStyle(.ultraThinMaterial)
                 }
-            }
-            .navigationTitle("장소 추가")
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarTitle(20, 30)
-            .ignoresSafeArea(.keyboard, edges: .bottom)
-            .onAppear {
-                KeyboardNotificationManager.shared.keyboardNoti { value in
-                    withAnimation {
-                        if !isSearched {
-                            keyboardHeight = value
+                .onAppear {
+                    KeyboardNotificationManager.shared.keyboardNoti { _ in
+                        if sheetHeight == .relativeTop(0.9) {
+                            sheetHeight = .relativeTop(0.9)
+                        } else {
+                            sheetHeight = .relative(0.55)
+                        }
+                    } hideHandler: { _ in
+                        if sheetHeight == .relativeTop(0.9) {
+                            sheetHeight = .relativeTop(0.9)
+                        } else {
+                            sheetHeight = .relative(0.1)
                         }
                     }
-                } hideHandler: { _ in
-                    withAnimation {
-                        keyboardHeight = 0
+                }
+                .onDisappear {
+                    kakaoLocalManager.searchResult.removeAll()
+                    KeyboardNotificationManager.shared.removeNotiObserver()
+                }
+                
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button {
+                            showMapView.toggle()
+                        } label: {
+                            Text("닫기")
+                        }
                     }
                 }
-            }
-            .onDisappear {
-                KeyboardNotificationManager.shared.removeNotiObserver()
-            }
+                .navigationTitle("장소 추가")
+                .navigationBarTitleDisplayMode(.inline)
+                .navigationBarTitle(20, 30)
+                .ignoresSafeArea(.all, edges: .bottom)
+        }
+        .onTapGesture {
+            hideKeyboard()
         }
     }
     

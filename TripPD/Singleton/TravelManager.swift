@@ -11,7 +11,7 @@ import RealmSwift
 final class TravelManager: ObservableObject {
     static let shared = TravelManager()
     private init() {
-        travelListForView = Array(travelList)
+        travelListForView = convertArray()
     }
     
     @ObservedResults(Travel.self) var travelList

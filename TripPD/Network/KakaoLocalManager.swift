@@ -8,9 +8,10 @@
 import Foundation
 import Alamofire
 
-final class KakaoLocalManager {
+final class KakaoLocalManager: ObservableObject {
     static let shared = KakaoLocalManager()
     private init() { }
+    @Published var searchResult: [PlaceInfo] = []
     
     func searchPlace(sort: SearchSort, _ query: String, page: Int, completionHandler: @escaping (Result<SearchPlaceResponseModel, AFError>) -> Void) {
         
