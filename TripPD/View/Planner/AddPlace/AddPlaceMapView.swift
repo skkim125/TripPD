@@ -17,58 +17,96 @@ struct AddPlaceMapView: View {
     @State private var isSearched: Bool = false
     @State private var mapRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37.517742, longitude: 126.886463), latitudinalMeters: 3000, longitudinalMeters: 3000)
     @State private var tappedCoordinate: CLLocationCoordinate2D?
-    @State private var annotations: [MKPointAnnotation] = []
+    @State private var annotations: [CustomAnnotation] = []
     @State private var showAlert = false
-    @State private var detentsOption: PresentationDetent = PresentationDetent.height(200)
-    @State private var sheetHeight: BottomSheetPosition = .relative(0.15)
+    @State private var sheetHeight: BottomSheetPosition = .relative(0.18)
     @State private var isSelected = false
+    @State private var showPlaceWebView = false
+    @State private var isSelectedPlace: PlaceInfo?
+    @State private var placeURL = ""
     
     var body: some View {
         NavigationStack {
-            MapView(annotations: $annotations, showAlert: $showAlert, isSelected: $isSelected, type: .addPlace)
-                .bottomSheet(bottomSheetPosition: $sheetHeight, switchablePositions: [.relative(0.1), .relative(0.55), .relativeTop(0.9)], headerContent: {
-                    SearchListHeaderView(sheetHeight: $sheetHeight, isSelected: $isSelected)
-                }){
-                    SearchListView(sheetHeight: $sheetHeight, annotations: $annotations, isSelected: $isSelected)
-                }
-                .showDragIndicator(false)
-                .customBackground {
-                    RoundedRectangle(cornerRadius: 20)
-                        .foregroundStyle(.ultraThinMaterial)
-                }
-                .onAppear {
-                    KeyboardNotificationManager.shared.keyboardNoti { _ in
-                        if sheetHeight == .relativeTop(0.9) {
-                            sheetHeight = .relativeTop(0.9)
-                        } else {
-                            sheetHeight = .relative(0.55)
+            MapView(annotations: $annotations, showAlert: $showAlert, isSearched: $isSearched, isSelected: $isSelected, type: .addPlace) { place in
+                placeURL = place.placeURL
+                isSelectedPlace = place
+                showPlaceWebView = true
+            }
+            .bottomSheet(bottomSheetPosition: $sheetHeight, switchablePositions: [.relative(0.18), .absolute(365), .relativeTop(0.78)], headerContent: {
+                SearchListHeaderView(annotations: $annotations, sheetHeight: $sheetHeight, isSelected: $isSelected, isSearched: $isSearched)
+            }){
+                if showPlaceWebView {
+                    VStack {
+                        HStack {
+                            
+                            Spacer()
+                            
+                            Button {
+                                if let place = isSelectedPlace {
+                                    print(place.placeName)
+                                }
+                            } label: {
+                                Image(systemName: "plus.circle.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 20, height: 20)
+                            }
                         }
-                    } hideHandler: { _ in
-                        if sheetHeight == .relativeTop(0.9) {
-                            sheetHeight = .relativeTop(0.9)
-                        } else {
-                            sheetHeight = .relative(0.1)
-                        }
+                        .padding(.vertical, 10)
+                        .padding(.trailing, 15)
+                        
+                        PlaceInfoWebView(urlString: placeURL)
+                            .onChange(of: placeURL) { newURL in
+                                showPlaceWebView = !newURL.isEmpty
+                            }
                     }
                 }
-                .onDisappear {
-                    kakaoLocalManager.searchResult.removeAll()
-                    KeyboardNotificationManager.shared.removeNotiObserver()
-                }
-                
-                .toolbar {
-                    ToolbarItem(placement: .topBarLeading) {
-                        Button {
-                            showMapView.toggle()
-                        } label: {
-                            Text("닫기")
-                        }
+            }
+            .showDragIndicator(false)
+            .enableAccountingForKeyboardHeight(true)
+            .customBackground {
+                RoundedRectangle(cornerRadius: 20)
+                    .foregroundStyle(.ultraThinMaterial)
+            }
+            .onAppear {
+                KeyboardNotificationManager.shared.keyboardNoti { _ in
+                    if sheetHeight == .relativeTop(0.78) {
+                        sheetHeight = .relativeTop(0.78)
+                    } else if sheetHeight == .relativeTop(0.78) &&  kakaoLocalManager.searchResult.isEmpty {
+                        sheetHeight = .absolute(365)
+                    } else {
+                        sheetHeight = .absolute(365)
+                    }
+                } hideHandler: { _ in
+                    if sheetHeight == .relativeTop(0.78) {
+                        sheetHeight = .relativeTop(0.78)
+                    } else {
+                        sheetHeight = .relative(0.18)
                     }
                 }
-                .navigationTitle("장소 추가")
-                .navigationBarTitleDisplayMode(.inline)
-                .navigationBarTitle(20, 30)
-                .ignoresSafeArea(.all, edges: .bottom)
+            }
+            .onDisappear {
+                kakaoLocalManager.searchResult.removeAll()
+                KeyboardNotificationManager.shared.removeNotiObserver()
+            }
+            .onChange(of: isSelected) { newValue in
+                if newValue {
+                    sheetHeight = .relativeTop(0.78)
+                }
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        showMapView.toggle()
+                    } label: {
+                        Text("닫기")
+                    }
+                }
+            }
+            .navigationTitle("장소 추가")
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarTitle(20, 30)
+            .ignoresSafeArea(.all, edges: .bottom)
         }
         .onTapGesture {
             hideKeyboard()

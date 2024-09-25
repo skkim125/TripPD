@@ -9,53 +9,84 @@ import SwiftUI
 import MapKit
 
 struct MapView: UIViewRepresentable {
-    @Binding var annotations: [MKPointAnnotation]
+    @Binding var annotations: [CustomAnnotation]
     @Binding var showAlert: Bool
+    @Binding var isSearched: Bool
     @Binding var isSelected: Bool
     
+    @State private var selectedAnnotation: CustomAnnotation?
+    var isSelectAnnotation: Bool = false
     var type: MapType
+    var selectAction: ((PlaceInfo) -> Void)?
     
     func makeCoordinator() -> Coordinator {
         Coordinator(parent: self)
     }
     
     func makeUIView(context: Context) -> MKMapView {
-        let mapView = MKMapView()
+        let mapView = MKMapView(frame: .zero)
         
         mapView.delegate = context.coordinator
         mapView.showsUserLocation = true
         
         context.coordinator.mapView = mapView
-        switch type {
-        case .myAround:
-            break
-        case .addPlace:
-            let tapGesture = UITapGestureRecognizer(target: context.coordinator, action: #selector(context.coordinator.tapLocation(_:)))
-            mapView.addGestureRecognizer(tapGesture)
-            context.coordinator.isSelectedAction()
-        }
         
         return mapView
     }
     
     func updateUIView(_ uiView: MKMapView, context: Context) {
-        uiView.removeAnnotations(uiView.annotations)
-        uiView.addAnnotations(annotations)
-        
-        context.coordinator.updateAnnotations(annotations)
-        
-        if isSelected {
-            print("\(self.annotations)")
-            context.coordinator.isSelectedAction()
+        if isSearched {
+            uiView.removeAnnotations(uiView.annotations)
+            uiView.addAnnotations(annotations)
+            
+            if !annotations.isEmpty {
+                var zoomRect = MKMapRect.null
+                
+                if isSelected {
+                    if let selectedAnnotation = self.selectedAnnotation {
+                        withAnimation {
+                            uiView.camera.centerCoordinate = selectedAnnotation.coordinate
+                        }
+                        
+                        isSelected = false
+                    }
+                } else {
+                    for annotation in annotations {
+                        let annotationPoint = MKMapPoint(annotation.coordinate)
+                        let pointRect = MKMapRect(x: annotationPoint.x, y: annotationPoint.y, width: 0.01, height: 0.01)
+                        zoomRect = zoomRect.union(pointRect)
+                    }
+                    
+                    uiView.setVisibleMapRect(zoomRect, edgePadding: UIEdgeInsets(top: 50, left: 50, bottom: 50, right: 50), animated: true)
+                }
+            }
+        } else {
+            
+            let mapCamera = MKMapCamera()
+            mapCamera.pitch = 10
+            mapCamera.altitude = 3000
+            uiView.camera = mapCamera
+            
+            uiView.showAnnotations(annotations, animated: true)
+            
+            if let first = annotations.first {
+                DispatchQueue.main.async {
+                    let coordinate = first.coordinate
+                    mapCamera.centerCoordinate = coordinate
+                    uiView.camera = mapCamera
+                }
+            } else {
+                let coordinate = CLLocationCoordinate2D(latitude: 37.51786, longitude: 126.88643)
+                mapCamera.centerCoordinate = coordinate
+            }
         }
     }
     
-    class Coordinator: NSObject, MKMapViewDelegate {
+    class Coordinator: NSObject, MKMapViewDelegate, UIGestureRecognizerDelegate {
         
         var parent: MapView
         var mapView: MKMapView?
         var locationManager: CLLocationManager?
-        var localAnnotations: [MKPointAnnotation] = []
         
         init(parent: MapView) {
             self.parent = parent
@@ -66,21 +97,31 @@ struct MapView: UIViewRepresentable {
         }
         
         func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-            guard let annotation = view.annotation else { return }
-            let region = MKCoordinateRegion(
-                center: annotation.coordinate,
-                span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
-            )
             
-            mapView.setRegion(region, animated: true)
+            if let annotation = view.annotation as? CustomAnnotation {
+                let cameraPostion = CLLocationCoordinate2D(latitude: annotation.coordinate.latitude - 0.003, longitude: annotation.coordinate.longitude)
+                
+                
+                let camera = MKMapCamera(lookingAtCenter: cameraPostion, fromDistance: 2000, pitch: 0, heading: 0)
+                mapView.setCamera(camera, animated: true)
+                parent.selectAction?(annotation.placeInfo)
+                parent.isSelected = true
+            }
         }
         
-        func updateAnnotations(_ annotations: [MKPointAnnotation]) {
-            self.localAnnotations = annotations
-        }
-        
-        func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        func mapView(_ mapView: MKMapView, viewFor annotation: any MKAnnotation) -> MKAnnotationView? {
+            if let annotation = annotation as? CustomAnnotation {
+                let view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "PlaceMarker")
+                view.displayPriority = .required
+                view.glyphImage = UIImage(systemName: "star.fill")
+                view.selectedGlyphImage = UIImage(systemName: "star.fill")
+                view.markerTintColor = .mainApp
+                view.glyphTintColor = .mainAppConvert
+                
+                return view
+            }
             
+            return nil
         }
     }
 }
@@ -102,7 +143,7 @@ extension MapView.Coordinator: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.first else { return }
+        guard let location = locations.last else { return }
         let region = MKCoordinateRegion(
             center: location.coordinate,
             span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
@@ -116,64 +157,22 @@ extension MapView.Coordinator: CLLocationManagerDelegate {
     }
 }
 
-extension MapView.Coordinator {
-    @objc func tapLocation(_ gesture: UITapGestureRecognizer) {
-        let location = gesture.location(in: gesture.view)
-        let coordinate = (gesture.view as! MKMapView).convert(location, toCoordinateFrom: gesture.view)
-        
-        convertGeocoder(coordinate) { value in
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = coordinate
-            annotation.title = value
-            
-            self.parent.annotations.removeAll()
-            self.parent.annotations.append(annotation)
-            
-            DispatchQueue.main.asyncAfter(deadline: .now()+0.1) {
-                if let map = self.mapView {
-                    withAnimation {
-                        self.mapView(map, didSelect: map.view(for: annotation) ?? MKAnnotationView())
-                    }
-                }
-            }
-        }
-    }
-    
-    func isSelectedAction() {
-        guard let annotation = localAnnotations.first else { return }
-        
-        let region = MKCoordinateRegion(
-            center: annotation.coordinate,
-            span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
-        )
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            if let map = self.mapView {
-                withAnimation {
-                    map.setRegion(region, animated: true)
-                }
-            }
-        }
-    }
-    
-    func convertGeocoder(_ location: CLLocationCoordinate2D, _ handler: @escaping (String) -> Void) {
-        let geocoder = CLGeocoder()
-        var address = ""
-        
-        geocoder.reverseGeocodeLocation(CLLocation(
-            latitude: location.latitude,
-            longitude: location.longitude),
-                                        preferredLocale: Locale(identifier: "ko_KR")) { placemarks, error in
-            if let placemark = placemarks?.first {
-                
-                address = [ placemark.locality, placemark.thoroughfare, placemark.subThoroughfare].compactMap { $0 }.joined(separator: " ")
-                handler(address)
-            }
-        }
-    }
-}
-
 enum MapType {
     case myAround
     case addPlace
+}
+
+final class CustomAnnotation: NSObject, MKAnnotation {
+    var title: String?
+    let coordinate: CLLocationCoordinate2D
+    let placeInfo: PlaceInfo
+    
+    init(placeInfo: PlaceInfo) {
+        self.title = placeInfo.placeName
+        let lat = Double(placeInfo.lat) ?? 0.0
+        let lon = Double(placeInfo.lon) ?? 0.0
+        print(lat, lon)
+        self.coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+        self.placeInfo = placeInfo
+    }
 }

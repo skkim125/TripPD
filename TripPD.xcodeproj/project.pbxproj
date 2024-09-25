@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0474E50E2CA3F21400C33D6F /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0474E50D2CA3F21400C33D6F /* WebView.swift */; };
 		04974DC32C9B2D39004319DA /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04974DC22C9B2D39004319DA /* View+Extension.swift */; };
 		04A46BBB2C946A8E005ACE1C /* 잘풀리는오늘OTF Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 04A46BBA2C946A8E005ACE1C /* 잘풀리는오늘OTF Medium.otf */; };
 		04A46BBD2C9478F0005ACE1C /* MainHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A46BBC2C9478F0005ACE1C /* MainHomeView.swift */; };
@@ -74,6 +75,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0474E50D2CA3F21400C33D6F /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		04974DC22C9B2D39004319DA /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		04A46BB52C945D30005ACE1C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		04A46BBA2C946A8E005ACE1C /* 잘풀리는오늘OTF Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "잘풀리는오늘OTF Medium.otf"; sourceTree = "<group>"; };
@@ -284,6 +286,7 @@
 			children = (
 				04A46BCE2C95497D005ACE1C /* TravelMapView.swift */,
 				04DF05882CA156AD008B2651 /* MapView.swift */,
+				0474E50D2CA3F21400C33D6F /* WebView.swift */,
 			);
 			path = TravelMap;
 			sourceTree = "<group>";
@@ -504,6 +507,7 @@
 				04974DC32C9B2D39004319DA /* View+Extension.swift in Sources */,
 				04DF05732C9FF79C008B2651 /* TargetType.swift in Sources */,
 				04DF057F2C9FFE18008B2651 /* KakaoLocalModel.swift in Sources */,
+				0474E50E2CA3F21400C33D6F /* WebView.swift in Sources */,
 				04C995B32C9929A90017E10A /* Travel.swift in Sources */,
 				04A46BCD2C9487AC005ACE1C /* AddTravelPlannerView.swift in Sources */,
 				04C995BF2C992F4F0017E10A /* TravelCoverView.swift in Sources */,

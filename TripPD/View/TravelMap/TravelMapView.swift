@@ -18,13 +18,13 @@ struct TravelMapView: View {
     @State private var mapRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37.517742, longitude: 126.886463), span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
     @State private var tappedCoordinate: CLLocationCoordinate2D?
     @State private var myLocation: CLLocationCoordinate2D = CLLocationCoordinate2D()
-    @State private var annotations: [MKPointAnnotation] = []
+    @State private var annotations: [CustomAnnotation] = []
     @State private var showAlert = false
     
     var body: some View {
         NavigationStack {
             VStack {
-                MapView(annotations: $annotations, showAlert: $showAlert, isSelected: .constant(false), type: .myAround)
+                MapView(annotations: $annotations, showAlert: $showAlert, isSearched: .constant(false), isSelected: .constant(false), type: .myAround, selectAction: nil)
                     .alert(isPresented: $showAlert) {
                         Alert(
                             title: Text("위치 권한 필요"),
@@ -40,9 +40,6 @@ struct TravelMapView: View {
                         )
                     }
                 
-                if !annotations.isEmpty {
-                    Text("마커 개수: \(annotations.count)")
-                }
             }
             .navigationBarTitle(20, 30)
             .navigationTitle("내 주변 장소")

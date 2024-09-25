@@ -16,7 +16,7 @@ struct TravelCoverView: View {
     var body: some View {
         if let image = image, let uiimage = UIImage(data: image) {
             RoundedRectangle(cornerRadius: 12)
-                .fill(.ultraThinMaterial.opacity(0.7))
+                .fill(.thickMaterial.opacity(0.6))
                 .background {
                     Image(uiImage: uiimage)
                         .resizable()
@@ -27,7 +27,7 @@ struct TravelCoverView: View {
                 .overlay {
                     overlayView()
                         .frame(maxWidth: .infinity, alignment: .bottomLeading)
-                        .foregroundStyle(.white.gradient)
+                        .foregroundStyle(Color(uiColor: .label).gradient)
                         .padding(.horizontal, 10)
                 }
                 .frame(height: 150)
@@ -51,7 +51,7 @@ struct TravelCoverView: View {
                                 
                         overlayView()
                             .frame(maxWidth: .infinity, alignment: .bottomLeading)
-                            .foregroundStyle(.white.gradient)
+                            .foregroundStyle(Color(uiColor: .label).gradient)
                             .padding(.horizontal, 10)
                     }
                 }

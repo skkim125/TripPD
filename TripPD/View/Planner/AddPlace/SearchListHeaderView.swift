@@ -11,8 +11,10 @@ import BottomSheet
 struct SearchListHeaderView: View {
     @ObservedObject var kakaoLocalManager = KakaoLocalManager.shared
     
+    @Binding var annotations: [CustomAnnotation]
     @Binding var sheetHeight: BottomSheetPosition
     @Binding var isSelected: Bool
+    @Binding var isSearched: Bool
     
     @State private var query = ""
     @State private var page = 1
@@ -31,18 +33,26 @@ struct SearchListHeaderView: View {
                     .foregroundStyle(.gray)
                 
                 TextField("검색", text: $query)
-                    .keyboardType(.default)
+                    .keyboardType(.webSearch)
                     .textInputAutocapitalization(.never)
-                    .autocorrectionDisabled()
+                    .autocorrectionDisabled(true)
                     .onSubmit {
                         withAnimation {
+                            if !annotations.isEmpty {
+                                annotations.removeAll()
+                            }
                             isSelected = false
-                            sheetHeight = .relativeTop(0.9)
+                            isSearched = true
+                            sheetHeight = .dynamicBottom
                             DispatchQueue.main.async {
                                 kakaoLocalManager.searchPlace(sort: sort, query, page: page) { result in
                                     switch result {
                                     case .success(let success):
                                         kakaoLocalManager.searchResult = success.documents
+                                        kakaoLocalManager.searchResult.forEach { value in
+                                            let annotation = CustomAnnotation(placeInfo: value)
+                                            annotations.append(annotation)
+                                        }
                                     case .failure(let failure):
                                         print(failure)
                                     }
