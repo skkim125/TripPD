@@ -63,7 +63,7 @@ struct SearchListHeaderView: View {
             }
             .padding(.vertical, 7)
             .padding(.horizontal, 10)
-            .background(.thinMaterial)
+            .background(.regularMaterial)
             .clipShape(RoundedRectangle(cornerRadius: 12))
             .padding(.horizontal, 20)
         }

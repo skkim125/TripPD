@@ -8,8 +8,11 @@
 import SwiftUI
 import MapKit
 import BottomSheet
+import PopupView
+import RealmSwift
 
 struct AddPlaceMapView: View {
+    @ObservedRealmObject var schedule: Schedule
     @ObservedObject var kakaoLocalManager = KakaoLocalManager.shared
     @Binding var showMapView: Bool
     @State var offset: CGFloat = 0
@@ -19,9 +22,10 @@ struct AddPlaceMapView: View {
     @State private var tappedCoordinate: CLLocationCoordinate2D?
     @State private var annotations: [CustomAnnotation] = []
     @State private var showAlert = false
-    @State private var sheetHeight: BottomSheetPosition = .relative(0.18)
+    @State private var sheetHeight: BottomSheetPosition = .relativeBottom(0.15)
     @State private var isSelected = false
     @State private var showPlaceWebView = false
+    @State private var showAddPlacePopupView = false
     @State private var isSelectedPlace: PlaceInfo?
     @State private var placeURL = ""
     
@@ -32,34 +36,36 @@ struct AddPlaceMapView: View {
                 isSelectedPlace = place
                 showPlaceWebView = true
             }
-            .bottomSheet(bottomSheetPosition: $sheetHeight, switchablePositions: [.relative(0.18), .absolute(365), .relativeTop(0.78)], headerContent: {
+            .bottomSheet(bottomSheetPosition: $sheetHeight, switchablePositions: [.relativeBottom(0.15), .absolute(365), .relativeTop(0.78)], headerContent: {
                 SearchListHeaderView(annotations: $annotations, sheetHeight: $sheetHeight, isSelected: $isSelected, isSearched: $isSearched)
             }){
-                if showPlaceWebView {
-                    VStack {
-                        HStack {
-                            
-                            Spacer()
-                            
-                            Button {
-                                if let place = isSelectedPlace {
-                                    print(place.placeName)
+                if isSelected && showPlaceWebView {
+                        VStack {
+                            HStack {
+                                
+                                Spacer()
+                                
+                                Button {
+                                    if let place = isSelectedPlace {
+                                        print(place.placeName)
+                                        showAddPlacePopupView.toggle()
+                                    }
+                                } label: {
+                                    Image(systemName: "plus.circle.fill")
+                                        .resizable()
+                                        .frame(width: 20, height: 20)
                                 }
-                            } label: {
-                                Image(systemName: "plus.circle.fill")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 20, height: 20)
+                                .tint(.mainApp)
                             }
+                            .frame(height: 30)
+                            .padding(.top, 8)
+                            .padding(.trailing, 28)
+                            
+                            PlaceInfoWebView(urlString: placeURL)
+                                .onChange(of: placeURL) { newURL in
+                                    showPlaceWebView = !newURL.isEmpty
+                                }
                         }
-                        .padding(.vertical, 10)
-                        .padding(.trailing, 15)
-                        
-                        PlaceInfoWebView(urlString: placeURL)
-                            .onChange(of: placeURL) { newURL in
-                                showPlaceWebView = !newURL.isEmpty
-                            }
-                    }
                 }
             }
             .showDragIndicator(false)
@@ -67,6 +73,70 @@ struct AddPlaceMapView: View {
             .customBackground {
                 RoundedRectangle(cornerRadius: 20)
                     .foregroundStyle(.ultraThinMaterial)
+            }
+            .interactiveDismissDisabled(showAddPlacePopupView)
+            .popup(isPresented: $showAddPlacePopupView) {
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(.mainApp.gradient, lineWidth: 2)
+                    .background(.background)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .overlay {
+                        if let place = isSelectedPlace {
+                            VStack {
+                                HStack(alignment: .center) {
+                                    Button {
+                                        showAddPlacePopupView.toggle()
+                                    } label: {
+                                        Image(systemName: "xmark.circle.fill")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 30)
+                                    }
+                                    .tint(.gray)
+                                    .frame(alignment: .leading)
+                                    
+                                    Spacer()
+                                    
+                                    Button {
+                                        let lat = Double(place.lat) ?? 0.0
+                                        let lon = Double(place.lon) ?? 0.0
+                                        TravelManager.shared.addPlace(schedule: schedule, time: Date(), name: place.placeName, lat: lat, lon: lon)
+                                        showAddPlacePopupView.toggle()
+                                    } label: {
+                                        Text("추가")
+                                            .foregroundStyle(.mainApp)
+                                            .font(.appFont(25))
+                                    }
+                                    .tint(.gray)
+                                    .frame(alignment: .trailing)
+                                }
+                                .padding()
+                                
+                                Spacer()
+                                
+                                Text("\(place.placeName)")
+                                    .foregroundStyle(Color(uiColor: .label).gradient)
+                                    .font(.appFont(20))
+                                    .multilineTextAlignment(.center)
+                                
+                                Spacer()
+                            }
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .frame(height: 500)
+                    .padding()
+                
+            } customize: {
+                $0
+                    .closeOnTap(false)
+                    .closeOnTapOutside(false)
+                    .type(.floater(verticalPadding: UIScreen.main.bounds.height / 5.5, horizontalPadding: 20, useSafeAreaInset: false))
+                    .position(.bottom)
+                    .dragToDismiss(false)
+                    .backgroundView {
+                        Color.black.opacity(0.3)
+                    }
             }
             .onAppear {
                 KeyboardNotificationManager.shared.keyboardNoti { _ in
@@ -81,7 +151,7 @@ struct AddPlaceMapView: View {
                     if sheetHeight == .relativeTop(0.78) {
                         sheetHeight = .relativeTop(0.78)
                     } else {
-                        sheetHeight = .relative(0.18)
+                        sheetHeight = .relativeBottom(0.15)
                     }
                 }
             }
@@ -89,10 +159,9 @@ struct AddPlaceMapView: View {
                 kakaoLocalManager.searchResult.removeAll()
                 KeyboardNotificationManager.shared.removeNotiObserver()
             }
-            .onChange(of: isSelected) { newValue in
-                if newValue {
-                    sheetHeight = .relativeTop(0.78)
-                }
+            .onChange(of: isSelectedPlace) { _ in
+                sheetHeight = .relativeTop(0.78)
+                showPlaceWebView = true
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {

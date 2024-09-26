@@ -20,7 +20,7 @@ struct MainHomeView: View {
             VStack {
                 HStack(spacing: 20) {
                     Button {
-                        if !travelManager.convertArray().isEmpty {
+                        if !travelManager.travelListForView.isEmpty {
                             isStarSorted.toggle()
                         }
                     } label: {
@@ -72,9 +72,9 @@ struct MainHomeView: View {
                     
                 } else {
                     ScrollView {
-                        ForEach(travelManager.travelListForView, id: \.id) { travel in
+                        ForEach(Array(travelManager.travelList), id: \.id) { travel in
                             NavigationLink {
-                                TravelScheduleListView(travelManager: travelManager, travel: travel)
+                                TravelScheduleListView(travel: travel)
                             } label: {
                                 TravelCoverView(title: .constant(travel.title), dates: .constant(Array(travel.travelDate)), image: .constant(ImageManager.shared.loadImage(imageName: travel.coverImageURL ?? "")), isStar: .constant(travel.isStar))
                                     .padding(.horizontal, 20)
@@ -132,7 +132,7 @@ struct MainHomeView: View {
         }
         .onAppear {
             travelManager.detectRealmURL()
-            travelManager.travelListForView = travelManager.convertArray()
+//            travelManager.travelListForView = travelManager.convertArray()
         }
     }
 }

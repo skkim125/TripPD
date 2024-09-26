@@ -27,8 +27,8 @@ struct PlanningScheduleView: View {
                     .position(x: UIScreen.main.bounds.width * 0.5, y: UIScreen.main.bounds.height * 0.35)
             } else {
                 LazyVStack {
-                    ForEach(schedule.places) { place in
-                        
+                    ForEach(Array(schedule.places), id: \.id) { place in
+                        PlaceRowView(schedule: schedule, place: place)
                     }
                 }
             }
@@ -46,7 +46,7 @@ struct PlanningScheduleView: View {
                 }
                 .tint(.mainApp)
                 .fullScreenCover(isPresented: $showMapView) {
-                    AddPlaceMapView(showMapView: $showMapView)
+                    AddPlaceMapView(schedule: schedule, showMapView: $showMapView)
                 }
             }
         }

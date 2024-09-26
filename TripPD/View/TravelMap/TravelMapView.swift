@@ -8,12 +8,6 @@
 import SwiftUI
 import MapKit
 
-struct Annotation: Identifiable {
-    let id = UUID()
-    let name: String
-    let coord: CLLocationCoordinate2D
-}
-
 struct TravelMapView: View {
     @State private var mapRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37.517742, longitude: 126.886463), span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
     @State private var tappedCoordinate: CLLocationCoordinate2D?

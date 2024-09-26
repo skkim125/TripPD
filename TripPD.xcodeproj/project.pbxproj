@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0446A5122CA4E83C008C3EA4 /* PlaceLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0446A5112CA4E83C008C3EA4 /* PlaceLocationView.swift */; };
+		0446A5162CA4E897008C3EA4 /* PlaceRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0446A5152CA4E897008C3EA4 /* PlaceRowView.swift */; };
 		0474E50E2CA3F21400C33D6F /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0474E50D2CA3F21400C33D6F /* WebView.swift */; };
 		04974DC32C9B2D39004319DA /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04974DC22C9B2D39004319DA /* View+Extension.swift */; };
 		04A46BBB2C946A8E005ACE1C /* 잘풀리는오늘OTF Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 04A46BBA2C946A8E005ACE1C /* 잘풀리는오늘OTF Medium.otf */; };
@@ -56,7 +58,6 @@
 		04EBA0612C9317FC002B1CA2 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 04EBA0602C9317FC002B1CA2 /* RealmSwift */; };
 		04EBA0642C932D43002B1CA2 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 04EBA0632C932D43002B1CA2 /* Alamofire */; };
 		04F7CF2D2CA1CE5F0061A056 /* BottomSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 04F7CF2C2CA1CE5F0061A056 /* BottomSheet */; };
-		04F7CF2F2CA29D580061A056 /* SearchListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F7CF2E2CA29D580061A056 /* SearchListView.swift */; };
 		04F7CF312CA29DF80061A056 /* SearchListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F7CF302CA29DF80061A056 /* SearchListHeaderView.swift */; };
 /* End PBXBuildFile section */
 
@@ -75,6 +76,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0446A5112CA4E83C008C3EA4 /* PlaceLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceLocationView.swift; sourceTree = "<group>"; };
+		0446A5152CA4E897008C3EA4 /* PlaceRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceRowView.swift; sourceTree = "<group>"; };
 		0474E50D2CA3F21400C33D6F /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		04974DC22C9B2D39004319DA /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		04A46BB52C945D30005ACE1C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -120,7 +123,6 @@
 		04EBA0532C92E464002B1CA2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		04EBA0552C92E465002B1CA2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		04EBA0582C92E465002B1CA2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		04F7CF2E2CA29D580061A056 /* SearchListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchListView.swift; sourceTree = "<group>"; };
 		04F7CF302CA29DF80061A056 /* SearchListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchListHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -140,6 +142,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0446A5172CA520FE008C3EA4 /* MapView */ = {
+			isa = PBXGroup;
+			children = (
+				04DF05882CA156AD008B2651 /* MapView.swift */,
+			);
+			path = MapView;
+			sourceTree = "<group>";
+		};
+		0446A5182CA5210F008C3EA4 /* WebView */ = {
+			isa = PBXGroup;
+			children = (
+				0474E50D2CA3F21400C33D6F /* WebView.swift */,
+			);
+			path = WebView;
+			sourceTree = "<group>";
+		};
 		04A46BAD2C945BA4005ACE1C /* DesignResource */ = {
 			isa = PBXGroup;
 			children = (
@@ -181,6 +199,8 @@
 				04EBA0532C92E464002B1CA2 /* ContentView.swift */,
 				04DE1F312C9C1A5D000A25E4 /* CustomTabBar.swift */,
 				04DE1F352C9C7A49000A25E4 /* Planner */,
+				0446A5182CA5210F008C3EA4 /* WebView */,
+				0446A5172CA520FE008C3EA4 /* MapView */,
 				04DE1F372C9C7A87000A25E4 /* TravelMap */,
 				04DE1F362C9C7A7F000A25E4 /* User */,
 			);
@@ -200,6 +220,7 @@
 			children = (
 				04C995D92C9AA0180017E10A /* TravelScheduleListView.swift */,
 				04BB5F092C9D93E200DE7DE3 /* PlanningScheduleView.swift */,
+				0446A5152CA4E897008C3EA4 /* PlaceRowView.swift */,
 			);
 			path = Schedule;
 			sourceTree = "<group>";
@@ -218,7 +239,7 @@
 			children = (
 				04DF05842CA08304008B2651 /* AddPlaceMapView.swift */,
 				04F7CF302CA29DF80061A056 /* SearchListHeaderView.swift */,
-				04F7CF2E2CA29D580061A056 /* SearchListView.swift */,
+				0446A5112CA4E83C008C3EA4 /* PlaceLocationView.swift */,
 			);
 			path = AddPlace;
 			sourceTree = "<group>";
@@ -285,8 +306,6 @@
 			isa = PBXGroup;
 			children = (
 				04A46BCE2C95497D005ACE1C /* TravelMapView.swift */,
-				04DF05882CA156AD008B2651 /* MapView.swift */,
-				0474E50D2CA3F21400C33D6F /* WebView.swift */,
 			);
 			path = TravelMap;
 			sourceTree = "<group>";
@@ -484,7 +503,6 @@
 				04A46BBD2C9478F0005ACE1C /* MainHomeView.swift in Sources */,
 				04A46BC82C948289005ACE1C /* LazyWrapperView.swift in Sources */,
 				04EBA0522C92E464002B1CA2 /* TripPDApp.swift in Sources */,
-				04F7CF2F2CA29D580061A056 /* SearchListView.swift in Sources */,
 				04DF05892CA156AD008B2651 /* MapView.swift in Sources */,
 				04A46BD42C956C0A005ACE1C /* NavigationTitleModifier.swift in Sources */,
 				04DF05872CA0F11D008B2651 /* KeyboardNotificationManager.swift in Sources */,
@@ -494,12 +512,14 @@
 				04F7CF312CA29DF80061A056 /* SearchListHeaderView.swift in Sources */,
 				04DF05852CA08304008B2651 /* AddPlaceMapView.swift in Sources */,
 				04A46BCF2C95497D005ACE1C /* TravelMapView.swift in Sources */,
+				0446A5122CA4E83C008C3EA4 /* PlaceLocationView.swift in Sources */,
 				04C995B92C992B7C0017E10A /* Finance.swift in Sources */,
 				04C995AB2C97EDDE0017E10A /* APIKey.swift in Sources */,
 				04A46BD72C956C6F005ACE1C /* DesignResource.swift in Sources */,
 				04C995CF2C99B1CA0017E10A /* CustomCalendarView.swift in Sources */,
 				04C995D42C9A8A890017E10A /* TravelManager.swift in Sources */,
 				04A46BD92C95B3BF005ACE1C /* AddPhotoView.swift in Sources */,
+				0446A5162CA4E897008C3EA4 /* PlaceRowView.swift in Sources */,
 				04C995BD2C992BB50017E10A /* Category.swift in Sources */,
 				04C995CD2C99B0850017E10A /* DayRangeSelectionHelper.swift in Sources */,
 				04BB5F0A2C9D93E200DE7DE3 /* PlanningScheduleView.swift in Sources */,
@@ -658,6 +678,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TripPD/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Trip PD";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "지도와 관련된 기능을 위해 위치 권한을 허용하여 주세요.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -694,6 +715,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TripPD/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Trip PD";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "지도와 관련된 기능을 위해 위치 권한을 허용하여 주세요.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

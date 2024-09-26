@@ -23,6 +23,9 @@ extension Date {
             
         case .scheduleViewDay:
             dateformat.dateFormat = "d일"
+            
+        case .onlyTime:
+            dateformat.dateFormat = "H시 m분"
         }
         
         return dateformat.string(from: self)
@@ -46,4 +49,5 @@ enum DateFormatterType {
     case coverView
     case scheduleViewMonth
     case scheduleViewDay
+    case onlyTime
 }

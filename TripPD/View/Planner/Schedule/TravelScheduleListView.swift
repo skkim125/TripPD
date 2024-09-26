@@ -9,13 +9,11 @@ import SwiftUI
 import RealmSwift
 
 struct TravelScheduleListView: View {
-    @ObservedObject var travelManager: TravelManager
     @ObservedRealmObject var travel: Travel
     private let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     @State private var showEditView = false
     
-    init(travelManager: TravelManager, travel: Travel, showEditView: Bool = false) {
-        self.travelManager = travelManager
+    init(travel: Travel, showEditView: Bool = false) {
         self.travel = travel
         self.showEditView = showEditView
         
@@ -32,7 +30,7 @@ struct TravelScheduleListView: View {
         NavigationStack {
             ScrollView {
                 LazyVGrid(columns: columns) {
-                    ForEach(Array(travel.schedules), id: \.id) { schedule in
+                    ForEach(travel.schedules, id: \.id) { schedule in
                         NavigationLink {
                             PlanningScheduleView(schedule: schedule)
                         } label: {
@@ -109,5 +107,5 @@ struct TravelScheduleListView: View {
 }
 
 #Preview {
-    TravelScheduleListView(travelManager: TravelManager.shared, travel: Travel())
+    TravelScheduleListView(travel: Travel())
 }

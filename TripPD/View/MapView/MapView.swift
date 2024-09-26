@@ -77,7 +77,7 @@ struct MapView: UIViewRepresentable {
                 }
             } else {
                 let coordinate = CLLocationCoordinate2D(latitude: 37.51786, longitude: 126.88643)
-                mapCamera.centerCoordinate = coordinate
+                uiView.camera.centerCoordinate = coordinate
             }
         }
     }
@@ -149,9 +149,9 @@ extension MapView.Coordinator: CLLocationManagerDelegate {
             span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
         )
         
-        mapView?.setRegion(region, animated: true)
-        
         DispatchQueue.main.async {
+            self.mapView?.setRegion(region, animated: true)
+            
             self.locationManager?.stopUpdatingLocation()
         }
     }
@@ -160,6 +160,7 @@ extension MapView.Coordinator: CLLocationManagerDelegate {
 enum MapType {
     case myAround
     case addPlace
+    case placeInfo
 }
 
 final class CustomAnnotation: NSObject, MKAnnotation {
