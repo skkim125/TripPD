@@ -15,6 +15,7 @@ struct AddPlaceMapView: View {
     @ObservedRealmObject var schedule: Schedule
     @ObservedObject var kakaoLocalManager = KakaoLocalManager.shared
     @Binding var showMapView: Bool
+    @FocusState var isFocused: Bool
     @State var offset: CGFloat = 0
     @State private var keyboardHeight: CGFloat = 0
     @State private var isSearched: Bool = false
@@ -28,6 +29,8 @@ struct AddPlaceMapView: View {
     @State private var showAddPlacePopupView = false
     @State private var isSelectedPlace: PlaceInfo?
     @State private var placeURL = ""
+    @State private var travelTime = Date()
+    @State private var placeMemo = ""
     
     var body: some View {
         NavigationStack {
@@ -90,50 +93,121 @@ struct AddPlaceMapView: View {
                                         Image(systemName: "xmark.circle.fill")
                                             .resizable()
                                             .scaledToFit()
-                                            .frame(width: 30)
+                                            .frame(width: 25)
                                     }
                                     .tint(.gray)
                                     .frame(alignment: .leading)
                                     
                                     Spacer()
                                     
+                                    Text("\(place.placeName)")
+                                        .foregroundStyle(Color(uiColor: .label).gradient)
+                                        .font(.appFont(20))
+                                        .multilineTextAlignment(.center)
+                                    
+                                    Spacer()
+                                    
                                     Button {
                                         let lat = Double(place.lat) ?? 0.0
                                         let lon = Double(place.lon) ?? 0.0
-                                        TravelManager.shared.addPlace(schedule: schedule, time: Date(), name: place.placeName, lat: lat, lon: lon)
+                                        TravelManager.shared.addPlace(schedule: schedule, time: travelTime, name: place.placeName, address: place.roadAddress, placeMemo: placeMemo , lat: lat, lon: lon)
                                         showAddPlacePopupView.toggle()
                                     } label: {
                                         Text("추가")
                                             .foregroundStyle(.mainApp)
-                                            .font(.appFont(25))
+                                            .font(.appFont(20))
                                     }
                                     .tint(.gray)
                                     .frame(alignment: .trailing)
                                 }
                                 .padding()
+                                .padding(.horizontal, 10)
                                 
                                 Spacer()
                                 
-                                Text("\(place.placeName)")
+                                Text("\(place.roadAddress)")
                                     .foregroundStyle(Color(uiColor: .label).gradient)
-                                    .font(.appFont(20))
+                                    .font(.appFont(14))
                                     .multilineTextAlignment(.center)
+                                    .padding(.bottom, 50)
                                 
-                                Spacer()
+                                HStack(alignment: .center) {
+                                    Text("여행 시간")
+                                        .font(.appFont(16))
+                                    
+                                    DatePicker("", selection: $travelTime, in: schedule.day...,displayedComponents: .hourAndMinute)
+                                        .padding()
+                                        .datePickerStyle(.wheel)
+                                        .frame(height: 50)
+                                        .padding()
+                                        .labelsHidden()
+                                }
+                                .padding(.vertical, 5)
+                                
+                                VStack {
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .stroke(.mainApp.gradient)
+                                        .foregroundStyle(.bar)
+                                        .overlay {
+                                            ZStack {
+                                                TextEditor(text: $placeMemo)
+                                                    .font(.appFont(14))
+                                                    .submitLabel(.done)
+                                                    .padding(.init(top: 0, leading: 6, bottom: 0, trailing: 6))
+                                                    .onChange(of: placeMemo) { _ in
+                                                        if placeMemo.count > 30 {
+                                                            placeMemo = String(placeMemo.prefix(30))
+                                                        }
+                                                        
+                                                        if placeMemo.last?.isNewline == true {
+                                                            placeMemo.removeLast()
+                                                            isFocused = false
+                                                        }
+                                                    }
+                                                    .frame(height: 50)
+                                                
+                                                VStack {
+                                                    Text("메모 하기")
+                                                        .foregroundStyle(Color(uiColor: .placeholderText))
+                                                        .font(.appFont(14))
+                                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                                        .padding(.top, 15)
+                                                        .padding(.leading, 11)
+                                                        .opacity(placeMemo.isEmpty ? 1: 0)
+                                                    
+                                                    Spacer()
+                                                    
+                                                    Text("(\(placeMemo.count) / 45)")
+                                                        .font(.system(size: 13))
+                                                        .foregroundStyle(.gray)
+                                                        .padding(.init(top: 0, leading: 0, bottom: 10, trailing: 10))
+                                                        .frame(maxWidth: .infinity, alignment: .trailing)
+                                                }
+                                            }
+                                        }
+                                        .frame(height: 60)
+                                        .focused($isFocused)
+                                        .id("memo")
+                                }
+                                .padding(.all, 10)
+                                .padding(.top, 30)
+                                .padding(.bottom, 10)
+                                .padding(.horizontal, 20)
                             }
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .center)
-                    .frame(height: 500)
+                    .frame(height: 350)
                     .padding()
                 
             } customize: {
                 $0
                     .closeOnTap(false)
                     .closeOnTapOutside(false)
-                    .type(.floater(verticalPadding: UIScreen.main.bounds.height / 5.5, horizontalPadding: 20, useSafeAreaInset: false))
+                    .type(.floater(verticalPadding: 10, horizontalPadding: 20, useSafeAreaInset: true))
                     .position(.bottom)
                     .dragToDismiss(false)
+                    .useKeyboardSafeArea(true)
                     .backgroundView {
                         Color.black.opacity(0.3)
                     }
@@ -154,6 +228,7 @@ struct AddPlaceMapView: View {
                         sheetHeight = .relativeBottom(0.15)
                     }
                 }
+                travelTime = schedule.day
             }
             .onDisappear {
                 kakaoLocalManager.searchResult.removeAll()

@@ -11,9 +11,10 @@ import RealmSwift
 struct PlanningScheduleView: View {
     @ObservedRealmObject var schedule: Schedule
     @State private var showMapView = false
+    @State private var deletedPlaceId: ObjectId?
     
     var body: some View {
-        ScrollView(.vertical) {
+        VStack {
             calendarView()
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .foregroundStyle(.mainApp)
@@ -26,11 +27,48 @@ struct PlanningScheduleView: View {
                     .foregroundStyle(.gray)
                     .position(x: UIScreen.main.bounds.width * 0.5, y: UIScreen.main.bounds.height * 0.35)
             } else {
-                LazyVStack {
-                    ForEach(Array(schedule.places), id: \.id) { place in
+                List {
+                    ForEach(Array(schedule.places).sorted(by: { $0.time < $1.time }), id: \.id) { place in
                         PlaceRowView(schedule: schedule, place: place)
+                            .opacity(deletedPlaceId == place.id ? 0 : 1)
+                            .animation(.easeInOut(duration: 0.3), value: deletedPlaceId)
+                            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                Button{
+                                    withAnimation(.easeInOut(duration: 0.3)) {
+                                        deletedPlaceId = place.id
+                                    }
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                                            TravelManager.shared.removePlace(place: place)
+                                    }
+                                    print("삭제되었습니다.")
+                                } label: {
+                                    Label {
+                                        Text("삭제")
+                                    } icon: {
+                                        Image(systemName: "trash")
+                                    }
+                                    
+                                }
+                                .tint(.red)
+                                
+//                                Button{
+//                                    
+//                                } label: {
+//                                    Label {
+//                                        Text("수정")
+//                                    } icon: {
+//                                        Image(systemName: "pencil")
+//                                    }
+//                                    
+//                                }
+//                                .tint(.mainApp)
+                            }
                     }
+                    .listSectionSeparator(.hidden)
+                    .listRowSeparator(.hidden)
+                    .listRowSeparatorTint(.clear)
                 }
+                .listStyle(.plain)
             }
         }
         .navigationTitle("\(schedule.dayString)")
