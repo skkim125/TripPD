@@ -20,7 +20,7 @@ struct MainHomeView: View {
             VStack {
                 HStack(spacing: 20) {
                     Button {
-                        if !travelManager.travelListForView.isEmpty {
+                        if !travelManager.travelList.isEmpty {
                             isStarSorted.toggle()
                         }
                     } label: {
@@ -63,7 +63,7 @@ struct MainHomeView: View {
                 
                 Spacer()
                 
-                if travelManager.travelListForView.isEmpty {
+                if travelManager.travelList.isEmpty {
                     Text("현재 계획된 여행이 없어요.")
                         .font(.footnote)
                         .foregroundStyle(.gray)
@@ -72,13 +72,17 @@ struct MainHomeView: View {
                     
                 } else {
                     ScrollView {
-                        ForEach(Array(travelManager.travelList), id: \.id) { travel in
-                            NavigationLink {
-                                TravelScheduleListView(travel: travel)
-                            } label: {
-                                TravelCoverView(title: .constant(travel.title), dates: .constant(Array(travel.travelDate)), image: .constant(ImageManager.shared.loadImage(imageName: travel.coverImageURL ?? "")), isStar: .constant(travel.isStar))
-                                    .padding(.horizontal, 20)
-                                    .padding(.top, 15)
+                        LazyVStack {
+                            ForEach(travelManager.travelList, id: \.id) { travel in
+                                if compareDate(Array(travel.travelDate)) {
+                                    NavigationLink {
+                                        TravelScheduleListView(travel: travel)
+                                    } label: {
+                                        TravelCoverView(title: .constant(travel.title), dates: .constant(Array(travel.travelDate)), image: .constant(ImageManager.shared.loadImage(imageName: travel.coverImageURL ?? "")), isStar: .constant(travel.isStar))
+                                            .padding(.horizontal, 20)
+                                            .padding(.top, 15)
+                                    }
+                                }
                             }
                         }
                     }
@@ -132,7 +136,16 @@ struct MainHomeView: View {
         }
         .onAppear {
             travelManager.detectRealmURL()
-//            travelManager.travelListForView = travelManager.convertArray()
+            travelManager.travelListForView = travelManager.convertArray()
+            print(travelManager.travelListForView)
+        }
+    }
+    
+    private func compareDate(_ dateArray: [Date]) -> Bool {
+        if let last = dateArray.last, let overday = Calendar.current.date(byAdding: .hour, value: 24, to: last) {
+            return Date() < overday
+        } else {
+            return false
         }
     }
 }

@@ -25,7 +25,7 @@ extension Date {
             dateformat.dateFormat = "d일"
             
         case .onlyTime:
-            dateformat.dateFormat = "H시 m분"
+            dateformat.dateFormat = "HH시 mm분"
         }
         
         return dateformat.string(from: self)

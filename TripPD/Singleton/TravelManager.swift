@@ -10,9 +10,7 @@ import RealmSwift
 
 final class TravelManager: ObservableObject {
     static let shared = TravelManager()
-    private init() {
-        travelListForView = convertArray()
-    }
+    private init() { }
     
     @ObservedResults(Travel.self) var travelList
     
@@ -69,6 +67,23 @@ final class TravelManager: ObservableObject {
             }
         } catch {
             
+        }
+    }
+    
+    func removeTravel(travel: Travel) {
+        do {
+            let realm = try Realm()
+            guard let object = realm.object(ofType: Travel.self, forPrimaryKey: travel.id) else { return }
+            try realm.write {
+                object.schedules.forEach { schedule in
+                    realm.delete(schedule.places)
+                    realm.delete(schedule)
+                }
+                realm.delete(object)
+                travelListForView = convertArray()
+            }
+        } catch {
+            print(error.localizedDescription)
         }
     }
 }

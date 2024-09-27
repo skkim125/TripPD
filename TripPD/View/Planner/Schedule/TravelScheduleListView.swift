@@ -10,12 +10,15 @@ import RealmSwift
 
 struct TravelScheduleListView: View {
     @ObservedRealmObject var travel: Travel
+    @Environment(\.dismiss) private var dismiss
     private let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     @State private var showEditView = false
+    @State private var showDeleteAlert = false
     
-    init(travel: Travel, showEditView: Bool = false) {
+    init(travel: Travel, showEditView: Bool = false, showDeleteAlert: Bool = false) {
         self.travel = travel
         self.showEditView = showEditView
+        self.showDeleteAlert = showDeleteAlert
         
         let fontAppearance = UINavigationBarAppearance()
         fontAppearance.titleTextAttributes = [.font: UIFont.appFont(20), .foregroundColor: UIColor.mainApp]
@@ -46,15 +49,8 @@ struct TravelScheduleListView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Menu {
-                        Button {
-                            
-                        } label: {
-                            Text("수정")
-                            Image(systemName: "pencil")
-                        }
-                        
                         Button(role: .destructive) {
-                            
+                            showDeleteAlert.toggle()
                         } label: {
                             Text("여행 삭제")
                             Image(systemName: "trash")
@@ -67,6 +63,13 @@ struct TravelScheduleListView: View {
                     
                 }
             }
+        }
+        .alert(isPresented: $showDeleteAlert) {
+            Alert(title: Text("정말로 여행 플랜을 삭제하시겠습니까?"), message: Text("삭제 이후 복구할 수 없습니다."), primaryButton: .cancel(Text("아니요")), secondaryButton: .destructive(Text("예"), action: {
+                TravelManager.shared.removeTravel(travel: travel)
+                dismiss()
+                print("삭제됨")
+            }))
         }
         .navigationTitle("\(travel.title)")
         .navigationBarTitleDisplayMode(.large)
