@@ -11,6 +11,9 @@ import MapKit
 struct CustomTabBar: View {
     var travelManager: TravelManager
     @State private var currentTab = "house"
+    @State private var showSheet = false
+    @State private var showToastView = false
+    
     @Namespace var animation
     
     init(_ travelManager: TravelManager) {
@@ -22,20 +25,16 @@ struct CustomTabBar: View {
         GeometryReader { geometry in
             ZStack(alignment: .init(horizontal: .center, vertical: .bottom)) {
                 TabView(selection: $currentTab) {
-                    LazyWrapperView(MainHomeView(travelManager: travelManager))
+                    LazyWrapperView(MainHomeView(travelManager: travelManager, showToastView: $showToastView))
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .tag(tabs[0])
                     
-                    LazyWrapperView(TravelMapView())
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .tag(tabs[1])
-                    
                     LazyWrapperView(UserView())
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .tag(tabs[2])
+                        .tag(tabs[1])
                 }
                 
-                LazyHStack(spacing: 35) {
+                LazyHStack(spacing: 150) {
                     ForEach(tabs, id: \.self) { tabImage in
                         TabBarButton(image: tabImage, selected: $currentTab, animation: animation)
                     }
@@ -43,11 +42,30 @@ struct CustomTabBar: View {
                 .frame(height: 10)
                 .padding(.horizontal, 20)
                 .padding(.top)
-                .padding(.bottom, geometry.safeAreaInsets.bottom != 0 ? geometry.safeAreaInsets.bottom : 10)
-                .background(.mainApp.gradient)
+                .padding(.bottom, geometry.safeAreaInsets.bottom != 0 ? geometry.safeAreaInsets.bottom : 5)
+                .background(.mainApp)
                 .clipShape(.capsule)
                 .shadow(radius: 5)
+                
+                
+                Circle()
+                    .fill(.mainApp)
+                    .frame(width: 60, height: 60)
+                    .overlay {
+                        Button {
+                            showSheet.toggle()
+                        } label: {
+                            Image(systemName: "plus.circle.fill")
+                                .font(.appFont(50))
+                                .foregroundStyle(.mainApp, .ultraThickMaterial)
+                        }
+                    }
+                    .offset(y: -15)
             }
+        }
+        .sheet(isPresented: $showSheet) {
+            AddTravelPlannerView(travelManager: travelManager, showSheet: $showSheet, showToastView: $showToastView)
+                .ignoresSafeArea()
         }
     }
 }
@@ -65,20 +83,20 @@ struct TabBarButton: View {
         } label: {
             VStack {
                 Image(systemName: "\(image)")
-                    .font(.appFont(25))
+                    .font(.appFont(20))
                     .foregroundStyle(selected == image ? .ultraThickMaterial : .ultraThinMaterial)
-                    .padding(.top, 15)
+                    .padding(.top, 10)
                 
                 ZStack {
                     Circle()
                         .fill(.clear)
-                        .frame(width: 8, height: 8)
+                        .frame(width: 5, height: 5)
                     
                     if selected == image {
                         Circle()
                             .fill(.ultraThickMaterial)
                             .matchedGeometryEffect(id: "Tab", in: animation)
-                            .frame(width: 8, height: 8)
+                            .frame(width: 5, height: 5)
                     }
                 }
             }
@@ -86,7 +104,7 @@ struct TabBarButton: View {
     }
 }
 
-var tabs = ["house", "map", "gear"]
+var tabs = ["house", "gear"]
 
 #Preview {
     CustomTabBar(TravelManager.shared)
