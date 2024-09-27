@@ -104,7 +104,7 @@ struct AddTravelPlannerView: View {
                     } label: {
                         Text("추가")
                             .foregroundStyle(isFilled ? (Color.mainApp.gradient) : Color.gray.gradient).bold()
-                            .font(.appFont(18))
+                            .font(.appFont(16))
                     }
                     .disabled(!isFilled)
                 }
@@ -191,7 +191,6 @@ extension AddTravelPlannerView {
                     .sheet(isPresented: $showDatePickerView) {
                         CustomCalendarView(selectedDates: $dates, showDatePickerView: $showDatePickerView)
                             .presentationDetents([.medium])
-                            .padding(.bottom, 10)
                     }
                 }
             }

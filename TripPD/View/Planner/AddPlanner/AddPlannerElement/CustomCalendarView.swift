@@ -124,7 +124,7 @@ struct CustomCalendarView: View {
                 let monthHeaderText = dateFormatter.string(from: calendar.date(from: month.components)!)
                 
                 Text(monthHeaderText)
-                    .font(.system(size: 18))
+                    .font(.appFont(18))
                     .foregroundStyle(.mainApp)
             }
             .onDaySelection { day in
@@ -193,7 +193,7 @@ extension CustomCalendarView {
                 }
             
             Text("\(day.day!)")
-                .font(.system(size: 18))
+                .font(.appFont(18))
                 .foregroundStyle(isToday(day, calendar.dateComponents(in: .current, from: Date())) ? .white : .mainApp)
                 .bold(isToday(day, calendar.dateComponents(in: .current, from: Date())))
                 .strikethrough(isTodayUnder(day, calendar.dateComponents(in: .current, from: Date())), pattern: .solid, color: .mainApp)
