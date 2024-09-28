@@ -15,6 +15,7 @@ struct SearchListHeaderView: View {
     @Binding var sheetHeight: BottomSheetPosition
     @Binding var isSelected: Bool
     @Binding var isSearched: Bool
+    @Binding var showNoResults: Bool
     
     @State private var query = ""
     @State private var page = 1
@@ -49,6 +50,9 @@ struct SearchListHeaderView: View {
                                     switch result {
                                     case .success(let success):
                                         kakaoLocalManager.searchResult = success.documents
+                                        if success.meta.total == 0 {
+                                            showNoResults = true
+                                        }
                                         kakaoLocalManager.searchResult.forEach { value in
                                             let annotation = CustomAnnotation(placeInfo: value)
                                             annotations.append(annotation)

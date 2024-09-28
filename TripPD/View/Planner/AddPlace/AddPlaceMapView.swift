@@ -27,6 +27,7 @@ struct AddPlaceMapView: View {
     @State private var isSelected = false
     @State private var showPlaceWebView = false
     @State private var showAddPlacePopupView = false
+    @State private var showNoResults = false
     @State private var isSelectedPlace: PlaceInfo?
     @State private var placeURL = ""
     @State private var travelTime = Date()
@@ -40,7 +41,7 @@ struct AddPlaceMapView: View {
                 showPlaceWebView = true
             }
             .bottomSheet(bottomSheetPosition: $sheetHeight, switchablePositions: [.relativeBottom(0.15), .absolute(365), .relativeTop(0.78)], headerContent: {
-                SearchListHeaderView(annotations: $annotations, sheetHeight: $sheetHeight, isSelected: $isSelected, isSearched: $isSearched)
+                SearchListHeaderView(annotations: $annotations, sheetHeight: $sheetHeight, isSelected: $isSelected, isSearched: $isSearched, showNoResults: $showNoResults)
             }){
                 if isSelected && showPlaceWebView {
                         VStack {
@@ -78,6 +79,27 @@ struct AddPlaceMapView: View {
                     .foregroundStyle(.ultraThinMaterial)
             }
             .interactiveDismissDisabled(showAddPlacePopupView)
+            .popup(isPresented: $showNoResults) {
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(.mainApp.gradient, lineWidth: 2)
+                    .background(.background)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .overlay {
+                        Text("검색 결과가 없습니다.")
+                            .foregroundStyle(Color(uiColor: .label).gradient)
+                            .font(.appFont(14))
+                            .multilineTextAlignment(.center)
+                    }
+                    .frame(width: 250, height: 50)
+                    .padding(.bottom, 100)
+            } customize: {
+                $0
+                    .autohideIn(2)
+                    .closeOnTap(true)
+                    .closeOnTapOutside(true)
+                    .type(.toast)
+                    .position(.bottom)
+            }
             .popup(isPresented: $showAddPlacePopupView) {
                 RoundedRectangle(cornerRadius: 12)
                     .stroke(.mainApp.gradient, lineWidth: 2)
