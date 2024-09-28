@@ -13,7 +13,7 @@ struct MainHomeView: View {
     @ObservedObject var travelManager: TravelManager
     @State private var isStarSorted = false
     @State private var showSheet = false
-    @State private var sortType: SortType = .def
+//    @State private var sortType: SortType = .def
     @Binding var showToastView: Bool
     
     var body: some View {
@@ -50,7 +50,7 @@ struct MainHomeView: View {
                 } else {
                     ScrollView {
                         LazyVStack {
-                            ForEach(travelManager.travelListForView, id: \.id) { travel in
+                            ForEach(travelManager.travelList, id: \.id) { travel in
                                 if Date.compareDate(Array(travel.travelDate)) {
                                     NavigationLink {
                                         TravelScheduleListView(travel: travel)
@@ -87,20 +87,20 @@ struct MainHomeView: View {
                     .type(.toast)
                     .position(.bottom)
             }
-            .onChange(of: sortType) { newValue in
-                switch newValue {
-                case .closer:
-                    travelManager.travelListForView.sort(by: {
-                        if $0.travelDate.first ?? Date() == $1.travelDate.first ?? Date() {
-                            $0.date < $1.date
-                        } else {
-                            $0.travelDate.first?.timeIntervalSinceNow ?? 0.0 < $1.travelDate.first?.timeIntervalSinceNow ?? 0.0
-                        }
-                    })
-                case .def:
-                    travelManager.travelListForView.sort(by: { $0.date < $1.date })
-                }
-            }
+//            .onChange(of: sortType) { newValue in
+//                switch newValue {
+//                case .closer:
+//                    travelManager.travelListForView.sort(by: {
+//                        if $0.travelDate.first ?? Date() == $1.travelDate.first ?? Date() {
+//                            $0.date < $1.date
+//                        } else {
+//                            $0.travelDate.first?.timeIntervalSinceNow ?? 0.0 < $1.travelDate.first?.timeIntervalSinceNow ?? 0.0
+//                        }
+//                    })
+//                case .def:
+//                    travelManager.travelListForView.sort(by: { $0.date < $1.date })
+//                }
+//            }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Text("Trip PD")
@@ -124,35 +124,35 @@ struct MainHomeView: View {
 //                    }
 //                }
                 
-                ToolbarItem(placement: .topBarTrailing) {
-                    Menu {
-                        
-                        Picker("정렬", selection: $sortType) {
-                            ForEach(SortType.allCases) { value in
-                                Text(value.title)
-                            }
-                        }
-                    } label: {
-                        HStack {
-                            Image(systemName: "arrow.up.arrow.down")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 20)
-                                .imageScale(.large).bold()
-                        }
-                    }
-                    .font(.appFont(18))
-                    .foregroundStyle(.mainApp.gradient)
-                }
+//                ToolbarItem(placement: .topBarTrailing) {
+//                    Menu {
+//                        
+//                        Picker("정렬", selection: $sortType) {
+//                            ForEach(SortType.allCases) { value in
+//                                Text(value.title)
+//                            }
+//                        }
+//                    } label: {
+//                        HStack {
+//                            Image(systemName: "arrow.up.arrow.down")
+//                                .resizable()
+//                                .scaledToFit()
+//                                .frame(width: 20)
+//                                .imageScale(.large).bold()
+//                        }
+//                    }
+//                    .font(.appFont(18))
+//                    .foregroundStyle(.mainApp.gradient)
+//                }
             }
             .navigationBarTitle(20, 30)
         }
-        .onChange(of: showToastView) { _ in
-            travelManager.sortAction(sortType: sortType)
-        }
-        .onAppear {
-            travelManager.sortAction(sortType: sortType)
-        }
+//        .onChange(of: showToastView) { _ in
+//            travelManager.sortAction(sortType: sortType)
+//        }
+//        .onAppear {
+//            travelManager.sortAction(sortType: sortType)
+//        }
     }
 }
 

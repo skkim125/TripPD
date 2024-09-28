@@ -68,9 +68,9 @@ struct TravelScheduleListView: View {
                         dismiss()
                     } label: {
                         Image(systemName: "chevron.backward")
+                            .foregroundStyle(.mainApp.gradient)
                             .bold()
                     }
-                    .tint(.mainApp)
                 }
             }
         }

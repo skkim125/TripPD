@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct PastTravelView: View {
+    @Environment(\.dismiss) var dismiss
     var travelManager = TravelManager.shared
     var body: some View {
         VStack {
@@ -23,22 +24,32 @@ struct PastTravelView: View {
                 ScrollView {
                     LazyVStack {
                         ForEach(travelManager.travelListForView.filter({ $0.isDelete }), id: \.id) { travel in
-                            if Date.compareDate(Array(travel.travelDate)) {
-                                NavigationLink {
-                                    TravelScheduleListView(travel: travel)
-                                } label: {
-                                    TravelCoverView(title: .constant(travel.title), dates: .constant(Array(travel.travelDate)), image: .constant(ImageManager.shared.loadImage(imageName: travel.coverImageURL ?? "")), isStar: .constant(travel.isStar))
-                                        .padding(.horizontal, 20)
-                                        .padding(.top, 15)
-                                }
-                            }
+//                            NavigationLink {
+//                                TravelScheduleListView(travel: travel)
+//                            } label: {
+                                TravelCoverView(title: .constant(travel.title), dates: .constant(Array(travel.travelDate)), image: .constant(ImageManager.shared.loadImage(imageName: travel.coverImageURL ?? "")), isStar: .constant(travel.isStar))
+                                    .padding(.horizontal, 20)
+                                    .padding(.top, 15)
+//                            }
                         }
                     }
                 }
             }
         }
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "chevron.backward")
+                        .foregroundStyle(.mainApp.gradient)
+                        .bold()
+                }
+            }
+        }
         .navigationTitle("지난 여행")
         .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden()
         .onAppear {
             travelManager.travelListForView = travelManager.convertArray().filter({ $0.isDelete })
         }
