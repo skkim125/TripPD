@@ -9,66 +9,89 @@ import SwiftUI
 import MessageUI
 
 struct UserView: View {
+    @State private var isOpenMailSheet = false
+    @State private var isOpenPastTrip = false
+    @State private var isOpenAppInfo = false
     
     var body: some View {
         NavigationStack {
             List(Settings.allCases, id: \.self) { item in
-                NavigationLink {
+                Button {
                     switch item {
                     case .pastTrip:
-                        EmptyView()
+                        isOpenPastTrip.toggle()
                     case .inquiry:
-                        EmptyView()
+                        isOpenMailSheet.toggle()
                     case .appInfo:
-                        AppInfoView()
+                        isOpenAppInfo.toggle()
                     }
                 } label: {
-                    Text("\(item.rawValue)")
-                        .font(.appFont(15))
+                    settingRowView(item)
                 }
-                .listStyle(.plain)
+            }
+            .navigationDestination(isPresented: $isOpenPastTrip){
+                PastTravelView()
+            }
+            .navigationDestination(isPresented: $isOpenAppInfo){
+                AppInfoView()
             }
             .navigationBarTitle(20, 30)
             .navigationTitle("설정")
             .navigationBarTitleDisplayMode(.large)
-//            ForEach(Settings.allCases, id: \.self) { item in
-//                switch item {
-//                case .inquiry:
-//                    Button {
-//                        print("dd")
-//                    } label: {
-//                        settingRowView(item)
-//                    }
-//                case .pastTrip:
-//                    NavigationLink {
-//                        EmptyView()
-//                    } label: {
-//                        settingRowView(item)
-//                    }
-//                    
-//                case .appInfo:
-//                    <#code#>
-//                }
-//            }
+            .confirmationDialog("", isPresented: $isOpenMailSheet) {
+                Button {
+                    // 메일앱이 깔려있으면 가능
+                    EmailController.shared.sendEmail(subject: "제목을 입력해주세요", body: "문의 내용을 입력해주세요", to: "skkim125@icloud.com")
+                } label: {
+                    Text("이메일로 문의하기")
+                }
+                
+                Button("cancel", role: .cancel) { print("tap cancel") }
+            }
         }
     }
     
-//    @ViewBuilder
-//    func settingRowView(_ setting: Settings) -> some View {
-//        
-//        Text("\(setting.rawValue)")
-//            .foregroundStyle(.mainApp)
-//            .font(.appFont(15))
-//            .padding()
-//            .frame(maxWidth: .infinity, alignment: .center)
-//            .background(.background)
-//            .overlay {
-//                RoundedRectangle(cornerRadius: 12)
-//                    .stroke(.mainApp, lineWidth: 5)
-//            }
-//            .clipShape(RoundedRectangle(cornerRadius: 12))
-//            .padding(.horizontal)
-//    }
+    @ViewBuilder
+    func settingRowView(_ setting: Settings) -> some View {
+        
+        HStack {
+            Text("\(setting.rawValue)")
+                .font(.appFont(15))
+            
+            Spacer()
+            
+            Image(systemName: "chevron.forward")
+                .font(.appFont(15))
+        }
+        .foregroundStyle(.mainApp)
+    }
+}
+
+class EmailController: NSObject, MFMailComposeViewControllerDelegate {
+    public static let shared = EmailController()
+    private override init() { }
+    
+    func sendEmail(subject: String, body: String, to: String) {
+        if !MFMailComposeViewController.canSendMail() {
+            print("메일 앱이 없어 보낼 수 없음")
+            return
+        }
+        let mailComposer = MFMailComposeViewController()
+        mailComposer.mailComposeDelegate = self
+        mailComposer.setToRecipients([to])
+        mailComposer.setSubject(subject)
+        mailComposer.setMessageBody(body, isHTML: false)
+        EmailController.getRootViewController()?.present(mailComposer, animated: true, completion: nil)
+    }
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        EmailController.getRootViewController()?.dismiss(animated: true, completion: nil)
+    }
+    
+    static func getRootViewController() -> UIViewController? {
+        let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        return windowScene?.windows.first?.rootViewController
+    }
 }
 
 enum Settings: String, CaseIterable {

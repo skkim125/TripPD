@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import AcknowList
 
 struct AppInfoView: View {
     @Environment(\.dismiss) var dismiss
@@ -14,6 +13,8 @@ struct AppInfoView: View {
     
     var body: some View {
         VStack(spacing: 20) {
+            Spacer()
+            
             Image("AppIcon_Setting")
                 .resizable()
                 .scaledToFit()
@@ -29,7 +30,7 @@ struct AppInfoView: View {
                     .font(.appFont(20))
                 
                 Text("ver \(appVersion)")
-                    .font(.appFont(15))
+                    .font(.appFont(14))
                     .foregroundColor(.secondary)
             }
             .padding(.top, 10)
@@ -67,6 +68,8 @@ struct AppInfoView: View {
                 .tint(.mainApp)
             }
         }
+        .navigationTitle("앱 정보")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
