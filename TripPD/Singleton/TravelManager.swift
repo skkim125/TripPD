@@ -86,4 +86,20 @@ final class TravelManager: ObservableObject {
             print(error.localizedDescription)
         }
     }
+    
+    func sortAction(sortType: SortType) {
+        let filtered = convertArray().filter({ !$0.isDelete })
+        switch sortType {
+        case .def:
+            travelListForView = filtered.sorted(by: { $0.date < $1.date })
+        case .closer:
+            travelListForView = filtered.sorted(by: {
+                if $0.travelDate.first ?? Date() == $1.travelDate.first ?? Date() {
+                    $0.date < $1.date
+                } else {
+                    $0.travelDate.first?.timeIntervalSinceNow ?? 0.0 < $1.travelDate.first?.timeIntervalSinceNow ?? 0.0
+                }
+            })
+        }
+    }
 }

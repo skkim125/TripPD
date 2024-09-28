@@ -45,7 +45,7 @@ class Coordinator: PHPickerViewControllerDelegate {
         select.itemProvider.loadObject(ofClass: UIImage.self) { [weak self] (object, error) in
             guard let self = self else { return }
             if let image = object as? UIImage {
-                guard let imageData = image.jpegData(compressionQuality: 0.5) else { return }
+                guard let imageData = image.jpegData(compressionQuality: 0.3) else { return }
                 DispatchQueue.main.async {
                     self.parent.completionHandler(imageData)
                 }

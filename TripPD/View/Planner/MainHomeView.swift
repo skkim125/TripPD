@@ -51,7 +51,7 @@ struct MainHomeView: View {
                     ScrollView {
                         LazyVStack {
                             ForEach(travelManager.travelListForView, id: \.id) { travel in
-                                if compareDate(Array(travel.travelDate)) {
+                                if Date.compareDate(Array(travel.travelDate)) {
                                     NavigationLink {
                                         TravelScheduleListView(travel: travel)
                                     } label: {
@@ -147,17 +147,11 @@ struct MainHomeView: View {
             }
             .navigationBarTitle(20, 30)
         }
-        .onAppear {
-            travelManager.detectRealmURL()
-            travelManager.travelListForView = travelManager.convertArray()
+        .onChange(of: showToastView) { _ in
+            travelManager.sortAction(sortType: sortType)
         }
-    }
-    
-    private func compareDate(_ dateArray: [Date]) -> Bool {
-        if let last = dateArray.last, let overday = Calendar.current.date(byAdding: .hour, value: 24, to: last) {
-            return Date() < overday
-        } else {
-            return false
+        .onAppear {
+            travelManager.sortAction(sortType: sortType)
         }
     }
 }

@@ -42,6 +42,14 @@ extension Date {
             return ""
         }
     }
+    
+    static func compareDate(_ dateArray: [Date]) -> Bool {
+        if let last = dateArray.last, let overday = Calendar.current.date(byAdding: .hour, value: 24, to: last) {
+            return Date() < overday
+        } else {
+            return false
+        }
+    }
 }
 
 enum DateFormatterType {
