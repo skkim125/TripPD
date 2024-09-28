@@ -13,55 +13,32 @@ struct MainHomeView: View {
     @ObservedObject var travelManager: TravelManager
     @State private var isStarSorted = false
     @State private var showSheet = false
-    @State private var showToastView = false
+    @State private var sortType: SortType = .def
+    @Binding var showToastView: Bool
     
     var body: some View {
         NavigationStack {
             VStack {
-                HStack(spacing: 20) {
-                    Button {
-                        if !travelManager.travelList.isEmpty {
-                            isStarSorted.toggle()
-                        }
-                    } label: {
-                        Image(systemName: isStarSorted ? "star.fill": "star")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 20)
-                            .imageScale(.large).bold()
-                            .foregroundStyle(.yellow)
-                    }
-                    
-                    Menu {
-                        Button {
-                            print("최근 생성순")
-                        } label: {
-                            Text("최근 생성순")
-                            Image(systemName: "list.number")
-                        }
-                        
-                        Button {
-                            print("여행 시작일순")
-                        } label: {
-                            Text("여행 시작일순")
-                            Image(systemName: "d.circle")
-                        }
-                    } label: {
-                        HStack {
-                            Image(systemName: "arrow.up.arrow.down")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 20)
-                                .imageScale(.large).bold()
-                        }
-                    }
-                }
-                .frame(maxWidth: .infinity, alignment: .topTrailing)
-                .padding(.trailing, 20)
-                .padding(.top, 10)
-                .tint(.mainApp)
+//                HStack(spacing: 20) {
+//                    Button {
+//                        if !travelManager.travelList.isEmpty {
+//                            isStarSorted.toggle()
+//                        }
+//                    } label: {
+//                        Image(systemName: isStarSorted ? "star.fill": "star")
+//                            .resizable()
+//                            .scaledToFit()
+//                            .frame(width: 20)
+//                            .imageScale(.large).bold()
+//                            .foregroundStyle(.yellow)
+//                    }
+//                }
+//                .frame(maxWidth: .infinity, alignment: .topTrailing)
+//                .padding(.trailing, 20)
+//                .padding(.top, 10)
+//                .tint(.mainApp)
                 
-                Spacer()
+//                Spacer()
                 
                 if travelManager.travelList.isEmpty {
                     Text("현재 계획된 여행이 없어요.")
@@ -73,7 +50,7 @@ struct MainHomeView: View {
                 } else {
                     ScrollView {
                         LazyVStack {
-                            ForEach(travelManager.travelList, id: \.id) { travel in
+                            ForEach(travelManager.travelListForView, id: \.id) { travel in
                                 if compareDate(Array(travel.travelDate)) {
                                     NavigationLink {
                                         TravelScheduleListView(travel: travel)
@@ -100,15 +77,29 @@ struct MainHomeView: View {
                             .multilineTextAlignment(.center)
                     }
                     .frame(width: 200, height: 40)
-                    .padding(.top, 95)
+                    .padding(.bottom, 120)
                 
             } customize: {
                 $0
-                    .autohideIn(3)
+                    .autohideIn(2)
                     .closeOnTap(true)
                     .closeOnTapOutside(true)
                     .type(.toast)
-                    .position(.top)
+                    .position(.bottom)
+            }
+            .onChange(of: sortType) { newValue in
+                switch newValue {
+                case .closer:
+                    travelManager.travelListForView.sort(by: {
+                        if $0.travelDate.first ?? Date() == $1.travelDate.first ?? Date() {
+                            $0.date < $1.date
+                        } else {
+                            $0.travelDate.first?.timeIntervalSinceNow ?? 0.0 < $1.travelDate.first?.timeIntervalSinceNow ?? 0.0
+                        }
+                    })
+                case .def:
+                    travelManager.travelListForView.sort(by: { $0.date < $1.date })
+                }
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -118,18 +109,40 @@ struct MainHomeView: View {
                         .foregroundStyle(.mainApp.gradient)
                 }
                 
+//                ToolbarItem(placement: .topBarTrailing) {
+//                    Button {
+//                        if !travelManager.travelList.isEmpty {
+//                            isStarSorted.toggle()
+//                        }
+//                    } label: {
+//                        Image(systemName: isStarSorted ? "star.fill": "star")
+//                            .resizable()
+//                            .scaledToFit()
+//                            .frame(width: 20)
+//                            .imageScale(.large).bold()
+//                            .foregroundStyle(.yellow)
+//                    }
+//                }
+                
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        showSheet.toggle()
+                    Menu {
+                        
+                        Picker("정렬", selection: $sortType) {
+                            ForEach(SortType.allCases) { value in
+                                Text(value.title)
+                            }
+                        }
                     } label: {
-                        Image(systemName: "plus")
-                            .bold()
+                        HStack {
+                            Image(systemName: "arrow.up.arrow.down")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 20)
+                                .imageScale(.large).bold()
+                        }
                     }
                     .font(.appFont(18))
-                    .foregroundStyle(.appBlack.gradient)
-                    .fullScreenCover(isPresented: $showSheet) {
-                        AddTravelPlannerView(travelManager: travelManager, showSheet: $showSheet, showToastView: $showToastView)
-                    }
+                    .foregroundStyle(.mainApp.gradient)
                 }
             }
             .navigationBarTitle(20, 30)
@@ -137,7 +150,6 @@ struct MainHomeView: View {
         .onAppear {
             travelManager.detectRealmURL()
             travelManager.travelListForView = travelManager.convertArray()
-            print(travelManager.travelListForView)
         }
     }
     
@@ -151,5 +163,23 @@ struct MainHomeView: View {
 }
 
 #Preview {
-    MainHomeView(travelManager: TravelManager.shared)
+    MainHomeView(travelManager: TravelManager.shared, showToastView: .constant(false))
+}
+
+enum SortType: String, CaseIterable, Identifiable {
+    case def
+    case closer
+    
+    var id: Self {
+        return self
+    }
+    
+    var title: String {
+        switch self {
+        case .def:
+            "최근 등록순"
+        case .closer:
+            "여행일 가까운 순"
+        }
+    }
 }
