@@ -234,6 +234,20 @@ struct AddPlaceMapView: View {
                         Color.black.opacity(0.3)
                     }
             }
+            .alert(isPresented: $showAlert) {
+                Alert(
+                    title: Text("위치 권한 필요"),
+                    message: Text("위치 권한이 필요합니다. 설정에서 권한을 허용해주세요."),
+                    primaryButton: .default(Text("설정으로 이동"), action: {
+                        if let url = URL(string: UIApplication.openSettingsURLString) {
+                            DispatchQueue.main.async {
+                                UIApplication.shared.open(url)
+                            }
+                        }
+                    }),
+                    secondaryButton: .cancel(Text("닫기"))
+                )
+            }
             .onAppear {
                 KeyboardNotificationManager.shared.keyboardNoti { _ in
                     if sheetHeight == .relativeTop(0.78) {
@@ -266,7 +280,9 @@ struct AddPlaceMapView: View {
                         showMapView.toggle()
                     } label: {
                         Text("닫기")
+                            .font(.appFont(16))
                     }
+                    .tint(.appBlack)
                 }
             }
             .navigationTitle("장소 추가")

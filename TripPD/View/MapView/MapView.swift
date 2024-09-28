@@ -35,49 +35,57 @@ struct MapView: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: MKMapView, context: Context) {
-        if isSearched {
-            uiView.removeAnnotations(uiView.annotations)
-            uiView.addAnnotations(annotations)
-            
-            if !annotations.isEmpty {
-                var zoomRect = MKMapRect.null
+        DispatchQueue.main.async {
+            if isSearched {
+                uiView.removeAnnotations(uiView.annotations)
+                uiView.addAnnotations(annotations)
                 
-                if isSelected {
-                    if let selectedAnnotation = self.selectedAnnotation {
-                        withAnimation {
-                            uiView.camera.centerCoordinate = selectedAnnotation.coordinate
+                if !annotations.isEmpty {
+                    var zoomRect = MKMapRect.null
+                    
+                    if isSelected {
+                        if let selectedAnnotation = self.selectedAnnotation {
+                            withAnimation {
+                                uiView.camera.centerCoordinate = selectedAnnotation.coordinate
+                            }
+                            
+                            isSelected = false
+                        }
+                    } else {
+                        for annotation in annotations {
+                            let annotationPoint = MKMapPoint(annotation.coordinate)
+                            let pointRect = MKMapRect(x: annotationPoint.x, y: annotationPoint.y, width: 0.01, height: 0.01)
+                            zoomRect = zoomRect.union(pointRect)
                         }
                         
-                        isSelected = false
+                        uiView.setVisibleMapRect(zoomRect, edgePadding: UIEdgeInsets(top: 50, left: 50, bottom: 50, right: 50), animated: true)
                     }
-                } else {
-                    for annotation in annotations {
-                        let annotationPoint = MKMapPoint(annotation.coordinate)
-                        let pointRect = MKMapRect(x: annotationPoint.x, y: annotationPoint.y, width: 0.01, height: 0.01)
-                        zoomRect = zoomRect.union(pointRect)
-                    }
-                    
-                    uiView.setVisibleMapRect(zoomRect, edgePadding: UIEdgeInsets(top: 50, left: 50, bottom: 50, right: 50), animated: true)
-                }
-            }
-        } else {
-            
-            let mapCamera = MKMapCamera()
-            mapCamera.pitch = 10
-            mapCamera.altitude = 3000
-            uiView.camera = mapCamera
-            
-            uiView.showAnnotations(annotations, animated: true)
-            
-            if let first = annotations.first {
-                DispatchQueue.main.async {
-                    let coordinate = first.coordinate
-                    mapCamera.centerCoordinate = coordinate
-                    uiView.camera = mapCamera
                 }
             } else {
-                let coordinate = CLLocationCoordinate2D(latitude: 37.51786, longitude: 126.88643)
-                uiView.camera.centerCoordinate = coordinate
+                if let locationManager = context.coordinator.locationManager, locationManager.authorizationStatus == .denied {
+                    self.showAlert = true
+                    let defaultCoordinate = CLLocationCoordinate2D(latitude: 37.51786, longitude: 126.88643)
+                    let mapCamera = MKMapCamera(lookingAtCenter: defaultCoordinate, fromDistance: 3000, pitch: 10, heading: 0)
+                    uiView.camera = mapCamera
+                } else {
+                    let mapCamera = MKMapCamera()
+                    mapCamera.pitch = 10
+                    mapCamera.altitude = 3000
+                    uiView.camera = mapCamera
+                    
+                    uiView.showAnnotations(annotations, animated: true)
+                    
+                    if let first = annotations.first {
+                        DispatchQueue.main.async {
+                            let coordinate = first.coordinate
+                            mapCamera.centerCoordinate = coordinate
+                            uiView.camera = mapCamera
+                        }
+                    } else {
+                        let coordinate = CLLocationCoordinate2D(latitude: 37.51786, longitude: 126.88643)
+                        uiView.camera.centerCoordinate = coordinate
+                    }
+                }
             }
         }
     }
@@ -93,7 +101,7 @@ struct MapView: UIViewRepresentable {
             super.init()
             locationManager = CLLocationManager()
             locationManager?.delegate = self
-            locationManager?.requestWhenInUseAuthorization()
+            
         }
         
         func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
@@ -128,17 +136,25 @@ struct MapView: UIViewRepresentable {
 
 extension MapView.Coordinator: CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        switch manager.authorizationStatus {
-        case .notDetermined:
-            manager.requestWhenInUseAuthorization() // 권한 요청
-        case .restricted, .denied:
-            DispatchQueue.main.async {
-                self.parent.showAlert = true // 권한이 거부된 경우 알림 표시
+        var status = manager.authorizationStatus
+        
+        DispatchQueue.main.async {
+            switch status {
+            case .notDetermined:
+                DispatchQueue.main.async {
+                    manager.requestWhenInUseAuthorization()
+                }
+            case .restricted, .denied:
+                DispatchQueue.main.async {
+                    self.parent.showAlert = true
+                }
+            case .authorizedWhenInUse, .authorizedAlways:
+                DispatchQueue.main.async {
+                    manager.startUpdatingLocation()
+                }
+            @unknown default:
+                break
             }
-        case .authorizedWhenInUse, .authorizedAlways:
-            manager.startUpdatingLocation() // 위치 업데이트 시작
-        @unknown default:
-            break
         }
     }
     

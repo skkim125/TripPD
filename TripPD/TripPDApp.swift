@@ -9,11 +9,6 @@ import SwiftUI
 
 @main
 struct TripPDApp: App {
-    
-    init() {
-        Thread.sleep(forTimeInterval: 2)
-    }
-    
     var body: some Scene {
         WindowGroup {
             ContentView()
