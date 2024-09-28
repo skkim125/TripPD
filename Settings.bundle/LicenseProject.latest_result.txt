@@ -1,0 +1,17 @@
+name: Alamofire, nameSpecified: Alamofire, owner: Alamofire, version: 5.9.1, source: https://github.com/Alamofire/Alamofire
+
+name: BottomSheet, nameSpecified: BottomSheet, owner: lucaszischka, version: 3.1.1, source: https://github.com/lucaszischka/BottomSheet
+
+name: HorizonCalendar, nameSpecified: HorizonCalendar, owner: airbnb, version: , source: https://github.com/airbnb/HorizonCalendar
+
+name: PopupView, nameSpecified: PopupView, owner: exyte, version: 3.1.0, source: https://github.com/exyte/PopupView
+
+name: realm-core, nameSpecified: realm-core, owner: realm, version: 20.0.0, source: https://github.com/realm/realm-core
+
+name: realm-swift, nameSpecified: realm-swift, owner: realm, version: 20.0.0, source: https://github.com/realm/realm-swift
+
+name: swiftui-introspect, nameSpecified: swiftui-introspect, owner: siteline, version: 1.3.0, source: https://github.com/siteline/swiftui-introspect
+
+add-version-numbers: true
+
+LicensePlist Version: 3.25.1
