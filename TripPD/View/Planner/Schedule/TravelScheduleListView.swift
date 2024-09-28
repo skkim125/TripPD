@@ -62,6 +62,16 @@ struct TravelScheduleListView: View {
                     .tint(.mainApp)
                     
                 }
+                
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "chevron.backward")
+                            .bold()
+                    }
+                    .tint(.mainApp)
+                }
             }
         }
         .alert(isPresented: $showDeleteAlert) {
@@ -74,6 +84,7 @@ struct TravelScheduleListView: View {
         .navigationTitle("\(travel.title)")
         .navigationBarTitleDisplayMode(.large)
         .navigationBarTitle(20, 30)
+        .navigationBarBackButtonHidden()
     }
     
     func scheduleRow(_ month: String, _ day: String) -> some View {

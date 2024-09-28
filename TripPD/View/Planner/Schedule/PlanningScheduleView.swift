@@ -9,6 +9,7 @@ import SwiftUI
 import RealmSwift
 
 struct PlanningScheduleView: View {
+    @Environment(\.dismiss) private var dismiss
     @ObservedRealmObject var schedule: Schedule
     @State private var showMapView = false
     @State private var deletedPlaceId: ObjectId?
@@ -27,7 +28,7 @@ struct PlanningScheduleView: View {
                     .foregroundStyle(.gray)
                     .position(x: UIScreen.main.bounds.width * 0.5, y: UIScreen.main.bounds.height * 0.35)
             } else {
-                List {
+                SwiftUIList {
                     ForEach(Array(schedule.places).sorted(by: { $0.time < $1.time }), id: \.id) { place in
                         PlaceRowView(schedule: schedule, place: place)
                             .opacity(deletedPlaceId == place.id ? 0 : 1)
@@ -71,9 +72,6 @@ struct PlanningScheduleView: View {
                 .listStyle(.plain)
             }
         }
-        .navigationTitle("\(schedule.dayString)")
-        .navigationBarTitleDisplayMode(.large)
-        .navigationBarTitle(20, 30)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
@@ -87,7 +85,21 @@ struct PlanningScheduleView: View {
                     AddPlaceMapView(schedule: schedule, showMapView: $showMapView)
                 }
             }
+            
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "chevron.backward")
+                        .bold()
+                }
+                .tint(.mainApp)
+            }
         }
+        .navigationTitle("\(schedule.dayString)")
+        .navigationBarTitleDisplayMode(.large)
+        .navigationBarTitle(20, 30)
+        .navigationBarBackButtonHidden()
     }
     
     @ViewBuilder
