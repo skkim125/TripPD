@@ -24,6 +24,7 @@
 		04A46BD42C956C0A005ACE1C /* NavigationTitleModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A46BD32C956C0A005ACE1C /* NavigationTitleModifier.swift */; };
 		04A46BD72C956C6F005ACE1C /* DesignResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A46BD62C956C6F005ACE1C /* DesignResource.swift */; };
 		04A46BD92C95B3BF005ACE1C /* AddPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A46BD82C95B3BF005ACE1C /* AddPhotoView.swift */; };
+		04ADBC8F2CA809A200F6BC6F /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04ADBC8E2CA809A200F6BC6F /* LaunchScreen.swift */; };
 		04BB5F0A2C9D93E200DE7DE3 /* PlanningScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BB5F092C9D93E200DE7DE3 /* PlanningScheduleView.swift */; };
 		04BB5F102C9E91A400DE7DE3 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 04BB5F0F2C9E91A400DE7DE3 /* PopupView */; };
 		04C995A72C97EAEC0017E10A /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 04C995A62C97EAEC0017E10A /* .gitignore */; };
@@ -96,6 +97,7 @@
 		04A46BD32C956C0A005ACE1C /* NavigationTitleModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationTitleModifier.swift; sourceTree = "<group>"; };
 		04A46BD62C956C6F005ACE1C /* DesignResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignResource.swift; sourceTree = "<group>"; };
 		04A46BD82C95B3BF005ACE1C /* AddPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoView.swift; sourceTree = "<group>"; };
+		04ADBC8E2CA809A200F6BC6F /* LaunchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreen.swift; sourceTree = "<group>"; };
 		04BB5F092C9D93E200DE7DE3 /* PlanningScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanningScheduleView.swift; sourceTree = "<group>"; };
 		04C995A62C97EAEC0017E10A /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		04C995AA2C97EDDE0017E10A /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
@@ -204,6 +206,7 @@
 			children = (
 				04EBA0532C92E464002B1CA2 /* ContentView.swift */,
 				04DE1F312C9C1A5D000A25E4 /* CustomTabBar.swift */,
+				04ADBC8E2CA809A200F6BC6F /* LaunchScreen.swift */,
 				04DE1F352C9C7A49000A25E4 /* Planner */,
 				0446A5182CA5210F008C3EA4 /* WebView */,
 				0446A5172CA520FE008C3EA4 /* MapView */,
@@ -511,6 +514,7 @@
 			files = (
 				04EBA0542C92E464002B1CA2 /* ContentView.swift in Sources */,
 				04A46BBD2C9478F0005ACE1C /* MainHomeView.swift in Sources */,
+				04ADBC8F2CA809A200F6BC6F /* LaunchScreen.swift in Sources */,
 				04A46BC82C948289005ACE1C /* LazyWrapperView.swift in Sources */,
 				04EBA0522C92E464002B1CA2 /* TripPDApp.swift in Sources */,
 				04DF05892CA156AD008B2651 /* MapView.swift in Sources */,
@@ -683,6 +687,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"TripPD/Preview Content\"";
@@ -695,6 +700,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -720,6 +726,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"TripPD/Preview Content\"";
@@ -732,6 +739,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;

@@ -9,9 +9,21 @@ import SwiftUI
 
 struct ContentView: View {
     var travelManager = TravelManager.shared
+    @State private var isLaunch = false
     
     var body: some View {
-        CustomTabBar(travelManager)
+        if !isLaunch {
+            LaunchScreen()
+                .onAppear {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        withAnimation {
+                            self.isLaunch = true
+                        }
+                    }
+                }
+        } else {
+            CustomTabBar(travelManager)
+        }
     }
 }
 
