@@ -49,10 +49,9 @@ final class ImageManager {
             in: .userDomainMask).first else { return nil }
         
         let folderURL = documentDirectory.appendingPathComponent("TripPD_CoverImage")
-        
         guard let imageName = imageName else { return nil }
         let fileURL = folderURL.appendingPathComponent(imageName)
-        
+        print(fileURL.path())
         if fileManager.fileExists(atPath: fileURL.path) {
             do {
                 let imageData = try Data(contentsOf: fileURL)
@@ -63,6 +62,29 @@ final class ImageManager {
             }
         } else {
             return nil
+        }
+    }
+    
+    func removeImage(imageName: String?) {
+        guard let documentDirectory = fileManager.urls(
+            for: .documentDirectory,
+            in: .userDomainMask).first else { return }
+        
+        let folderURL = documentDirectory.appendingPathComponent("TripPD_CoverImage")
+        
+        guard let imageName = imageName else { return }
+        let fileURL = folderURL.appendingPathComponent(imageName)
+//        print(fileURL)
+        
+        if fileManager.fileExists(atPath: fileURL.path) {
+            do {
+                try fileManager.removeItem(atPath: fileURL.path())
+                
+            } catch {
+                print("file remove error", error)
+            }
+        } else {
+            print("file no exist")
         }
     }
 }

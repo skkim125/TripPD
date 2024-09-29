@@ -79,6 +79,7 @@ final class TravelManager: ObservableObject {
                     realm.delete(schedule.places)
                     realm.delete(schedule)
                 }
+                ImageManager.shared.removeImage(imageName: travel.coverImageURL)
                 realm.delete(object)
                 travelListForView = convertArray()
             }

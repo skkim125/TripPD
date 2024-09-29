@@ -150,9 +150,10 @@ struct MainHomeView: View {
 //        .onChange(of: showToastView) { _ in
 //            travelManager.sortAction(sortType: sortType)
 //        }
-//        .onAppear {
+        .onAppear {
+            travelManager.detectRealmURL()
 //            travelManager.sortAction(sortType: sortType)
-//        }
+        }
     }
 }
 
