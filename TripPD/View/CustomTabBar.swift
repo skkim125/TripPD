@@ -9,7 +9,7 @@ import SwiftUI
 import MapKit
 
 struct CustomTabBar: View {
-    var travelManager: TravelManager
+    @ObservedObject var travelManager: TravelManager
     @State private var currentTab = "house"
     @State private var showSheet = false
     @State private var showToastView = false
@@ -22,46 +22,42 @@ struct CustomTabBar: View {
     }
     
     var body: some View {
-        GeometryReader { geometry in
-            ZStack(alignment: .init(horizontal: .center, vertical: .bottom)) {
-                TabView(selection: $currentTab) {
-                    LazyWrapperView(MainHomeView(travelManager: travelManager, showToastView: $showToastView))
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .tag(tabs[0])
-                    
-                    LazyWrapperView(UserView())
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .tag(tabs[1])
-                }
+        ZStack(alignment: .init(horizontal: .center, vertical: .bottom)) {
+            TabView(selection: $currentTab) {
+                LazyWrapperView(MainHomeView(travelManager: travelManager, showToastView: $showToastView))
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .tag(tabs[0])
                 
-                LazyHStack(spacing: 150) {
-                    ForEach(tabs, id: \.self) { tabImage in
-                        TabBarButton(image: tabImage, selected: $currentTab, animation: animation)
-                    }
-                }
-                .frame(height: 10)
-                .padding(.horizontal, 20)
-                .padding(.top)
-                .padding(.bottom, geometry.safeAreaInsets.bottom != 0 ? geometry.safeAreaInsets.bottom : 5)
-                .background(.mainApp)
-                .clipShape(.capsule)
-                .shadow(radius: 5)
-                
-                
-                Circle()
-                    .fill(.mainApp)
-                    .frame(width: 60, height: 60)
-                    .overlay {
-                        Button {
-                            showSheet.toggle()
-                        } label: {
-                            Image(systemName: "plus.circle.fill")
-                                .font(.appFont(50))
-                                .foregroundStyle(.mainApp, .ultraThickMaterial)
-                        }
-                    }
-                    .offset(y: -15)
+                LazyWrapperView(UserView())
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .tag(tabs[1])
             }
+            
+            LazyHStack(spacing: 80) {
+                ForEach(tabs, id: \.self) { tabImage in
+                    TabBarButton(image: tabImage, selected: $currentTab, animation: animation)
+                }
+            }
+            .frame(width: nil, height: 60)
+            .background(.mainApp)
+            .clipShape(.capsule)
+            .padding(.horizontal, 20)
+            .padding(.all, 10)
+            .shadow(radius: 5)
+            
+            Circle()
+                .fill(.mainApp)
+                .frame(width: 60, height: 60)
+                .overlay {
+                    Button {
+                        showSheet.toggle()
+                    } label: {
+                        Image(systemName: "plus.circle.fill")
+                            .font(.appFont(50))
+                            .foregroundStyle(.mainApp, .ultraThickMaterial)
+                    }
+                }
+                .padding(.bottom, 25)
         }
         .sheet(isPresented: $showSheet) {
             AddTravelPlannerView(travelManager: travelManager, showSheet: $showSheet, showToastView: $showToastView)
@@ -81,7 +77,7 @@ struct TabBarButton: View {
                 selected = image
             }
         } label: {
-            VStack {
+            VStack(spacing: 10) {
                 Image(systemName: "\(image)")
                     .font(.appFont(20))
                     .foregroundStyle(selected == image ? .ultraThickMaterial : .ultraThinMaterial)
@@ -99,8 +95,10 @@ struct TabBarButton: View {
                             .frame(width: 5, height: 5)
                     }
                 }
+                .padding(.bottom, 10)
             }
         }
+        .padding(.all, 15)
     }
 }
 
