@@ -10,7 +10,7 @@ import MapKit
 
 struct CustomTabBar: View {
     @ObservedObject var travelManager: TravelManager
-    @State private var currentTab = "house"
+    @State private var currentTab: Tab = .home
     @State private var showSheet = false
     @State private var showToastView = false
     
@@ -26,16 +26,16 @@ struct CustomTabBar: View {
             TabView(selection: $currentTab) {
                 LazyWrapperView(MainHomeView(travelManager: travelManager, showToastView: $showToastView))
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .tag(tabs[0])
+                    .tag(Tab.home)
                 
                 LazyWrapperView(UserView())
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .tag(tabs[1])
+                    .tag(Tab.setting)
             }
             
             LazyHStack(spacing: 80) {
-                ForEach(tabs, id: \.self) { tabImage in
-                    TabBarButton(image: tabImage, selected: $currentTab, animation: animation)
+                ForEach(Tab.allCases, id: \.self) { tab in
+                    TabBarButton(tab: tab, selected: $currentTab, animation: animation)
                 }
             }
             .frame(width: nil, height: 60)
@@ -67,20 +67,20 @@ struct CustomTabBar: View {
 }
 
 struct TabBarButton: View {
-    var image: String
-    @Binding var selected: String
+    var tab: Tab
+    @Binding var selected: Tab
     var animation: Namespace.ID
     
     var body: some View {
         Button {
             withAnimation(.spring()) {
-                selected = image
+                selected = tab
             }
         } label: {
             VStack(spacing: 10) {
-                Image(systemName: "\(image)")
+                Image(systemName: tab.rawValue)
                     .font(.appFont(20))
-                    .foregroundStyle(selected == image ? .ultraThickMaterial : .ultraThinMaterial)
+                    .foregroundStyle(selected == tab ? .ultraThickMaterial : .ultraThinMaterial)
                     .padding(.top, 10)
                 
                 ZStack {
@@ -88,7 +88,7 @@ struct TabBarButton: View {
                         .fill(.clear)
                         .frame(width: 5, height: 5)
                     
-                    if selected == image {
+                    if selected == tab {
                         Circle()
                             .fill(.ultraThickMaterial)
                             .matchedGeometryEffect(id: "Tab", in: animation)
@@ -102,7 +102,10 @@ struct TabBarButton: View {
     }
 }
 
-var tabs = ["house", "gear"]
+enum Tab: String, CaseIterable {
+    case home = "house"
+    case setting = "gear"
+}
 
 #Preview {
     CustomTabBar(TravelManager.shared)

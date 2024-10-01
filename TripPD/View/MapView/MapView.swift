@@ -136,7 +136,7 @@ struct MapView: UIViewRepresentable {
 
 extension MapView.Coordinator: CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        var status = manager.authorizationStatus
+        let status = manager.authorizationStatus
         
         DispatchQueue.main.async {
             switch status {
