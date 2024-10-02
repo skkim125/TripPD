@@ -12,7 +12,7 @@ import PopupView
 import RealmSwift
 
 struct AddPlaceMapView: View {
-    @ObservedRealmObject var schedule: Schedule
+    var schedule: ScheduleForView
     @ObservedObject var kakaoLocalManager = KakaoLocalManager.shared
     @Binding var showMapView: Bool
     @FocusState var isFocused: Bool

@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		0446A5122CA4E83C008C3EA4 /* PlaceLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0446A5112CA4E83C008C3EA4 /* PlaceLocationView.swift */; };
 		0446A5162CA4E897008C3EA4 /* PlaceRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0446A5152CA4E897008C3EA4 /* PlaceRowView.swift */; };
+		044A82B22CAD05CA007D3D17 /* TravelForView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044A82B12CAD05CA007D3D17 /* TravelForView.swift */; };
+		044A82B42CAD0992007D3D17 /* ScheduleForView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044A82B32CAD0992007D3D17 /* ScheduleForView.swift */; };
+		044A82B62CAD099A007D3D17 /* PlaceForView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044A82B52CAD099A007D3D17 /* PlaceForView.swift */; };
+		044A82B82CAD09A1007D3D17 /* DiaryForView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044A82B72CAD09A1007D3D17 /* DiaryForView.swift */; };
+		044A82BA2CAD09AB007D3D17 /* FinanceForView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044A82B92CAD09AB007D3D17 /* FinanceForView.swift */; };
 		046CC39C2CA7E6560048F669 /* AppInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046CC39B2CA7E6560048F669 /* AppInfoView.swift */; };
 		046CC3A12CA7EF2F0048F669 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 046CC3A02CA7EF2F0048F669 /* Settings.bundle */; };
 		046CC3A32CA7FAE20048F669 /* PastTravelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046CC3A22CA7FAE20048F669 /* PastTravelView.swift */; };
@@ -82,6 +87,11 @@
 /* Begin PBXFileReference section */
 		0446A5112CA4E83C008C3EA4 /* PlaceLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceLocationView.swift; sourceTree = "<group>"; };
 		0446A5152CA4E897008C3EA4 /* PlaceRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceRowView.swift; sourceTree = "<group>"; };
+		044A82B12CAD05CA007D3D17 /* TravelForView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelForView.swift; sourceTree = "<group>"; };
+		044A82B32CAD0992007D3D17 /* ScheduleForView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleForView.swift; sourceTree = "<group>"; };
+		044A82B52CAD099A007D3D17 /* PlaceForView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceForView.swift; sourceTree = "<group>"; };
+		044A82B72CAD09A1007D3D17 /* DiaryForView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryForView.swift; sourceTree = "<group>"; };
+		044A82B92CAD09AB007D3D17 /* FinanceForView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinanceForView.swift; sourceTree = "<group>"; };
 		046CC39B2CA7E6560048F669 /* AppInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoView.swift; sourceTree = "<group>"; };
 		046CC3A02CA7EF2F0048F669 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		046CC3A22CA7FAE20048F669 /* PastTravelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastTravelView.swift; sourceTree = "<group>"; };
@@ -164,6 +174,18 @@
 				0474E50D2CA3F21400C33D6F /* WebView.swift */,
 			);
 			path = WebView;
+			sourceTree = "<group>";
+		};
+		044A82B02CAD05AE007D3D17 /* SwiftUIViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				044A82B12CAD05CA007D3D17 /* TravelForView.swift */,
+				044A82B32CAD0992007D3D17 /* ScheduleForView.swift */,
+				044A82B52CAD099A007D3D17 /* PlaceForView.swift */,
+				044A82B92CAD09AB007D3D17 /* FinanceForView.swift */,
+				044A82B72CAD09A1007D3D17 /* DiaryForView.swift */,
+			);
+			path = SwiftUIViewModel;
 			sourceTree = "<group>";
 		};
 		04A46BAD2C945BA4005ACE1C /* DesignResource */ = {
@@ -256,7 +278,8 @@
 		04C995B12C99299D0017E10A /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				04DF05742C9FF8F5008B2651 /* Travel */,
+				044A82B02CAD05AE007D3D17 /* SwiftUIViewModel */,
+				04DF05742C9FF8F5008B2651 /* RealmTravelModel */,
 				04DF05752C9FF900008B2651 /* QueryModel */,
 				04DF05782C9FF9A3008B2651 /* ResponseModel */,
 			);
@@ -330,7 +353,7 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
-		04DF05742C9FF8F5008B2651 /* Travel */ = {
+		04DF05742C9FF8F5008B2651 /* RealmTravelModel */ = {
 			isa = PBXGroup;
 			children = (
 				04C995B22C9929A90017E10A /* Travel.swift */,
@@ -340,7 +363,7 @@
 				04C995BA2C992B9D0017E10A /* Diary.swift */,
 				04C995BC2C992BB50017E10A /* Category.swift */,
 			);
-			path = Travel;
+			path = RealmTravelModel;
 			sourceTree = "<group>";
 		};
 		04DF05752C9FF900008B2651 /* QueryModel */ = {
@@ -516,10 +539,13 @@
 				04A46BBD2C9478F0005ACE1C /* MainHomeView.swift in Sources */,
 				04ADBC8F2CA809A200F6BC6F /* LaunchScreen.swift in Sources */,
 				04A46BC82C948289005ACE1C /* LazyWrapperView.swift in Sources */,
+				044A82B62CAD099A007D3D17 /* PlaceForView.swift in Sources */,
 				04EBA0522C92E464002B1CA2 /* TripPDApp.swift in Sources */,
 				04DF05892CA156AD008B2651 /* MapView.swift in Sources */,
+				044A82B82CAD09A1007D3D17 /* DiaryForView.swift in Sources */,
 				04A46BD42C956C0A005ACE1C /* NavigationTitleModifier.swift in Sources */,
 				04DF05872CA0F11D008B2651 /* KeyboardNotificationManager.swift in Sources */,
+				044A82B22CAD05CA007D3D17 /* TravelForView.swift in Sources */,
 				04DF056E2C9FF313008B2651 /* KakaoLocalManager.swift in Sources */,
 				04C995C22C992FC40017E10A /* AddPlannerElementTitleView.swift in Sources */,
 				04C995B72C992B510017E10A /* Place.swift in Sources */,
@@ -536,7 +562,9 @@
 				046CC3A32CA7FAE20048F669 /* PastTravelView.swift in Sources */,
 				0446A5162CA4E897008C3EA4 /* PlaceRowView.swift in Sources */,
 				04C995BD2C992BB50017E10A /* Category.swift in Sources */,
+				044A82B42CAD0992007D3D17 /* ScheduleForView.swift in Sources */,
 				04C995CD2C99B0850017E10A /* DayRangeSelectionHelper.swift in Sources */,
+				044A82BA2CAD09AB007D3D17 /* FinanceForView.swift in Sources */,
 				04BB5F0A2C9D93E200DE7DE3 /* PlanningScheduleView.swift in Sources */,
 				04DE1F322C9C1A5D000A25E4 /* CustomTabBar.swift in Sources */,
 				04974DC32C9B2D39004319DA /* View+Extension.swift in Sources */,

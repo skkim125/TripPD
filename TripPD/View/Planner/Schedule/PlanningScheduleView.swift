@@ -10,9 +10,9 @@ import RealmSwift
 
 struct PlanningScheduleView: View {
     @Environment(\.dismiss) private var dismiss
-    @ObservedRealmObject var schedule: Schedule
+    var schedule: ScheduleForView
     @State private var showMapView = false
-    @State private var deletedPlaceId: ObjectId?
+    @State private var deletedPlaceId: String?
     
     var body: some View {
         VStack {
@@ -118,6 +118,6 @@ struct PlanningScheduleView: View {
     }
 }
 
-#Preview {
-    PlanningScheduleView(schedule: .init(day: Date(), dayString: "", places: List<Place>(), photos: List<String>(), finances: List<Finance>()))
-}
+//#Preview {
+//    PlanningScheduleView(schedule: .init(day: Date(), dayString: "", places: List<Place>(), photos: List<String>(), finances: List<Finance>()))
+//}

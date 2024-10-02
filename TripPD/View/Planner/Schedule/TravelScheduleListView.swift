@@ -9,13 +9,13 @@ import SwiftUI
 import RealmSwift
 
 struct TravelScheduleListView: View {
-    @ObservedRealmObject var travel: Travel
+    var travel: TravelForView
     @Environment(\.dismiss) private var dismiss
     private let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     @State private var showEditView = false
     @State private var showDeleteAlert = false
     
-    init(travel: Travel, showEditView: Bool = false, showDeleteAlert: Bool = false) {
+    init(travel: TravelForView, showEditView: Bool = false, showDeleteAlert: Bool = false) {
         self.travel = travel
         self.showEditView = showEditView
         self.showDeleteAlert = showDeleteAlert
@@ -120,6 +120,6 @@ struct TravelScheduleListView: View {
     }
 }
 
-#Preview {
-    TravelScheduleListView(travel: Travel())
-}
+//#Preview {
+//    TravelScheduleListView(travel: Travel())
+//}

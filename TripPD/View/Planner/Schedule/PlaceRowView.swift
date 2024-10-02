@@ -9,8 +9,8 @@ import SwiftUI
 import MapKit
 
 struct PlaceRowView: View {
-    var schedule: Schedule
-    var place: Place
+    var schedule: ScheduleForView
+    var place: PlaceForView
     
     var body: some View {
         HStack(alignment: .top, spacing: 10) {
@@ -78,8 +78,8 @@ struct PlaceRowView: View {
     }
     
     @ViewBuilder
-    private func times(place: Place) -> some View {
-        if Array(schedule.places).sorted(by: { $0.time < $1.time }).last?.id != place.id {
+    private func times(place: PlaceForView) -> some View {
+        if schedule.places.sorted(by: { $0.time < $1.time }).last?.id != place.id {
             HStack {
                 Rectangle()
                     .fill(.mainApp)
