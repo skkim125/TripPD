@@ -14,4 +14,12 @@ final class Diary: Object, ObjectKeyIdentifiable {
     @Persisted var title: String // 일기 제목
     @Persisted var content: String? // 일기 내용
     @Persisted var photos: RealmList<String> // 사진 모음
+    
+    convenience init(id: ObjectId, title: String, content: String? = nil, photos: RealmList<String>) {
+        self.init()
+        self.id = id
+        self.title = title
+        self.content = content
+        self.photos = photos
+    }
 }
