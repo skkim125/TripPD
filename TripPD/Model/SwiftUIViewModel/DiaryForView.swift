@@ -20,10 +20,10 @@ struct DiaryForView {
         self.photos = photos
     }
     
-    init(diary: Diary) {
-        self.id = diary.id.stringValue
-        self.title = diary.title
-        self.content = diary.content
-        self.photos = diary.photos.map({ $0 })
+    init(diary: Diary?) {
+        self.id = diary?.id.stringValue ?? ""
+        self.title = diary?.title ?? ""
+        self.content = diary?.content ?? ""
+        self.photos = diary?.photos.map({ $0 }) ?? []
     }
 }

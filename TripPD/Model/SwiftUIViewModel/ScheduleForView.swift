@@ -11,12 +11,12 @@ struct ScheduleForView: Identifiable {
     var id = UUID().uuidString
     var day: Date
     var dayString: String
-    var places: [Place]
+    var places: [PlaceForView]
     var photos: [String]
-    var diary: Diary?
-    var finances: [Finance]
+    var diary: DiaryForView?
+    var finances: [FinanceForView]
     
-    init(id: String = UUID().uuidString, day: Date, dayString: String, places: [Place], photos: [String], diary: Diary?, finances: [Finance]) {
+    init(id: String = UUID().uuidString, day: Date, dayString: String, places: [PlaceForView], photos: [String], diary: DiaryForView?, finances: [FinanceForView]) {
         self.id = id
         self.day = day
         self.dayString = dayString
@@ -30,9 +30,9 @@ struct ScheduleForView: Identifiable {
         self.id = schedule.id.stringValue
         self.day = schedule.day
         self.dayString = schedule.dayString
-        self.places = schedule.places.map({ $0 })
+        self.places = schedule.places.map({ PlaceForView(place: $0) })
         self.photos = schedule.photos.map({ $0 })
-        self.diary = schedule.diarys.map({ $0 })
-        self.finances = schedule.finances.map({ $0 })
+        self.diary = schedule.diarys.map({ DiaryForView(diary: $0) })
+        self.finances = schedule.finances.map({  FinanceForView(finance: $0) })
     }
 }

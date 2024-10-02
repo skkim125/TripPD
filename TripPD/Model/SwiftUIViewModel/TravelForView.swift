@@ -35,7 +35,7 @@ struct TravelForView: Identifiable {
         self.date = travel.date
         self.title = travel.title
         self.travelConcept = travel.travelConcept
-        self.travelDate = Array(travel.travelDate)
+        self.travelDate = travel.travelDate.map({ $0 })
         self.schedules = travel.schedules.map({ ScheduleForView(schedule: $0) })
         self.isStar = travel.isStar
         self.isDelete = travel.isDelete
