@@ -66,7 +66,8 @@ final class TravelManager: ObservableObject {
         
         do {
             let realm = try Realm()
-            guard let object = realm.object(ofType: Schedule.self, forPrimaryKey: schedule.id) else { return }
+            let id = try ObjectId(string: schedule.id)
+            guard let object = realm.object(ofType: Schedule.self, forPrimaryKey: id) else { return }
             try realm.write {
                 object.places.append(place)
             }
@@ -97,7 +98,8 @@ final class TravelManager: ObservableObject {
         
         do {
             let realm = try Realm()
-            guard let object = realm.object(ofType: Place.self, forPrimaryKey: place.id) else { return }
+            let id = try ObjectId(string: place.id)
+            guard let object = realm.object(ofType: Place.self, forPrimaryKey: id) else { return }
             try realm.write {
                 realm.delete(object)
             }

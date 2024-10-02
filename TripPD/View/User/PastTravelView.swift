@@ -51,7 +51,7 @@ struct PastTravelView: View {
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden()
         .onAppear {
-            travelManager.travelListForView = travelManager.convertArray().filter({ $0.isDelete })
+            travelManager.travelListForView = travelManager.travelListForView.filter({ $0.isDelete })
         }
     }
 }

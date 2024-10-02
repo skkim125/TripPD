@@ -93,7 +93,7 @@ struct AddTravelPlannerView: View {
                     Button {
                         let url = ImageManager.shared.saveImage(imageData: image)
                         
-                        travelManager.addTravelPlanner(date: Date(), title: title, travelConcept: travelConcept, travelDate: dates, coverImageURL: url)
+                        travelManager.addTravel(date: Date(), title: title, travelConcept: travelConcept, travelDate: dates, coverImageURL: url)
                         
                         print("추가 완료")
                         
