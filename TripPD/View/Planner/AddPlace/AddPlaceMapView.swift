@@ -13,9 +13,9 @@ import RealmSwift
 
 struct AddPlaceMapView: View {
     var schedule: ScheduleForView
+    private let networkMonitor = NetworkMonitor.shared
     @ObservedObject var kakaoLocalManager = KakaoLocalManager.shared
     @Binding var showMapView: Bool
-    @FocusState var isFocused: Bool
     @State var offset: CGFloat = 0
     @State private var keyboardHeight: CGFloat = 0
     @State private var isSearched: Bool = false
@@ -46,6 +46,7 @@ struct AddPlaceMapView: View {
                 SearchListHeaderView(annotations: $annotations, sheetHeight: $sheetHeight, isSelected: $isSelected, isSearched: $isSearched, showNoResults: $showNoResults, showNetworkErrorAlert: $showNetworkErrorAlert, showNetworkErrorAlertTitle: $showNetworkErrorAlertTitle)
             }){
                 if isSelected && showPlaceWebView {
+                    if networkMonitor.isConnected {
                         VStack {
                             HStack {
                                 
@@ -72,6 +73,31 @@ struct AddPlaceMapView: View {
                                     showPlaceWebView = !newURL.isEmpty
                                 }
                         }
+                    } else {
+                        VStack(spacing: 15) {
+                            Text("네트워크 연결이 되어있지 않습니다")
+                                .font(.appFont(15))
+                            
+                            Text("네트워크 연결 후 다시 시도해주세요")
+                                .font(.appFont(12))
+                            
+                            Button {
+                                networkMonitor.checkConnect()
+                            } label: {
+                                Image("arrow.clockwise.circle.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 20, height: 20)
+                            }
+                            .frame(width: 20, height: 20)
+                            .tint(.mainApp)
+                        }
+                        .multilineTextAlignment(.center)
+                        .padding(.top, 30)
+                        .onAppear {
+                            sheetHeight = .absolute(365)
+                        }
+                    }
                 }
             }
             .showDragIndicator(false)
@@ -108,117 +134,7 @@ struct AddPlaceMapView: View {
                     .background(.background)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                     .overlay {
-                        if let place = isSelectedPlace {
-                            VStack {
-                                HStack(alignment: .center) {
-                                    Button {
-                                        showAddPlacePopupView.toggle()
-                                    } label: {
-                                        Image(systemName: "xmark.circle.fill")
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: 25)
-                                    }
-                                    .tint(.gray)
-                                    .frame(alignment: .leading)
-                                    
-                                    Spacer()
-                                    
-                                    Text("\(place.placeName)")
-                                        .foregroundStyle(Color(uiColor: .label).gradient)
-                                        .font(.appFont(20))
-                                        .multilineTextAlignment(.center)
-                                    
-                                    Spacer()
-                                    
-                                    Button {
-                                        let lat = Double(place.lat) ?? 0.0
-                                        let lon = Double(place.lon) ?? 0.0
-                                        TravelManager.shared.addPlace(schedule: schedule, time: travelTime, name: place.placeName, address: place.roadAddress, placeMemo: placeMemo , lat: lat, lon: lon)
-                                        showAddPlacePopupView.toggle()
-                                    } label: {
-                                        Text("추가")
-                                            .foregroundStyle(.mainApp)
-                                            .font(.appFont(20))
-                                    }
-                                    .tint(.gray)
-                                    .frame(alignment: .trailing)
-                                }
-                                .padding()
-                                .padding(.horizontal, 10)
-                                
-                                Spacer()
-                                
-                                Text("\(place.roadAddress)")
-                                    .foregroundStyle(Color(uiColor: .label).gradient)
-                                    .font(.appFont(14))
-                                    .multilineTextAlignment(.center)
-                                    .padding(.bottom, 50)
-                                
-                                HStack(alignment: .center) {
-                                    Text("여행 시간")
-                                        .font(.appFont(16))
-                                    
-                                    DatePicker("", selection: $travelTime, in: schedule.day...,displayedComponents: .hourAndMinute)
-                                        .padding()
-                                        .datePickerStyle(.wheel)
-                                        .frame(height: 50)
-                                        .padding()
-                                        .labelsHidden()
-                                }
-                                .padding(.vertical, 5)
-                                
-                                VStack {
-                                    RoundedRectangle(cornerRadius: 8)
-                                        .stroke(.mainApp.gradient)
-                                        .foregroundStyle(.bar)
-                                        .overlay {
-                                            ZStack {
-                                                TextEditor(text: $placeMemo)
-                                                    .font(.appFont(14))
-                                                    .submitLabel(.done)
-                                                    .padding(.init(top: 0, leading: 6, bottom: 0, trailing: 6))
-                                                    .onChange(of: placeMemo) { _ in
-                                                        if placeMemo.count > 30 {
-                                                            placeMemo = String(placeMemo.prefix(30))
-                                                        }
-                                                        
-                                                        if placeMemo.last?.isNewline == true {
-                                                            placeMemo.removeLast()
-                                                            isFocused = false
-                                                        }
-                                                    }
-                                                    .frame(height: 50)
-                                                
-                                                VStack {
-                                                    Text("메모 하기")
-                                                        .foregroundStyle(Color(uiColor: .placeholderText))
-                                                        .font(.appFont(14))
-                                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                                        .padding(.top, 15)
-                                                        .padding(.leading, 11)
-                                                        .opacity(placeMemo.isEmpty ? 1: 0)
-                                                    
-                                                    Spacer()
-                                                    
-                                                    Text("(\(placeMemo.count) / 45)")
-                                                        .font(.system(size: 13))
-                                                        .foregroundStyle(.gray)
-                                                        .padding(.init(top: 0, leading: 0, bottom: 10, trailing: 10))
-                                                        .frame(maxWidth: .infinity, alignment: .trailing)
-                                                }
-                                            }
-                                        }
-                                        .frame(height: 60)
-                                        .focused($isFocused)
-                                        .id("memo")
-                                }
-                                .padding(.all, 10)
-                                .padding(.top, 30)
-                                .padding(.bottom, 10)
-                                .padding(.horizontal, 20)
-                            }
-                        }
+                        AddPlaceView(schedule: schedule, isSelectedPlace: $isSelectedPlace ,showAddPlacePopupView: $showAddPlacePopupView)
                     }
                     .frame(maxWidth: .infinity, alignment: .center)
                     .frame(height: 350)
@@ -235,6 +151,12 @@ struct AddPlaceMapView: View {
                     .backgroundView {
                         Color.black.opacity(0.3)
                     }
+            }
+            .onChange(of: networkMonitor.isConnected) { value in
+                if !value {
+                    showNetworkErrorAlert = true
+                    showNetworkErrorAlertTitle = "네트워크가 연결되어있지 않습니다."
+                }
             }
             .alert(isPresented: $showAlert) {
                 Alert(
