@@ -20,7 +20,7 @@ final class KakaoLocalManager: ObservableObject {
         do {
             let request = try KakaoLocalRouter.search(searchQuery).asURLRequest()
             
-            AF.request(request).responseDecodable(of: SearchPlaceResponseModel.self) { response in
+            AF.request(request).validate(statusCode: 200..<300).responseDecodable(of: SearchPlaceResponseModel.self) { response in
                     completionHandler(response.result)
             }
         } catch {

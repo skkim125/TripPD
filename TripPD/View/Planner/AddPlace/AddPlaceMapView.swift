@@ -32,6 +32,8 @@ struct AddPlaceMapView: View {
     @State private var placeURL = ""
     @State private var travelTime = Date()
     @State private var placeMemo = ""
+    @State private var showNetworkErrorAlert = false
+    @State private var showNetworkErrorAlertTitle = ""
     
     var body: some View {
         NavigationStack {
@@ -41,7 +43,7 @@ struct AddPlaceMapView: View {
                 showPlaceWebView = true
             }
             .bottomSheet(bottomSheetPosition: $sheetHeight, switchablePositions: [.relativeBottom(0.15), .absolute(365), .relativeTop(0.78)], headerContent: {
-                SearchListHeaderView(annotations: $annotations, sheetHeight: $sheetHeight, isSelected: $isSelected, isSearched: $isSearched, showNoResults: $showNoResults)
+                SearchListHeaderView(annotations: $annotations, sheetHeight: $sheetHeight, isSelected: $isSelected, isSearched: $isSearched, showNoResults: $showNoResults, showNetworkErrorAlert: $showNetworkErrorAlert, showNetworkErrorAlertTitle: $showNetworkErrorAlertTitle)
             }){
                 if isSelected && showPlaceWebView {
                         VStack {
@@ -248,6 +250,13 @@ struct AddPlaceMapView: View {
                     secondaryButton: .cancel(Text("닫기"))
                 )
             }
+            .alert(showNetworkErrorAlertTitle, isPresented: $showNetworkErrorAlert, actions: {
+                Button("확인") {
+                    showNetworkErrorAlert.toggle()
+                }
+            }, message: {
+                Text("잠시 후 다시 시도해주세요")
+            })
             .onAppear {
                 KeyboardNotificationManager.shared.keyboardNoti { _ in
                     if sheetHeight == .relativeTop(0.78) {

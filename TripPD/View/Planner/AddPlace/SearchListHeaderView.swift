@@ -20,6 +20,8 @@ struct SearchListHeaderView: View {
     @State private var query = ""
     @State private var page = 1
     @State private var sort: SearchSort = .accuracy
+    @Binding var showNetworkErrorAlert: Bool
+    @Binding var showNetworkErrorAlertTitle: String
     
     var body: some View {
         VStack {
@@ -58,7 +60,12 @@ struct SearchListHeaderView: View {
                                             annotations.append(annotation)
                                         }
                                     case .failure(let failure):
-                                        print(failure)
+                                        showNetworkErrorAlert.toggle()
+                                        if failure.isSessionTaskError {
+                                            showNetworkErrorAlertTitle = "네트워크 연결이 불안정합니다."
+                                        } else {
+                                            showNetworkErrorAlertTitle = "알 수 없는 에러입니다."
+                                        }
                                     }
                                 }
                             }
