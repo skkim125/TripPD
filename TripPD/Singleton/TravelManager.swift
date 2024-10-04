@@ -28,10 +28,20 @@ final class TravelManager: ObservableObject {
             let realm = try Realm()
             let results = realm.objects(Travel.self)
             
-            token = results.observe({ [weak self] changes in
+            token = results.observe({ [weak self] _ in
                 guard let self = self else { return }
+                
                 self.travelListForView = results.map(TravelForView.init)
+                
+                self.travelListForView.filter({ !$0.isDelete }).forEach { travel in
+                    if !Date.compareDate(travel.travelDate) {
+                        self.updateDelete(realm: realm, results: results, travel: travel)
+                    }
+                }
+                
+                self.objectWillChange.send()
             })
+            
         } catch let error {
             print("옵저버 셋팅 실패")
             print(error.localizedDescription)
@@ -70,6 +80,18 @@ final class TravelManager: ObservableObject {
             guard let object = realm.object(ofType: Schedule.self, forPrimaryKey: id) else { return }
             try realm.write {
                 object.places.append(place)
+            }
+        } catch {
+            
+        }
+    }
+    
+    func updateDelete(realm: Realm, results: Results<Travel> ,travel: TravelForView) {
+        do {
+            let newTravel = results.filter { $0.id.stringValue == travel.id }.first
+            
+            try realm.write {
+                newTravel?.isDelete = true
             }
         } catch {
             

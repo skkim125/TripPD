@@ -12,14 +12,12 @@ struct PastTravelView: View {
     var travelManager = TravelManager.shared
     var body: some View {
         VStack {
-            
-            if travelManager.travelList.filter({ $0.isDelete }).isEmpty {
+            if travelManager.travelListForView.filter({ $0.isDelete }).isEmpty {
                 Text("아직 지나간 여행이 없어요.")
                     .font(.footnote)
                     .foregroundStyle(.gray)
                     .multilineTextAlignment(.center)
                     .position(x: UIScreen.main.bounds.width * 0.5, y: UIScreen.main.bounds.height * 0.35)
-                
             } else {
                 ScrollView {
                     LazyVStack {
@@ -50,9 +48,6 @@ struct PastTravelView: View {
         .navigationTitle("지난 여행")
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden()
-        .onAppear {
-            travelManager.travelListForView = travelManager.travelListForView.filter({ $0.isDelete })
-        }
     }
 }
 
