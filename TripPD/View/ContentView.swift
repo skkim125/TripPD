@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ContentView: View {
-    var travelManager = TravelManager.shared
     @State private var isLaunch = false
     
     var body: some View {
@@ -22,7 +21,7 @@ struct ContentView: View {
                     }
                 }
         } else {
-            CustomTabBar(travelManager)
+            CustomTabBar()
         }
     }
 }

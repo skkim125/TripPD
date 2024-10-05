@@ -11,10 +11,15 @@ import PopupView
 
 struct MainHomeView: View {
     @ObservedObject var travelManager: TravelManager
-    @State private var isStarSorted = false
-    @State private var showSheet = false
-    @State private var sortType: SortType = .def
-    @Binding var showToastView: Bool
+    @ObservedObject var viewModel: MainHomeViewModel
+//    @State private var isStarSorted = false
+//    @State private var sortType: SortType = .def
+//    @Binding var showToastView: Bool
+    
+    init(travelManager: TravelManager, viewModel: MainHomeViewModel) {
+        self.travelManager = travelManager
+        self.viewModel = viewModel
+    }
     
     var body: some View {
         NavigationStack {
@@ -65,7 +70,7 @@ struct MainHomeView: View {
                     }
                 }
             }
-            .popup(isPresented: $showToastView) {
+            .popup(isPresented: $viewModel.showToastView) {
                 RoundedRectangle(cornerRadius: 8)
                     .stroke(.mainApp.gradient, lineWidth: 2)
                     .background(.background)
@@ -87,7 +92,7 @@ struct MainHomeView: View {
                     .type(.toast)
                     .position(.bottom)
             }
-            .onChange(of: sortType) { newValue in
+            .onChange(of: viewModel.sortType) { newValue in
                 travelManager.sortAction(sortType: newValue)
             }
             .toolbar {
@@ -115,7 +120,7 @@ struct MainHomeView: View {
                 
                 ToolbarItem(placement: .topBarTrailing) {
                     Menu {
-                        Picker("정렬", selection: $sortType) {
+                        Picker("정렬", selection: $viewModel.sortType) {
                             ForEach(SortType.allCases) { value in
                                 Text(value.title)
                             }
@@ -135,19 +140,19 @@ struct MainHomeView: View {
             }
             .navigationBarTitle(20, 30)
         }
-        .onChange(of: showToastView) { _ in
-            travelManager.sortAction(sortType: sortType)
+        .onChange(of: viewModel.showToastView) { _ in
+            travelManager.sortAction(sortType: viewModel.sortType)
         }
         .onAppear {
             travelManager.detectRealmURL()
-            travelManager.sortAction(sortType: sortType)
+            travelManager.sortAction(sortType: viewModel.sortType)
         }
     }
 }
 
-#Preview {
-    MainHomeView(travelManager: TravelManager.shared, showToastView: .constant(false))
-}
+//#Preview {
+//    MainHomeView(travelManager: TravelManager.shared, showToastView: .constant(false))
+//}
 
 enum SortType: String, CaseIterable, Identifiable {
     case def

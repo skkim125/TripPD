@@ -10,21 +10,20 @@ import MapKit
 
 struct CustomTabBar: View {
     @ObservedObject var travelManager: TravelManager
-    @State private var currentTab: Tab = .home
-    @State private var showSheet = false
-    @State private var showToastView = false
+    @ObservedObject var viewModel: CustomTabBarViewModel
     
     @Namespace var animation
     
-    init(_ travelManager: TravelManager) {
+    init() {
         UITabBar.appearance().isHidden = true
-        self.travelManager = travelManager
+        self.travelManager = TravelManager.shared
+        self.viewModel = CustomTabBarViewModel()
     }
     
     var body: some View {
         ZStack(alignment: .init(horizontal: .center, vertical: .bottom)) {
-            TabView(selection: $currentTab) {
-                LazyWrapperView(MainHomeView(travelManager: travelManager, showToastView: $showToastView))
+            TabView(selection: $viewModel.selectedTab) {
+                LazyWrapperView(MainHomeView(travelManager: travelManager, viewModel: MainHomeViewModel(showToastView: viewModel.showToastView)))
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .tag(Tab.home)
                 
@@ -35,7 +34,7 @@ struct CustomTabBar: View {
             
             LazyHStack(spacing: 80) {
                 ForEach(Tab.allCases, id: \.self) { tab in
-                    TabBarButton(tab: tab, selected: $currentTab, animation: animation)
+                    TabBarButton(tab: tab, selected: $viewModel.selectedTab, viewModel: viewModel, animation: animation)
                 }
             }
             .frame(width: nil, height: 60)
@@ -50,7 +49,7 @@ struct CustomTabBar: View {
                 .frame(width: 60, height: 60)
                 .overlay {
                     Button {
-                        showSheet.toggle()
+                        viewModel.action(action: .showSheet)
                     } label: {
                         Image(systemName: "plus.circle.fill")
                             .font(.appFont(50))
@@ -59,46 +58,10 @@ struct CustomTabBar: View {
                 }
                 .padding(.bottom, 25)
         }
-        .sheet(isPresented: $showSheet) {
-            AddTravelPlannerView(travelManager: travelManager, showSheet: $showSheet, showToastView: $showToastView)
+        .sheet(isPresented: $viewModel.showSheet) {
+            AddTravelPlannerView(travelManager: travelManager, showSheet: $viewModel.showSheet, showToastView: $viewModel.showToastView)
                 .ignoresSafeArea()
         }
-    }
-}
-
-struct TabBarButton: View {
-    var tab: Tab
-    @Binding var selected: Tab
-    var animation: Namespace.ID
-    
-    var body: some View {
-        Button {
-            withAnimation(.spring()) {
-                selected = tab
-            }
-        } label: {
-            VStack(spacing: 10) {
-                Image(systemName: tab.rawValue)
-                    .font(.appFont(20))
-                    .foregroundStyle(selected == tab ? .ultraThickMaterial : .ultraThinMaterial)
-                    .padding(.top, 10)
-                
-                ZStack {
-                    Circle()
-                        .fill(.clear)
-                        .frame(width: 5, height: 5)
-                    
-                    if selected == tab {
-                        Circle()
-                            .fill(.ultraThickMaterial)
-                            .matchedGeometryEffect(id: "Tab", in: animation)
-                            .frame(width: 5, height: 5)
-                    }
-                }
-                .padding(.bottom, 10)
-            }
-        }
-        .padding(.all, 15)
     }
 }
 
@@ -108,5 +71,5 @@ enum Tab: String, CaseIterable {
 }
 
 #Preview {
-    CustomTabBar(TravelManager.shared)
+    CustomTabBar()
 }

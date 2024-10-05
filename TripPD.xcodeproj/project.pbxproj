@@ -16,6 +16,9 @@
 		044A82BA2CAD09AB007D3D17 /* FinanceForView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044A82B92CAD09AB007D3D17 /* FinanceForView.swift */; };
 		044A82C02CAEA4EA007D3D17 /* AddPlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044A82BF2CAEA4EA007D3D17 /* AddPlaceView.swift */; };
 		044A82C22CAEA97F007D3D17 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044A82C12CAEA97F007D3D17 /* NetworkMonitor.swift */; };
+		044A82CC2CB034FC007D3D17 /* MainHomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044A82CB2CB034FC007D3D17 /* MainHomeViewModel.swift */; };
+		044A82CE2CB035E8007D3D17 /* CustomTabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044A82CD2CB035E8007D3D17 /* CustomTabBarViewModel.swift */; };
+		044A82D02CB11F17007D3D17 /* TabBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044A82CF2CB11F17007D3D17 /* TabBarButton.swift */; };
 		046CC39C2CA7E6560048F669 /* AppInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046CC39B2CA7E6560048F669 /* AppInfoView.swift */; };
 		046CC3A12CA7EF2F0048F669 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 046CC3A02CA7EF2F0048F669 /* Settings.bundle */; };
 		046CC3A32CA7FAE20048F669 /* PastTravelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046CC3A22CA7FAE20048F669 /* PastTravelView.swift */; };
@@ -96,6 +99,9 @@
 		044A82B92CAD09AB007D3D17 /* FinanceForView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinanceForView.swift; sourceTree = "<group>"; };
 		044A82BF2CAEA4EA007D3D17 /* AddPlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlaceView.swift; sourceTree = "<group>"; };
 		044A82C12CAEA97F007D3D17 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
+		044A82CB2CB034FC007D3D17 /* MainHomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainHomeViewModel.swift; sourceTree = "<group>"; };
+		044A82CD2CB035E8007D3D17 /* CustomTabBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarViewModel.swift; sourceTree = "<group>"; };
+		044A82CF2CB11F17007D3D17 /* TabBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarButton.swift; sourceTree = "<group>"; };
 		046CC39B2CA7E6560048F669 /* AppInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoView.swift; sourceTree = "<group>"; };
 		046CC3A02CA7EF2F0048F669 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		046CC3A22CA7FAE20048F669 /* PastTravelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastTravelView.swift; sourceTree = "<group>"; };
@@ -192,6 +198,15 @@
 			path = SwiftUIViewModel;
 			sourceTree = "<group>";
 		};
+		044A82C62CB024CD007D3D17 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				044A82CD2CB035E8007D3D17 /* CustomTabBarViewModel.swift */,
+				044A82CB2CB034FC007D3D17 /* MainHomeViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		04A46BAD2C945BA4005ACE1C /* DesignResource */ = {
 			isa = PBXGroup;
 			children = (
@@ -232,6 +247,7 @@
 			children = (
 				04EBA0532C92E464002B1CA2 /* ContentView.swift */,
 				04DE1F312C9C1A5D000A25E4 /* CustomTabBar.swift */,
+				044A82CF2CB11F17007D3D17 /* TabBarButton.swift */,
 				04ADBC8E2CA809A200F6BC6F /* LaunchScreen.swift */,
 				04DE1F352C9C7A49000A25E4 /* Planner */,
 				0446A5182CA5210F008C3EA4 /* WebView */,
@@ -428,6 +444,7 @@
 				04A46BB52C945D30005ACE1C /* Info.plist */,
 				04EBA0512C92E464002B1CA2 /* TripPDApp.swift */,
 				04A46BC92C9483D8005ACE1C /* View */,
+				044A82C62CB024CD007D3D17 /* ViewModel */,
 				04EBA0552C92E465002B1CA2 /* Assets.xcassets */,
 				04EBA0572C92E465002B1CA2 /* Preview Content */,
 				04C995AA2C97EDDE0017E10A /* APIKey.swift */,
@@ -557,6 +574,8 @@
 				04C995C22C992FC40017E10A /* AddPlannerElementTitleView.swift in Sources */,
 				04C995B72C992B510017E10A /* Place.swift in Sources */,
 				04F7CF312CA29DF80061A056 /* SearchListHeaderView.swift in Sources */,
+				044A82D02CB11F17007D3D17 /* TabBarButton.swift in Sources */,
+				044A82CE2CB035E8007D3D17 /* CustomTabBarViewModel.swift in Sources */,
 				04DF05852CA08304008B2651 /* AddPlaceMapView.swift in Sources */,
 				04A46BCF2C95497D005ACE1C /* TravelMapView.swift in Sources */,
 				044A82C02CAEA4EA007D3D17 /* AddPlaceView.swift in Sources */,
@@ -565,6 +584,7 @@
 				04C995AB2C97EDDE0017E10A /* APIKey.swift in Sources */,
 				04A46BD72C956C6F005ACE1C /* DesignResource.swift in Sources */,
 				04C995CF2C99B1CA0017E10A /* CustomCalendarView.swift in Sources */,
+				044A82CC2CB034FC007D3D17 /* MainHomeViewModel.swift in Sources */,
 				04C995D42C9A8A890017E10A /* TravelManager.swift in Sources */,
 				04A46BD92C95B3BF005ACE1C /* AddPhotoView.swift in Sources */,
 				046CC3A32CA7FAE20048F669 /* PastTravelView.swift in Sources */,
@@ -725,7 +745,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.01;
+				CURRENT_PROJECT_VERSION = 1.02;
 				DEVELOPMENT_ASSET_PATHS = "\"TripPD/Preview Content\"";
 				DEVELOPMENT_TEAM = K7C455FTM9;
 				ENABLE_PREVIEWS = YES;
@@ -744,7 +764,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.01;
+				MARKETING_VERSION = 1.02;
 				PRODUCT_BUNDLE_IDENTIFIER = com.harvey.trippd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -764,7 +784,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.01;
+				CURRENT_PROJECT_VERSION = 1.02;
 				DEVELOPMENT_ASSET_PATHS = "\"TripPD/Preview Content\"";
 				DEVELOPMENT_TEAM = K7C455FTM9;
 				ENABLE_PREVIEWS = YES;
@@ -783,7 +803,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.01;
+				MARKETING_VERSION = 1.02;
 				PRODUCT_BUNDLE_IDENTIFIER = com.harvey.trippd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
