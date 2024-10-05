@@ -9,16 +9,13 @@ import SwiftUI
 import RealmSwift
 
 struct TravelScheduleListView: View {
-    var travel: TravelForView
     @Environment(\.dismiss) private var dismiss
+    @ObservedObject private var viewModel: TravelScheduleListViewModel
     private let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
-    @State private var showEditView = false
-    @State private var showDeleteAlert = false
     
-    init(travel: TravelForView, showEditView: Bool = false, showDeleteAlert: Bool = false) {
-        self.travel = travel
-        self.showEditView = showEditView
-        self.showDeleteAlert = showDeleteAlert
+    init(travel: TravelForView) {
+        
+        self.viewModel = TravelScheduleListViewModel(travel: travel)
         
         let fontAppearance = UINavigationBarAppearance()
         fontAppearance.titleTextAttributes = [.font: UIFont.appFont(20), .foregroundColor: UIColor.mainApp]
@@ -33,7 +30,7 @@ struct TravelScheduleListView: View {
         NavigationStack {
             ScrollView {
                 LazyVGrid(columns: columns) {
-                    ForEach(travel.schedules, id: \.id) { schedule in
+                    ForEach(viewModel.travel.schedules, id: \.id) { schedule in
                         NavigationLink {
                             PlanningScheduleView(schedule: schedule)
                         } label: {
@@ -50,7 +47,7 @@ struct TravelScheduleListView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     Menu {
                         Button(role: .destructive) {
-                            showDeleteAlert.toggle()
+                            viewModel.action(action: .showDeleteAlert)
                         } label: {
                             Text("여행 삭제")
                             Image(systemName: "trash")
@@ -74,14 +71,13 @@ struct TravelScheduleListView: View {
                 }
             }
         }
-        .alert(isPresented: $showDeleteAlert) {
+        .alert(isPresented: $viewModel.showDeleteAlert) {
             Alert(title: Text("정말로 여행 플랜을 삭제하시겠습니까?"), message: Text("삭제 이후 복구할 수 없습니다."), primaryButton: .cancel(Text("아니요")), secondaryButton: .destructive(Text("예"), action: {
-                TravelManager.shared.removeTravel(travel: travel)
+                viewModel.action(action: .deleteAction)
                 dismiss()
-                print("삭제됨")
             }))
         }
-        .navigationTitle("\(travel.title)")
+        .navigationTitle("\(viewModel.travel.title)")
         .navigationBarTitleDisplayMode(.large)
         .navigationBarTitle(20, 30)
         .navigationBarBackButtonHidden()

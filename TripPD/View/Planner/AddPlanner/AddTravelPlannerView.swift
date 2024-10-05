@@ -9,35 +9,11 @@ import SwiftUI
 import PhotosUI
 
 struct AddTravelPlannerView: View {
-    @ObservedObject var travelManager: TravelManager
-    
-    @Binding var showSheet: Bool
-    @Binding var showToastView: Bool
-    @State private var title = ""
-    @State private var travelConcept = ""
-    @State private var image: Data?
-    @State private var dates: [Date] = []
-    @State private var showDatePickerView = false
-    @State private var showPHPickeView = false
+    @ObservedObject var viewModel: AddTravelPlannerViewModel
     @FocusState var isFocused: Bool
-    
-    var isFilled: Bool {
-        !title.trimmingCharacters(in: .whitespaces).isEmpty && !dates.isEmpty
-    }
-    
-    var dateText: String {
-        if let firstDay = dates.first, let lastDay = dates.last {
-            let first = firstDay.customDateFormatter(.coverView)
-            let last = lastDay.customDateFormatter(.coverView)
-            
-            if first == last {
-                return "\(first)"
-            } else {
-                return "\(first) ~ \(last)"
-            }
-        } else {
-            return ""
-        }
+
+    init(viewModel: CustomTabBarViewModel) {
+        self.viewModel = AddTravelPlannerViewModel(viewModel: viewModel)
     }
     
     var body: some View {
@@ -59,9 +35,9 @@ struct AddTravelPlannerView: View {
                         .padding(.top, 20)
                         .focused($isFocused)
                         .id("concept")
-                        .onChange(of: travelConcept) { _ in
-                            if travelConcept.last?.isNewline == true {
-                                travelConcept.removeLast()
+                        .onChange(of: viewModel.travelConcept) { value in
+                            if value.last?.isNewline == true {
+                                viewModel.travelConcept.removeLast()
                                 isFocused = false
                             }
                         }
@@ -81,7 +57,7 @@ struct AddTravelPlannerView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
-                        showSheet.toggle()
+                        viewModel.action(action: .showSheet)
                     } label: {
                         Image(systemName: "xmark")
                             .foregroundStyle(.red.gradient)
@@ -91,22 +67,13 @@ struct AddTravelPlannerView: View {
                 
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        let url = ImageManager.shared.saveImage(imageData: image)
-                        
-                        travelManager.addTravel(date: Date(), title: title, travelConcept: travelConcept, travelDate: dates, coverImageURL: url)
-                        
-                        print("추가 완료")
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            showSheet.toggle()
-                            showToastView.toggle()
-                        }
+                        viewModel.action(action: .addButtonAction)
                     } label: {
                         Text("추가")
-                            .foregroundStyle(isFilled ? (Color.mainApp.gradient) : Color.gray.gradient).bold()
+                            .foregroundStyle(viewModel.isFilled ? (Color.mainApp.gradient) : Color.gray.gradient).bold()
                             .font(.appFont(16))
                     }
-                    .disabled(!isFilled)
+                    .disabled(!viewModel.isFilled)
                 }
             }
             .navigationBarTitle(20, 30)
@@ -133,18 +100,18 @@ extension AddTravelPlannerView {
                     .foregroundStyle(.bar)
                     .overlay {
                         ZStack {
-                            TextField(type.descript, text: $title)
+                            TextField(type.descript, text: $viewModel.title)
                                 .textFieldStyle(.plain)
                                 .padding(.horizontal, 10)
                                 .font(.appFont(14))
                                 .submitLabel(.done)
-                                .onChange(of: title) { _ in
-                                    if title.count > 10 {
-                                        title = String(title.prefix(10))
+                                .onChange(of: viewModel.title) { value in
+                                    if value.count > 10 {
+                                        viewModel.title = String(value.prefix(10))
                                     }
                                 }
                             
-                            Text("(\(title.count) / 10)")
+                            Text("(\(viewModel.title.count) / 10)")
                                 .font(.system(size: 13))
                                 .foregroundStyle(.gray)
                                 .padding(.init(top: 0, leading: 0, bottom: 0, trailing: 10))
@@ -165,8 +132,8 @@ extension AddTravelPlannerView {
                         .foregroundStyle(.bar)
                         .overlay {
                             HStack {
-                                Text(dates.isEmpty ? type.descript : dateText)
-                                    .foregroundStyle(dates.isEmpty ? .gray.opacity(0.5) : .mainApp)
+                                Text(viewModel.dates.isEmpty ? type.descript : viewModel.dateText)
+                                    .foregroundStyle(viewModel.dates.isEmpty ? .gray.opacity(0.5) : .mainApp)
                                     .padding(.horizontal, 10)
                                     .font(.appFont(14))
                                     .multilineTextAlignment(.leading)
@@ -177,19 +144,21 @@ extension AddTravelPlannerView {
                         .frame(height: 40)
                         .padding(.trailing, 10)
                         .onTapGesture {
-                            showDatePickerView.toggle()
+                            viewModel.action(action: .showDatePickerView)
+//                            showDatePickerView.toggle()
                         }
                     
                     Button {
-                        showDatePickerView.toggle()
+                        viewModel.action(action: .showDatePickerView)
+//                        showDatePickerView.toggle()
                     } label: {
                         Image(systemName: "calendar")
                             .resizable()
                     }
                     .frame(width: 35, height: 35)
                     .tint(.mainApp)
-                    .sheet(isPresented: $showDatePickerView) {
-                        CustomCalendarView(selectedDates: $dates, showDatePickerView: $showDatePickerView)
+                    .sheet(isPresented: $viewModel.showDatePickerView) {
+                        CustomCalendarView(selectedDates: $viewModel.dates, showDatePickerView: $viewModel.showDatePickerView)
                             .presentationDetents([.medium])
                     }
                 }
@@ -205,13 +174,13 @@ extension AddTravelPlannerView {
                     .foregroundStyle(.bar)
                     .overlay {
                         ZStack {
-                            TextEditor(text: $travelConcept)
+                            TextEditor(text: $viewModel.travelConcept)
                                 .font(.appFont(14))
                                 .submitLabel(.done)
                                 .padding(.init(top: 6, leading: 6, bottom: 5, trailing: 6))
-                                .onChange(of: travelConcept) { _ in
-                                    if travelConcept.count > 45 {
-                                        travelConcept = String(travelConcept.prefix(45))
+                                .onChange(of: viewModel.travelConcept) { value in
+                                    if value.count > 45 {
+                                        viewModel.travelConcept = String(value.prefix(45))
                                     }
                                 }
                             
@@ -222,11 +191,11 @@ extension AddTravelPlannerView {
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .padding(.top, 15)
                                     .padding(.leading, 11)
-                                    .opacity(travelConcept.isEmpty ? 1: 0)
+                                    .opacity(viewModel.travelConcept.isEmpty ? 1: 0)
                                 
                                 Spacer()
                                 
-                                Text("(\(travelConcept.count) / 45)")
+                                Text("(\(viewModel.travelConcept.count) / 45)")
                                     .font(.system(size: 13))
                                     .foregroundStyle(.gray)
                                     .padding(.init(top: 0, leading: 0, bottom: 10, trailing: 10))
@@ -253,14 +222,15 @@ extension AddTravelPlannerView {
                 
                 HStack {
                     Button {
-                        showPHPickeView.toggle()
+                        viewModel.action(action: .showPHPickeView)
+//                        showPHPickeView.toggle()
                     } label: {
-                        TravelCoverView(title: $title, dates: $dates, image: $image, isStar: .constant(false))
+                        TravelCoverView(title: $viewModel.title, dates: $viewModel.dates, image: $viewModel.image, isStar: .constant(false))
                     }
                     .shadow(color: .gray.opacity(0.3), radius: 7)
-                    .sheet(isPresented: $showPHPickeView) {
-                        AddPhotoView(showPHPickeView: $showPHPickeView) { image in
-                            self.image = image
+                    .sheet(isPresented: $viewModel.showPHPickeView) {
+                        AddPhotoView(showPHPickeView: $viewModel.showPHPickeView) { image in
+                            viewModel.image = image
                         }
                         .ignoresSafeArea(.container, edges: .bottom)
                     }
@@ -272,6 +242,6 @@ extension AddTravelPlannerView {
     }
 }
 
-#Preview {
-    AddTravelPlannerView(travelManager: TravelManager.shared, showSheet: .constant(true), showToastView: .constant(false))
-}
+//#Preview {
+//    AddTravelPlannerView(travelManager: TravelManager.shared, showSheet: .constant(true), showToastView: .constant(false))
+//}
