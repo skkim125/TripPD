@@ -59,7 +59,7 @@ struct CustomTabBar: View {
                 .padding(.bottom, 25)
         }
         .sheet(isPresented: $viewModel.showSheet) {
-            AddTravelPlannerView(travelManager: travelManager, showSheet: $viewModel.showSheet, showToastView: $viewModel.showToastView)
+            AddTravelPlannerView(viewModel: viewModel)
                 .ignoresSafeArea()
         }
     }

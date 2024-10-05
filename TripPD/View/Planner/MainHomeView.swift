@@ -13,8 +13,6 @@ struct MainHomeView: View {
     @ObservedObject var travelManager: TravelManager
     @ObservedObject var viewModel: MainHomeViewModel
 //    @State private var isStarSorted = false
-//    @State private var sortType: SortType = .def
-//    @Binding var showToastView: Bool
     
     init(travelManager: TravelManager, viewModel: MainHomeViewModel) {
         self.travelManager = travelManager
@@ -86,7 +84,6 @@ struct MainHomeView: View {
                 
             } customize: {
                 $0
-                    .autohideIn(2)
                     .closeOnTap(true)
                     .closeOnTapOutside(true)
                     .type(.toast)

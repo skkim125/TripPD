@@ -34,6 +34,7 @@
 		04A46BD42C956C0A005ACE1C /* NavigationTitleModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A46BD32C956C0A005ACE1C /* NavigationTitleModifier.swift */; };
 		04A46BD72C956C6F005ACE1C /* DesignResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A46BD62C956C6F005ACE1C /* DesignResource.swift */; };
 		04A46BD92C95B3BF005ACE1C /* AddPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A46BD82C95B3BF005ACE1C /* AddPhotoView.swift */; };
+		04A547D22CB179460008FB3B /* AddTravelPlannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A547D12CB179460008FB3B /* AddTravelPlannerViewModel.swift */; };
 		04ADBC8F2CA809A200F6BC6F /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04ADBC8E2CA809A200F6BC6F /* LaunchScreen.swift */; };
 		04BB5F0A2C9D93E200DE7DE3 /* PlanningScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BB5F092C9D93E200DE7DE3 /* PlanningScheduleView.swift */; };
 		04BB5F102C9E91A400DE7DE3 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 04BB5F0F2C9E91A400DE7DE3 /* PopupView */; };
@@ -117,6 +118,7 @@
 		04A46BD32C956C0A005ACE1C /* NavigationTitleModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationTitleModifier.swift; sourceTree = "<group>"; };
 		04A46BD62C956C6F005ACE1C /* DesignResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignResource.swift; sourceTree = "<group>"; };
 		04A46BD82C95B3BF005ACE1C /* AddPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoView.swift; sourceTree = "<group>"; };
+		04A547D12CB179460008FB3B /* AddTravelPlannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTravelPlannerViewModel.swift; sourceTree = "<group>"; };
 		04ADBC8E2CA809A200F6BC6F /* LaunchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreen.swift; sourceTree = "<group>"; };
 		04BB5F092C9D93E200DE7DE3 /* PlanningScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanningScheduleView.swift; sourceTree = "<group>"; };
 		04C995A62C97EAEC0017E10A /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -280,6 +282,7 @@
 			isa = PBXGroup;
 			children = (
 				04A46BCC2C9487AC005ACE1C /* AddTravelPlannerView.swift */,
+				04A547D12CB179460008FB3B /* AddTravelPlannerViewModel.swift */,
 				04C995C02C992F7A0017E10A /* AddPlannerElement */,
 			);
 			path = AddPlanner;
@@ -611,6 +614,7 @@
 				04DE1F2C2C9BEEFF000A25E4 /* Date+Extension.swift in Sources */,
 				04DF05712C9FF468008B2651 /* KakaoLocalRouter.swift in Sources */,
 				04DF057D2C9FFDFD008B2651 /* SearchPlaceResponseModel.swift in Sources */,
+				04A547D22CB179460008FB3B /* AddTravelPlannerViewModel.swift in Sources */,
 				04C995D62C9A91E50017E10A /* Typealias.swift in Sources */,
 				04C995BB2C992B9D0017E10A /* Diary.swift in Sources */,
 			);
