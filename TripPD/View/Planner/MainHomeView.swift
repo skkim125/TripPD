@@ -10,13 +10,12 @@ import RealmSwift
 import PopupView
 
 struct MainHomeView: View {
-    @ObservedObject var travelManager: TravelManager
-    @ObservedObject var viewModel: MainHomeViewModel
+    @ObservedObject private var viewModel: MainHomeViewModel
+    @State private var sortType: SortType = .def
 //    @State private var isStarSorted = false
     
-    init(travelManager: TravelManager, viewModel: MainHomeViewModel) {
-        self.travelManager = travelManager
-        self.viewModel = viewModel
+    init(showToast: Bool) {
+        self.viewModel = MainHomeViewModel(showToastView: showToast)
     }
     
     var body: some View {
@@ -43,7 +42,7 @@ struct MainHomeView: View {
                 
 //                Spacer()
                 
-                if travelManager.travelList.isEmpty {
+                if viewModel.travelListForView.isEmpty {
                     Text("현재 계획된 여행이 없어요.")
                         .font(.footnote)
                         .foregroundStyle(.gray)
@@ -53,7 +52,7 @@ struct MainHomeView: View {
                 } else {
                     ScrollView {
                         LazyVStack {
-                            ForEach(travelManager.travelListForView, id: \.id) { travel in
+                            ForEach(viewModel.travelListForView, id: \.id) { travel in
                                 if Date.compareDate(Array(travel.travelDate)) {
                                     NavigationLink {
                                         TravelScheduleListView(travel: travel)
@@ -89,9 +88,6 @@ struct MainHomeView: View {
                     .type(.toast)
                     .position(.bottom)
             }
-            .onChange(of: viewModel.sortType) { newValue in
-                travelManager.sortAction(sortType: newValue)
-            }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Text("Trip PD")
@@ -117,9 +113,10 @@ struct MainHomeView: View {
                 
                 ToolbarItem(placement: .topBarTrailing) {
                     Menu {
-                        Picker("정렬", selection: $viewModel.sortType) {
-                            ForEach(SortType.allCases) { value in
+                        Picker("정렬", selection: $sortType) {
+                            ForEach(SortType.allCases, id: \.self) { value in
                                 Text(value.title)
+                                    .tag(value)
                             }
                         }
                     } label: {
@@ -133,16 +130,18 @@ struct MainHomeView: View {
                     }
                     .font(.appFont(18))
                     .foregroundStyle(.mainApp.gradient)
+                    .onChange(of: sortType) { newValue in
+                        viewModel.action(action: .sortAction(newValue))
+                    }
                 }
             }
             .navigationBarTitle(20, 30)
         }
         .onChange(of: viewModel.showToastView) { _ in
-            travelManager.sortAction(sortType: viewModel.sortType)
+            viewModel.action(action: .sortAction(sortType))
         }
         .onAppear {
-            travelManager.detectRealmURL()
-            travelManager.sortAction(sortType: viewModel.sortType)
+            viewModel.getRealmURL()
         }
     }
 }

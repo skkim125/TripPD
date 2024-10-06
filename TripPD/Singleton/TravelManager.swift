@@ -130,7 +130,7 @@ final class TravelManager: ObservableObject {
         }
     }
     
-    func sortAction(sortType: SortType) {
+    func sortAction(sortType: SortType) -> [TravelForView] {
         do {
             let realm = try Realm()
             let results = realm.objects(Travel.self)
@@ -151,8 +151,12 @@ final class TravelManager: ObservableObject {
                     
                 }
             })
+            
+            return self.travelListForView
         } catch {
             print(error)
         }
+        
+        return []
     }
 }

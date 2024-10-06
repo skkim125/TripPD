@@ -23,7 +23,7 @@ struct CustomTabBar: View {
     var body: some View {
         ZStack(alignment: .init(horizontal: .center, vertical: .bottom)) {
             TabView(selection: $viewModel.selectedTab) {
-                LazyWrapperView(MainHomeView(travelManager: travelManager, viewModel: MainHomeViewModel(showToastView: viewModel.showToastView)))
+                LazyWrapperView(MainHomeView(showToast: viewModel.showToastView))
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .tag(Tab.home)
                 
