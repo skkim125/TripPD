@@ -310,6 +310,7 @@
 			isa = PBXGroup;
 			children = (
 				04A46BCC2C9487AC005ACE1C /* AddTravelPlannerView.swift */,
+				04A547D12CB179460008FB3B /* AddTravelPlannerViewModel.swift */,
 				04C995C02C992F7A0017E10A /* AddPlannerElement */,
 			);
 			path = AddPlanner;
