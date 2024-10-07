@@ -16,7 +16,7 @@ struct TravelCoverView: View {
     var body: some View {
         if let image = image, let uiimage = UIImage(data: image) {
             RoundedRectangle(cornerRadius: 12)
-                .fill(.thickMaterial.opacity(0.6))
+                .fill(.black.opacity(0.2))
                 .background {
                     Image(uiImage: uiimage)
                         .resizable()
@@ -27,7 +27,7 @@ struct TravelCoverView: View {
                 .overlay {
                     overlayView()
                         .frame(maxWidth: .infinity, alignment: .bottomLeading)
-                        .foregroundStyle(Color(uiColor: .label).gradient)
+                        .foregroundStyle(.white.gradient)
                         .padding(.horizontal, 10)
                 }
                 .frame(height: 150)
@@ -51,7 +51,7 @@ struct TravelCoverView: View {
                                 
                         overlayView()
                             .frame(maxWidth: .infinity, alignment: .bottomLeading)
-                            .foregroundStyle(Color(uiColor: .label).gradient)
+                            .foregroundStyle(.white.gradient)
                             .padding(.horizontal, 10)
                     }
                 }
@@ -100,4 +100,8 @@ extension TravelCoverView{
             }
         }
     }
+}
+
+#Preview {
+    TravelCoverView(title: .constant("대전 맛집 여행"), dates: .constant([Date(), Date()]), image: .constant(nil), isStar: .constant(false))
 }

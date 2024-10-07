@@ -36,6 +36,7 @@
 		04A46BD92C95B3BF005ACE1C /* AddPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A46BD82C95B3BF005ACE1C /* AddPhotoView.swift */; };
 		04A547D22CB179460008FB3B /* AddTravelPlannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A547D12CB179460008FB3B /* AddTravelPlannerViewModel.swift */; };
 		04A547D72CB278620008FB3B /* TravelScheduleListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A547D62CB278620008FB3B /* TravelScheduleListViewModel.swift */; };
+		04A548052CB3C1D70008FB3B /* PlanningScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A548042CB3C1D70008FB3B /* PlanningScheduleViewModel.swift */; };
 		04ADBC8F2CA809A200F6BC6F /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04ADBC8E2CA809A200F6BC6F /* LaunchScreen.swift */; };
 		04BB5F0A2C9D93E200DE7DE3 /* PlanningScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BB5F092C9D93E200DE7DE3 /* PlanningScheduleView.swift */; };
 		04BB5F102C9E91A400DE7DE3 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 04BB5F0F2C9E91A400DE7DE3 /* PopupView */; };
@@ -121,6 +122,7 @@
 		04A46BD82C95B3BF005ACE1C /* AddPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoView.swift; sourceTree = "<group>"; };
 		04A547D12CB179460008FB3B /* AddTravelPlannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTravelPlannerViewModel.swift; sourceTree = "<group>"; };
 		04A547D62CB278620008FB3B /* TravelScheduleListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelScheduleListViewModel.swift; sourceTree = "<group>"; };
+		04A548042CB3C1D70008FB3B /* PlanningScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanningScheduleViewModel.swift; sourceTree = "<group>"; };
 		04ADBC8E2CA809A200F6BC6F /* LaunchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreen.swift; sourceTree = "<group>"; };
 		04BB5F092C9D93E200DE7DE3 /* PlanningScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanningScheduleView.swift; sourceTree = "<group>"; };
 		04C995A62C97EAEC0017E10A /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -291,6 +293,8 @@
 		04A547D52CB278330008FB3B /* Schedule */ = {
 			isa = PBXGroup;
 			children = (
+				04A547D62CB278620008FB3B /* TravelScheduleListViewModel.swift */,
+				04A548042CB3C1D70008FB3B /* PlanningScheduleViewModel.swift */,
 			);
 			path = Schedule;
 			sourceTree = "<group>";
@@ -299,7 +303,6 @@
 			isa = PBXGroup;
 			children = (
 				04C995D92C9AA0180017E10A /* TravelScheduleListView.swift */,
-				04A547D62CB278620008FB3B /* TravelScheduleListViewModel.swift */,
 				04BB5F092C9D93E200DE7DE3 /* PlanningScheduleView.swift */,
 				0446A5152CA4E897008C3EA4 /* PlaceRowView.swift */,
 			);
@@ -310,7 +313,6 @@
 			isa = PBXGroup;
 			children = (
 				04A46BCC2C9487AC005ACE1C /* AddTravelPlannerView.swift */,
-				04A547D12CB179460008FB3B /* AddTravelPlannerViewModel.swift */,
 				04C995C02C992F7A0017E10A /* AddPlannerElement */,
 			);
 			path = AddPlanner;
@@ -613,6 +615,7 @@
 				0446A5122CA4E83C008C3EA4 /* PlaceLocationView.swift in Sources */,
 				04C995B92C992B7C0017E10A /* Finance.swift in Sources */,
 				04C995AB2C97EDDE0017E10A /* APIKey.swift in Sources */,
+				04A548052CB3C1D70008FB3B /* PlanningScheduleViewModel.swift in Sources */,
 				04A46BD72C956C6F005ACE1C /* DesignResource.swift in Sources */,
 				04C995CF2C99B1CA0017E10A /* CustomCalendarView.swift in Sources */,
 				044A82CC2CB034FC007D3D17 /* MainHomeViewModel.swift in Sources */,

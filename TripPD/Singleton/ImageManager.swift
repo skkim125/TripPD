@@ -32,7 +32,6 @@ final class ImageManager {
         
         let fileName = UUID().uuidString + ".jpg"
         let fileURL = folderURL.appendingPathComponent(fileName)
-        print(fileURL)
         
         do {
             try imageData.write(to: fileURL)
@@ -51,7 +50,7 @@ final class ImageManager {
         let folderURL = documentDirectory.appendingPathComponent("TripPD_CoverImage")
         guard let imageName = imageName else { return nil }
         let fileURL = folderURL.appendingPathComponent(imageName)
-        print(fileURL.path())
+        
         if fileManager.fileExists(atPath: fileURL.path) {
             do {
                 let imageData = try Data(contentsOf: fileURL)
@@ -74,7 +73,6 @@ final class ImageManager {
         
         guard let imageName = imageName else { return }
         let fileURL = folderURL.appendingPathComponent(imageName)
-//        print(fileURL)
         
         if fileManager.fileExists(atPath: fileURL.path) {
             do {

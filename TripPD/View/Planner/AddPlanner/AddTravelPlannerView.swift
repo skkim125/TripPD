@@ -223,7 +223,6 @@ extension AddTravelPlannerView {
                 HStack {
                     Button {
                         viewModel.action(action: .showPHPickeView)
-//                        showPHPickeView.toggle()
                     } label: {
                         TravelCoverView(title: $viewModel.title, dates: $viewModel.dates, image: $viewModel.image, isStar: .constant(false))
                     }
@@ -243,5 +242,5 @@ extension AddTravelPlannerView {
 }
 
 //#Preview {
-//    AddTravelPlannerView(travelManager: TravelManager.shared, showSheet: .constant(true), showToastView: .constant(false))
+//    AddTravelPlannerView(viewModel: CustomTabBarViewModel())
 //}

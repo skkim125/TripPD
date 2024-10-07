@@ -10,9 +10,12 @@ import RealmSwift
 
 struct PlanningScheduleView: View {
     @Environment(\.dismiss) private var dismiss
-    var schedule: ScheduleForView
+    @ObservedObject var viewModel: PlanningScheduleViewModel
     @State private var showMapView = false
-    @State private var deletedPlaceId: String?
+    
+    init(schedule: ScheduleForView) {
+        self.viewModel = PlanningScheduleViewModel(schedule: schedule)
+    }
     
     var body: some View {
         VStack {
@@ -23,23 +26,20 @@ struct PlanningScheduleView: View {
             
             Spacer()
             
-            if schedule.places.isEmpty {
+            if viewModel.output.schedule.places.isEmpty {
                 Label("일정을 만들러 가볼까요?", systemImage: "text.badge.plus")
                     .foregroundStyle(.gray)
                     .position(x: UIScreen.main.bounds.width * 0.5, y: UIScreen.main.bounds.height * 0.35)
             } else {
                 SwiftUIList {
-                    ForEach(Array(schedule.places).sorted(by: { $0.time < $1.time }), id: \.id) { place in
-                        PlaceRowView(schedule: schedule, place: place)
-                            .opacity(deletedPlaceId == place.id ? 0 : 1)
-                            .animation(.easeInOut(duration: 0.3), value: deletedPlaceId)
+                    ForEach(viewModel.output.schedule.places.sorted(by: { $0.time < $1.time }), id: \.id) { place in
+                        PlaceRowView(schedule: viewModel.output.schedule, place: place)
+                            .opacity(viewModel.output.deletePlaceID == place.id ? 0 : 1)
+                            .animation(.easeInOut(duration: 0.3), value: viewModel.output.deletePlaceID)
                             .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                 Button{
                                     withAnimation(.easeInOut(duration: 0.3)) {
-                                        deletedPlaceId = place.id
-                                    }
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                                            TravelManager.shared.removePlace(place: place)
+                                        viewModel.action(action: .deletePlaceAction(place.id))
                                     }
                                     print("삭제되었습니다.")
                                 } label: {
@@ -82,7 +82,7 @@ struct PlanningScheduleView: View {
                 }
                 .tint(.mainApp)
                 .fullScreenCover(isPresented: $showMapView) {
-                    AddPlaceMapView(schedule: schedule, showMapView: $showMapView)
+                    AddPlaceMapView(schedule: $viewModel.output.schedule, showMapView: $showMapView)
                 }
             }
             
@@ -96,12 +96,15 @@ struct PlanningScheduleView: View {
                 }
             }
         }
-        .navigationTitle("\(schedule.dayString)")
+        .navigationTitle("\(viewModel.output.schedule.dayString)")
         .navigationBarTitleDisplayMode(.large)
         .navigationBarTitle(20, 30)
         .navigationBarBackButtonHidden()
     }
-    
+}
+
+// MARK: ViewBuilder
+extension PlanningScheduleView {
     @ViewBuilder
     func calendarView() -> some View {
         HStack {

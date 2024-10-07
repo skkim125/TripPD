@@ -116,11 +116,11 @@ final class TravelManager: ObservableObject {
         }
     }
     
-    func removePlace(place: PlaceForView) {
+    func removePlace(placeID: String) {
         
         do {
             let realm = try Realm()
-            let id = try ObjectId(string: place.id)
+            let id = try ObjectId(string: placeID)
             guard let object = realm.object(ofType: Place.self, forPrimaryKey: id) else { return }
             try realm.write {
                 realm.delete(object)

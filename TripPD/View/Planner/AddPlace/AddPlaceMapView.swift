@@ -12,7 +12,7 @@ import PopupView
 import RealmSwift
 
 struct AddPlaceMapView: View {
-    var schedule: ScheduleForView
+    @Binding var schedule: ScheduleForView
     private let networkMonitor = NetworkMonitor.shared
     @ObservedObject var kakaoLocalManager = KakaoLocalManager.shared
     @Binding var showMapView: Bool
@@ -34,6 +34,11 @@ struct AddPlaceMapView: View {
     @State private var placeMemo = ""
     @State private var showNetworkErrorAlert = false
     @State private var showNetworkErrorAlertTitle = ""
+    
+    init(schedule: Binding<ScheduleForView>, showMapView: Binding<Bool>) {
+        self._schedule = schedule
+        self._showMapView = showMapView
+    }
     
     var body: some View {
         NavigationStack {
@@ -128,30 +133,6 @@ struct AddPlaceMapView: View {
                     .type(.toast)
                     .position(.bottom)
             }
-            .popup(isPresented: $showAddPlacePopupView) {
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(.mainApp.gradient, lineWidth: 2)
-                    .background(.background)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .overlay {
-                        AddPlaceView(schedule: schedule, isSelectedPlace: $isSelectedPlace ,showAddPlacePopupView: $showAddPlacePopupView)
-                    }
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .frame(height: 350)
-                    .padding()
-                
-            } customize: {
-                $0
-                    .closeOnTap(false)
-                    .closeOnTapOutside(false)
-                    .type(.floater(verticalPadding: 10, horizontalPadding: 20, useSafeAreaInset: true))
-                    .position(.bottom)
-                    .dragToDismiss(false)
-                    .useKeyboardSafeArea(true)
-                    .backgroundView {
-                        Color.black.opacity(0.3)
-                    }
-            }
             .onChange(of: networkMonitor.isConnected) { value in
                 if !value {
                     showNetworkErrorAlert = true
@@ -220,6 +201,30 @@ struct AddPlaceMapView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarTitle(20, 30)
             .ignoresSafeArea(.all, edges: .bottom)
+        }
+        .popup(isPresented: $showAddPlacePopupView) {
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(.mainApp.gradient, lineWidth: 2)
+                .background(.background)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .overlay {
+                    AddPlaceView(schedule: $schedule, isSelectedPlace: $isSelectedPlace ,showAddPlacePopupView: $showAddPlacePopupView)
+                }
+                .frame(maxWidth: .infinity, alignment: .center)
+                .frame(height: 350)
+                .padding()
+            
+        } customize: {
+            $0
+                .closeOnTap(false)
+                .closeOnTapOutside(false)
+                .type(.floater(verticalPadding: 10, horizontalPadding: 20, useSafeAreaInset: true))
+                .position(.bottom)
+                .dragToDismiss(false)
+                .useKeyboardSafeArea(true)
+                .backgroundView {
+                    Color.black.opacity(0.3)
+                }
         }
         .onTapGesture {
             hideKeyboard()
