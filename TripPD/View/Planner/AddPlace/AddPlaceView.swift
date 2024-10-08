@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AddPlaceView: View {
     var travelManager = TravelManager.shared
-    @Binding var schedule: ScheduleForView
+    var schedule: ScheduleForView
     @Binding var isSelectedPlace: PlaceInfo?
     @Binding var showAddPlacePopupView: Bool
     

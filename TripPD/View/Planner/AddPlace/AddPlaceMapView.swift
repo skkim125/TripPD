@@ -12,7 +12,7 @@ import PopupView
 import RealmSwift
 
 struct AddPlaceMapView: View {
-    @Binding var schedule: ScheduleForView
+    var schedule: ScheduleForView
     private let networkMonitor = NetworkMonitor.shared
     @ObservedObject var kakaoLocalManager = KakaoLocalManager.shared
     @Binding var showMapView: Bool
@@ -35,8 +35,8 @@ struct AddPlaceMapView: View {
     @State private var showNetworkErrorAlert = false
     @State private var showNetworkErrorAlertTitle = ""
     
-    init(schedule: Binding<ScheduleForView>, showMapView: Binding<Bool>) {
-        self._schedule = schedule
+    init(schedule: ScheduleForView, showMapView: Binding<Bool>) {
+        self.schedule = schedule
         self._showMapView = showMapView
     }
     
@@ -208,7 +208,7 @@ struct AddPlaceMapView: View {
                 .background(.background)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .overlay {
-                    AddPlaceView(schedule: $schedule, isSelectedPlace: $isSelectedPlace ,showAddPlacePopupView: $showAddPlacePopupView)
+                    AddPlaceView(schedule: schedule, isSelectedPlace: $isSelectedPlace ,showAddPlacePopupView: $showAddPlacePopupView)
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
                 .frame(height: 350)

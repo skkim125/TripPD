@@ -82,7 +82,7 @@ struct PlanningScheduleView: View {
                 }
                 .tint(.mainApp)
                 .fullScreenCover(isPresented: $showMapView) {
-                    AddPlaceMapView(schedule: $viewModel.output.schedule, showMapView: $showMapView)
+                    LazyWrapperView(AddPlaceMapView(schedule: viewModel.output.schedule, showMapView: $showMapView))
                 }
             }
             
