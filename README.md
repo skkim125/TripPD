@@ -1,8 +1,12 @@
-# ✈️ Trip.PD Musictory ReadMe
+# ✈️ Trip.PD ReadMe
 
 ## ✈️ 프로젝트 소개
 > 국내 여행을 손쉽게 짤 수 있는 나만의 여행 플래너
-
+<img src="https://github.com/user-attachments/assets/4f878401-7ab0-488d-b2e0-074951fc5c94" width="19%"/>
+<img src="https://github.com/user-attachments/assets/3696201b-257f-4e59-a382-24eaa5f23568" width="19%"/>
+<img src="https://github.com/user-attachments/assets/6cc7fe58-1288-49d6-9768-632f9280a82e" width="19%"/>
+<img src="https://github.com/user-attachments/assets/aba1a129-cbc7-410e-8f2c-eee2c23983bd" width="19%"/>
+<img src="https://github.com/user-attachments/assets/0ecac6ce-82fe-4286-b6dd-eb8f550f5afb" width="19%"/>
 
 
 ## ✈️ 프로젝트 환경
@@ -31,7 +35,7 @@
    - Genric을 활용하여 Decodable한 타입들로 디코딩 진행
    - API Networking에 대한 요소들을 Router Pattern으로 추상화
    - Custom한 TargetType을 protocol로 생성하여 Router를 한번 더 추상화 진행
-- MapKit의 MKMapView를 UIViewRepresentable로 래핑 및 Coordinator 패턴을 활용하여 MapView 구성
+- UIKit의 MKMapView, PHPickerView, WebView 등을 UIViewRepresentable로 래핑 및 Coordinator 패턴을 활용하여 뷰 구성
    - setVisibleMapRect를 활용하여 검색결과의 마커들을 최대한으로 MapCamera에 담아 보여질 수 있도록 구현
    - MKMarkerAnnotationView를 활용한 Custom 마커와 애니메이션 구현
 - Realm Swift를 데이터베이스로 채택하여 여행 플래너 저장 및 삭제 등 다양한 기능 구현
