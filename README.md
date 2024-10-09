@@ -18,7 +18,7 @@
 
 
 ## ✈️ 기술 스택
-- SwiftUI, MVC, MVVM MapKit, FileManager
+- SwiftUI, MVC, MVVM, MapKit, FileManager
 -  KakaoLocal API, Alamofire, PHPickerView, Realm, BottomSheet, HorizonCalendar, PopupView
 - DTO, Decoder, Singleton, Router Pattern, Access Control, CustomFont, NWPathMonitor, UIKit Wrapping
 
@@ -60,3 +60,6 @@
 </summary></details>
 
 ## ✈️ 회고
+- 목표한 심사 및 출시 날짜를 위해 빠른 개발을 위하여 MVC 패턴으로 코드를 작성하게 되었는데, 프로퍼티를 많이 사용하는 뷰에서 코드가 복잡해지고 가독성이 떨어지는 것을 확인하여습니다. 그래서 유지보수 기간동안 코드를 개선하기 위해 Combine을 활용한 MVVM 패턴으로 리팩토링을 진행하고 있습니다.
+- MVVM 패턴으로의 리팩토링을 진행하면서 SwiftUI에서의 MVVM 디자인 패턴이 크게 효율성이 있을까라는 의문점이 들었습니다. MVVM 패턴은 관찰할 데이터와 비즈니스 로직을 ViewModel에 담아 뷰와 Data를 연결하는 양방향 Data Flow인데, SwiftUI의 View에서 @State, @Binding 등의 프로퍼티 래퍼를 사용하여 충분히 View와 ViewModel의 기능을 구현할 수 있기 때문에 ViewModel이 불필요해질 수 있다는 것을 느끼게 되었습니다. 그래서 MVVM 디자인 패턴으로 리팩토링을 진행한 이후, Apple에서 지향하는 단방향 Data Flow를 따르는 디자인 패턴인 MVI, TCA, Redux 등을 공부해보고 리팩토링을 한번더 진행하거나 다음 프로젝트에 적용해보려고 합니다.
+- TripPD는 Database로 Realm 라이브러리를 학습하여 사용하였는데, Apple에서는 Database '기능'을 지원하는 CoreData와 SwiftData가 존재한다는 것을 확인하였습니다. 다음 프로젝트에선 CoreData나 SwiftData를 공부하여 적용해보고 Realm과 CoreData/SwiftData의 차이점을 확인해보려 합니다.
