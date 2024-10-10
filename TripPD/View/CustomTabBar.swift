@@ -7,12 +7,13 @@
 
 import SwiftUI
 import MapKit
+import PopupView
 
 struct CustomTabBar: View {
     @ObservedObject var travelManager: TravelManager
     @ObservedObject var viewModel: CustomTabBarViewModel
-    
     @Namespace var animation
+    @State private var showToast: Bool = false
     
     init() {
         UITabBar.appearance().isHidden = true
@@ -23,13 +24,35 @@ struct CustomTabBar: View {
     var body: some View {
         ZStack(alignment: .init(horizontal: .center, vertical: .bottom)) {
             TabView(selection: $viewModel.selectedTab) {
-                LazyWrapperView(MainHomeView(showToast: viewModel.showToastView))
+                LazyWrapperView(MainHomeView(showToast: $showToast))
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .tag(Tab.home)
                 
                 LazyWrapperView(UserView())
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .tag(Tab.setting)
+            }
+            .popup(isPresented: $showToast) {
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(.mainApp.gradient, lineWidth: 2)
+                    .background(.background)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .overlay {
+                        Text("여행 플래너가 생성되었습니다.")
+                            .foregroundStyle(Color(uiColor: .label).gradient)
+                            .font(.appFont(14))
+                            .multilineTextAlignment(.center)
+                    }
+                    .frame(width: 200, height: 40)
+                    .padding(.bottom, 130)
+                
+            } customize: {
+                $0
+                    .autohideIn(1.5)
+                    .closeOnTap(true)
+                    .closeOnTapOutside(true)
+                    .type(.toast)
+                    .position(.bottom)
             }
             
             LazyHStack(spacing: 80) {
@@ -59,7 +82,7 @@ struct CustomTabBar: View {
                 .padding(.bottom, 25)
         }
         .sheet(isPresented: $viewModel.showSheet) {
-            AddTravelPlannerView(viewModel: viewModel)
+            AddTravelPlannerView(showSheet: $viewModel.showSheet, showToast: $showToast)
                 .ignoresSafeArea()
         }
     }

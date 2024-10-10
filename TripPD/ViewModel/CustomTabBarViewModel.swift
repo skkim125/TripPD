@@ -11,12 +11,10 @@ import Combine
 final class CustomTabBarViewModel: ObservableObject {
     @Published var selectedTab: Tab = .home
     @Published var showSheet: Bool = false
-    @Published var showToastView: Bool = false
     
     enum Action {
         case clickedTab(Tab)
         case showSheet
-        case showToastView
     }
     
     func action(action: Action) {
@@ -31,9 +29,6 @@ final class CustomTabBarViewModel: ObservableObject {
             
         case .showSheet:
             showSheet.toggle()
-            
-        case .showToastView:
-            showToastView.toggle()
         }
     }
 }

@@ -11,9 +11,13 @@ import PhotosUI
 struct AddTravelPlannerView: View {
     @ObservedObject var viewModel: AddTravelPlannerViewModel
     @FocusState var isFocused: Bool
+    @Binding var showSheet: Bool
+    @Binding var showToast: Bool
 
-    init(viewModel: CustomTabBarViewModel) {
-        self.viewModel = AddTravelPlannerViewModel(viewModel: viewModel)
+    init(showSheet: Binding<Bool>, showToast: Binding<Bool>) {
+        self.viewModel = AddTravelPlannerViewModel()
+        self._showSheet = showSheet
+        self._showToast = showToast
     }
     
     var body: some View {
@@ -57,7 +61,7 @@ struct AddTravelPlannerView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
-                        viewModel.action(action: .showSheet)
+                        showSheet.toggle()
                     } label: {
                         Image(systemName: "xmark")
                             .foregroundStyle(.red.gradient)
@@ -67,7 +71,11 @@ struct AddTravelPlannerView: View {
                 
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        viewModel.action(action: .addButtonAction)
+                        DispatchQueue.main.async {
+                            viewModel.action(action: .addButtonAction)
+                            showSheet.toggle()
+                            showToast.toggle()
+                        }
                     } label: {
                         Text("추가")
                             .foregroundStyle(viewModel.isFilled ? (Color.mainApp.gradient) : Color.gray.gradient).bold()
@@ -145,12 +153,10 @@ extension AddTravelPlannerView {
                         .padding(.trailing, 10)
                         .onTapGesture {
                             viewModel.action(action: .showDatePickerView)
-//                            showDatePickerView.toggle()
                         }
                     
                     Button {
                         viewModel.action(action: .showDatePickerView)
-//                        showDatePickerView.toggle()
                     } label: {
                         Image(systemName: "calendar")
                             .resizable()

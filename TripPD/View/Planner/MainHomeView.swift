@@ -12,10 +12,12 @@ import PopupView
 struct MainHomeView: View {
     @ObservedObject private var viewModel: MainHomeViewModel
     @State private var sortType: SortType = .def
+    @Binding var showToast: Bool
 //    @State private var isStarSorted = false
     
-    init(showToast: Bool) {
-        self.viewModel = MainHomeViewModel(showToastView: showToast)
+    init(showToast: Binding<Bool>) {
+        self.viewModel = MainHomeViewModel()
+        self._showToast = showToast
     }
     
     var body: some View {
@@ -67,27 +69,6 @@ struct MainHomeView: View {
                     }
                 }
             }
-            .popup(isPresented: $viewModel.showToastView) {
-                RoundedRectangle(cornerRadius: 8)
-                    .stroke(.mainApp.gradient, lineWidth: 2)
-                    .background(.background)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                    .overlay {
-                        Text("여행 플래너가 생성되었습니다.")
-                            .foregroundStyle(Color(uiColor: .label).gradient)
-                            .font(.appFont(14))
-                            .multilineTextAlignment(.center)
-                    }
-                    .frame(width: 200, height: 40)
-                    .padding(.bottom, 130)
-                
-            } customize: {
-                $0
-                    .closeOnTap(true)
-                    .closeOnTapOutside(true)
-                    .type(.toast)
-                    .position(.bottom)
-            }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Text("Trip PD")
@@ -137,7 +118,7 @@ struct MainHomeView: View {
             }
             .navigationBarTitle(20, 30)
         }
-        .onChange(of: viewModel.showToastView) { _ in
+        .onChange(of: showToast) { _ in
             viewModel.action(action: .sortAction(sortType))
         }
         .onAppear {
