@@ -20,6 +20,7 @@ struct TravelCoverView: View {
                 .background {
                     Image(uiImage: uiimage)
                         .resizable()
+                        .aspectRatio(contentMode: .fill)
                         .frame(maxWidth: .infinity, alignment: .center)
                         .frame(height: 150)
                         .imageScale(.small)

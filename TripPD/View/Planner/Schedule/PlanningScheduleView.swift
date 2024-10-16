@@ -33,37 +33,13 @@ struct PlanningScheduleView: View {
             } else {
                 SwiftUIList {
                     ForEach(viewModel.output.schedule.places.sorted(by: { $0.time < $1.time }), id: \.id) { place in
-                        PlaceRowView(schedule: viewModel.output.schedule, place: place)
-                            .opacity(viewModel.output.deletePlaceID == place.id ? 0 : 1)
-                            .animation(.easeInOut(duration: 0.3), value: viewModel.output.deletePlaceID)
-                            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                                Button{
-                                    withAnimation(.easeInOut(duration: 0.3)) {
-                                        viewModel.action(action: .deletePlaceAction(place.id))
-                                    }
-                                    print("삭제되었습니다.")
-                                } label: {
-                                    Label {
-                                        Text("삭제")
-                                    } icon: {
-                                        Image(systemName: "trash")
-                                    }
-                                    
-                                }
-                                .tint(.red)
-                                
-//                                Button{
-//                                    
-//                                } label: {
-//                                    Label {
-//                                        Text("수정")
-//                                    } icon: {
-//                                        Image(systemName: "pencil")
-//                                    }
-//                                    
-//                                }
-//                                .tint(.mainApp)
-                            }
+                        Button {
+                            
+                        } label: {
+                            PlaceRowView(schedule: viewModel.output.schedule, place: place)
+                                .opacity(viewModel.output.deletePlaceID == place.id ? 0 : 1)
+                                .animation(.easeInOut(duration: 0.3), value: viewModel.output.deletePlaceID)
+                        }
                     }
                     .listSectionSeparator(.hidden)
                     .listRowSeparator(.hidden)

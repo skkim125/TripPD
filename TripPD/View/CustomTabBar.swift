@@ -55,31 +55,33 @@ struct CustomTabBar: View {
                     .position(.bottom)
             }
             
-            LazyHStack(spacing: 80) {
-                ForEach(Tab.allCases, id: \.self) { tab in
-                    TabBarButton(tab: tab, selected: $viewModel.selectedTab, viewModel: viewModel, animation: animation)
-                }
-            }
-            .frame(width: nil, height: 60)
-            .background(.mainApp)
-            .clipShape(.capsule)
-            .padding(.horizontal, 20)
-            .padding(.all, 10)
-            .shadow(radius: 5)
-            
-            Circle()
-                .fill(.mainApp)
-                .frame(width: 60, height: 60)
-                .overlay {
-                    Button {
-                        viewModel.action(action: .showSheet)
-                    } label: {
-                        Image(systemName: "plus.circle.fill")
-                            .font(.appFont(50))
-                            .foregroundStyle(.mainApp, .ultraThickMaterial)
+            ZStack {
+                LazyHStack(spacing: 80) {
+                    ForEach(Tab.allCases, id: \.self) { tab in
+                        TabBarButton(tab: tab, selected: $viewModel.selectedTab, viewModel: viewModel, animation: animation)
                     }
                 }
-                .padding(.bottom, 25)
+                .frame(width: nil, height: 60)
+                .background(.mainApp)
+                .clipShape(.capsule)
+                .padding(.horizontal, 20)
+                .padding(.all, 10)
+                .shadow(radius: 5)
+                
+                Circle()
+                    .fill(.mainApp)
+                    .frame(width: 60, height: 60)
+                    .overlay {
+                        Button {
+                            viewModel.action(action: .showSheet)
+                        } label: {
+                            Image(systemName: "plus.circle.fill")
+                                .font(.appFont(50))
+                                .foregroundStyle(.mainApp, .ultraThickMaterial)
+                        }
+                    }
+                    .padding(.bottom, 25)
+            }
         }
         .sheet(isPresented: $viewModel.showSheet) {
             AddTravelPlannerView(showSheet: $viewModel.showSheet, showToast: $showToast)
