@@ -18,9 +18,10 @@
 
 
 ## ✈️ 기술 스택
-- SwiftUI, MVC, MVVM, MapKit, FileManager
--  KakaoLocal API, Alamofire, PHPickerView, Realm, BottomSheet, HorizonCalendar, PopupView
-- DTO, Decoder, Singleton, Router Pattern, Access Control, CustomFont, NWPathMonitor, UIKit Wrapping
+- SwiftUI, MVC + MVVM
+-  Alamofire, BottomSheet, HorizonCalendar, PHPickerView, PopupView, Realm
+- Access Control, CustomFont, FileManager, Decoder, DTO, NWPathMonitor, UIKit Wrapping
+- Input/Output﹒Singleton﹒Router Pattern
 
 ## ✈️ 핵심 기능
 - 여행 플래너 생성 및 삭제
@@ -33,15 +34,16 @@
 - Airbnb의 오픈소스 라이브러리인 HorizonCalendar를 Custom하여 여행 일정을 선택할 수 있도록 구현
 - Alamofire를 사용한 KakaoLocalManager Singleton Pattern으로 구성
    - Genric을 활용하여 Decodable한 타입들로 디코딩 진행
-   - API Networking에 대한 요소들을 Router Pattern으로 추상화
-   - Custom한 TargetType을 protocol로 생성하여 Router를 한번 더 추상화 진행
-- UIKit의 MKMapView, PHPickerView, WebView 등을 UIViewRepresentable로 래핑 및 Coordinator 패턴을 활용하여 뷰 구성
+   - Custom TargetType을 API Networking에 대한 요소들을 정의한 protocol을 통해 API Networking을 위한 Router 추상화
+- UIKit의 MKMapView, PHPickerView, WebView 등을 UIViewRepresentable Wrapping 및 Coordinator 패턴을 활용하여 뷰 구성
    - setVisibleMapRect를 활용하여 검색결과의 마커들을 최대한으로 MapCamera에 담아 보여질 수 있도록 구현
    - MKMarkerAnnotationView를 활용한 Custom 마커와 애니메이션 구현
 - Realm Swift를 데이터베이스로 채택하여 여행 플래너 저장 및 삭제 등 다양한 기능 구현
    - 더 자유로운 데이터 활용을 위해 Realm을 위한 데이터 구조와 View를 위한 데이터 구조를 별개로 생성하여 서로 연동이 되도록 구현
 - FileManager를 활용하여 여행 플래너 커버 이미지를 저장하고 로드하도록 구현
    - Realm의 데이터 요소에 이미지 링크를 저장하여 이미지 로드에 사용
+- 관련 기능들을 Manager 네이밍의 하나의 클래스로 생성하여 뷰 전역에서 사용하는 Singleton Pattern 사용
+- NotificationCenter를 활용하여 keyboard의 On/Off 유무에 따른 뷰 레이아웃이 유연하게 변경되도록 구현
 
 ## ✈️ 트러블 슈팅
 
