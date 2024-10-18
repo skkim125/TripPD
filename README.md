@@ -62,7 +62,7 @@
 - List타입도 기본 Array타입으로 변환되기 때문에 sorted 메서드도 쉽게 동작할 수 있게 됨
 
 <details><summary> 구현한 코드
-</summary>
+</summary></details>
    
 <br>
 
