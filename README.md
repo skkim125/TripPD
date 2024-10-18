@@ -50,24 +50,106 @@
 
 ## ✈️ 트러블 슈팅
 
-****1. Realm DTO 과정**** 
+****1. Realm 데이터를 배열로 변환한 이후의 데이터 삭제 이슈**** 
 
 1) 문제 발생
-- 기존에는 Realm의 @ObservedResults를 직접 사용하여 기본 기능(여행 플래너 생성 및 삭제, 장소 삭제 등)을 구현하였으나, Travel의 요소인 List를 활용한 정렬 기능을 구현하기 위해 @ObservedResults를 Array로 단순 변환하여 사용하기로 결정함
-- 그러나 HomeView의 하위 뷰에서 여행플래너를 삭제하고 다시 HomeView로 이동하는 코드에서 Realm의 해당 데이터는 삭제되지만, dismiss에서 지속적인 "Object has been deleted or invalidated." 런타임 에러가 발생함
+   - 기존에는 Realm의 @ObservedResults를 직접 사용하여 기본 기능(여행 플래너 생성 및 삭제, 장소 삭제 등)을 구현하였으나, Travel의 요소인 List를 활용한 정렬 기능을 구현하기 위해 @ObservedResults를 Array로 단순 변환하여 사용하기로 결정함
+   - 그러나 HomeView의 하위 뷰에서 여행플래너를 삭제하고 다시 HomeView로 이동하는 코드에서 Realm의 해당 데이터는 삭제되지만, dismiss에서 지속적인 "Object has been deleted or invalidated." 런타임 에러가 발생함
 
 2) 해결 방법
-- Realm은 class 객체이기에 만약 데이터를 삭제하였다 하더라도 홈 뷰나 하위 뷰에 계속 삭제된 데이터를 참조할 수도 있다고 생각하게 되었음
-- 그래서 Realm에서 사용할 데이터 구조 외에, 실제 View에 사용될 View의 데이터 구조를 생성하여 Realm 데이터를 Binding 해주는 setupObserver 메서드를 추가하여 구현
-- List타입도 기본 Array타입으로 변환되기 때문에 sorted 메서드도 쉽게 동작할 수 있게 됨
+   - Realm은 class 객체이기에 만약 데이터를 삭제하였다 하더라도 홈 뷰나 하위 뷰에 계속 삭제된 데이터를 참조할 수도 있다고 생각하게 되었음
+   - 그래서 Realm에서 사용할 데이터 구조 외에, 실제 View에 사용될 View의 데이터 구조를 생성
+   - Realm의 NotificationToken을 활용하여 데이터의 변화를 관찰할 setTravelObserver 메서드 추가 구현
+   - List타입도 기본 Array타입으로 변환되기 때문에 sorted 메서드도 쉽게 동작할 수 있게 됨
 
 <details><summary> 구현한 코드
-</summary></details>
+</summary>
+
+<br>
+
+****- setTravelObserver****
    
+```swift
+final class TravelManager: ObservableObject {
+   ...
+@ObservedResults(Travel.self) var travelList
+    @Published var travelListForView: [TravelForView] = []
+    
+    private var token: NotificationToken?
+    
+    private init() {
+        setTravelObserver()
+    }
+    
+    deinit {
+        token?.invalidate()
+    }
+    
+    private func setTravelObserver() {
+        do {
+            let realm = try Realm()
+            let results = realm.objects(Travel.self)
+            
+            token = results.observe({ [weak self] _ in
+                guard let self = self else { return }
+                
+                self.travelListForView = results.map(TravelForView.init)
+                
+                self.travelListForView.filter({ !$0.isDelete }).forEach { travel in
+                    if !Date.compareDate(travel.travelDate) {
+                        self.updateDelete(realm: realm, results: results, travel: travel)
+                    }
+                }
+                
+                self.objectWillChange.send()
+            })
+            
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+   ...
+```
+
+<br>
+
+****- sortAction****
+
+```swift
+func sortAction(sortType: SortType) -> [TravelForView] {
+        token = travelList.observe({ [weak self] changes in
+            guard let self = self else { return }
+            switch sortType {
+            case .def:
+                self.travelListForView = travelList.map(TravelForView.init).sorted(by: { $0.date < $1.date })
+            case .closer:
+                self.travelListForView = travelList.map(TravelForView.init).sorted(by: {
+                    if $0.travelDate.first ?? Date() == $1.travelDate.first ?? Date() {
+                        $0.date < $1.date
+                    } else {
+                        $0.travelDate.first?.timeIntervalSinceNow ?? 0.0 < $1.travelDate.first?.timeIntervalSinceNow ?? 0.0
+                    }
+                })
+                
+            }
+        })
+        
+        return travelListForView
+    }
+```
+
+</details>
+
+
 <br>
 
 ## ✈️ 회고
+****- 빠른 작업을 위한 MVC 디자인 패턴 위주의 개발 진행****
 - 목표한 심사 및 출시 날짜를 위해 빠른 개발을 위하여 MVC 패턴으로 코드를 작성하게 되었는데, 프로퍼티를 많이 사용하는 뷰에서 코드가 복잡해지고 가독성이 떨어지는 것을 확인하였습니다. 그래서 유지 보수를 진행하는 동시에 관련 코드를 개선하기 위해 Combine을 활용한 MVVM 패턴으로 리팩토링을 진행하고 있습니다.
+
+****- SwiftUI에서 MVVM 디자인 패턴 사용에 대한 고찰****
 - MVVM 패턴으로의 리팩토링을 진행하면서 SwiftUI에서의 MVVM 디자인 패턴이 크게 효율성이 있을까라는 의문점이 들었습니다. MVVM 패턴은 관찰할 데이터와 비즈니스 로직을 ViewModel에 담아 뷰와 Data를 연결하는 양방향 Data Flow인데, SwiftUI의 View에서 @State, @Binding 등의 프로퍼티 래퍼를 사용하여 충분히 View와 ViewModel의 기능을 구현할 수 있기 때문에 ViewModel이 불필요해질 수 있다는 것을 느끼게 되었습니다. 그래서 MVVM 디자인 패턴으로 리팩토링을 진행한 이후, Apple에서 지향하는 단방향 Data Flow를 따르는 디자인 패턴인 MVI, TCA, Redux 등을 공부해 보고 리팩토링을 한 번 더 진행하거나 다음 프로젝트에 적용해 보려고 합니다.
+
+****- DataBase에 대한 종류와 이해도 향상****
 - TripPD는 Database로 Realm 라이브러리를 학습하여 사용하였는데, Apple에서는 Database '기능'을 지원하는 CoreData와 SwiftData가 존재한다는 것을 확인하였습니다. 다음 프로젝트에선 CoreData나 SwiftData를 공부하여 적용해 보고 데이터베이스에 대한 이해도를 높여보려고 합니다.
 
