@@ -16,14 +16,14 @@ final class TravelManager: ObservableObject {
     private var token: NotificationToken?
     
     private init() {
-        setupObserver()
+        setTravelObserver()
     }
     
     deinit {
         token?.invalidate()
     }
     
-    private func setupObserver() {
+    private func setTravelObserver() {
         do {
             let realm = try Realm()
             let results = realm.objects(Travel.self)
@@ -43,7 +43,6 @@ final class TravelManager: ObservableObject {
             })
             
         } catch let error {
-            print("옵저버 셋팅 실패")
             print(error.localizedDescription)
         }
     }
@@ -131,32 +130,23 @@ final class TravelManager: ObservableObject {
     }
     
     func sortAction(sortType: SortType) -> [TravelForView] {
-        do {
-            let realm = try Realm()
-            let results = realm.objects(Travel.self)
-            
-            token = results.observe({ [weak self] changes in
-                guard let self = self else { return }
-                switch sortType {
-                case .def:
-                    self.travelListForView = results.map(TravelForView.init).sorted(by: { $0.date < $1.date })
-                case .closer:
-                    self.travelListForView = results.map(TravelForView.init).sorted(by: {
-                        if $0.travelDate.first ?? Date() == $1.travelDate.first ?? Date() {
-                            $0.date < $1.date
-                        } else {
-                            $0.travelDate.first?.timeIntervalSinceNow ?? 0.0 < $1.travelDate.first?.timeIntervalSinceNow ?? 0.0
-                        }
-                    })
-                    
-                }
-            })
-            
-            return self.travelListForView
-        } catch {
-            print(error)
-        }
+        token = travelList.observe({ [weak self] changes in
+            guard let self = self else { return }
+            switch sortType {
+            case .def:
+                self.travelListForView = travelList.map(TravelForView.init).sorted(by: { $0.date < $1.date })
+            case .closer:
+                self.travelListForView = travelList.map(TravelForView.init).sorted(by: {
+                    if $0.travelDate.first ?? Date() == $1.travelDate.first ?? Date() {
+                        $0.date < $1.date
+                    } else {
+                        $0.travelDate.first?.timeIntervalSinceNow ?? 0.0 < $1.travelDate.first?.timeIntervalSinceNow ?? 0.0
+                    }
+                })
+                
+            }
+        })
         
-        return []
+        return travelListForView
     }
 }

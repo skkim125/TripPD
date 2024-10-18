@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import PhotosUI
 
 struct AddTravelPlannerView: View {
     @ObservedObject var viewModel: AddTravelPlannerViewModel
