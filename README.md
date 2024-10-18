@@ -1,4 +1,4 @@
-# Trip.PD ReadMe
+# ✈️ Trip.PD ReadMe
 
 ## ✈️ 프로젝트 소개
 > 국내 여행을 손쉽게 짤 수 있는 나만의 여행 플래너
