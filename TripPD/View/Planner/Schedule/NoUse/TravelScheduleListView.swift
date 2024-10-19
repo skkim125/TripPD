@@ -5,8 +5,8 @@
 //  Created by 김상규 on 9/18/24.
 //
 
-import SwiftUI
-import RealmSwift
+//import SwiftUI
+//import RealmSwift
 
 //struct TravelScheduleListView: View {
 //    @Environment(\.dismiss) private var dismiss

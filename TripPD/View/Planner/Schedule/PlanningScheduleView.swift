@@ -9,9 +9,7 @@ import SwiftUI
 import RealmSwift
 
 struct PlanningScheduleView: View {
-    @Environment(\.dismiss) private var dismiss
     @ObservedObject var viewModel: PlanningScheduleViewModel
-    @State private var showMapView = false
     
     init(schedule: ScheduleForView) {
         self.viewModel = PlanningScheduleViewModel(schedule: schedule)
@@ -26,58 +24,11 @@ struct PlanningScheduleView: View {
             
             Spacer()
             
-            if viewModel.output.schedule.places.isEmpty {
-                Label("일정을 만들러 가볼까요?", systemImage: "text.badge.plus")
-                    .foregroundStyle(.gray)
-                    .position(x: UIScreen.main.bounds.width * 0.5, y: UIScreen.main.bounds.height * 0.35)
-            } else {
-                SwiftUIList {
-                    ForEach(viewModel.output.schedule.places.sorted(by: { $0.time < $1.time }), id: \.id) { place in
-                        Button {
-                            
-                        } label: {
-                            PlaceRowView(schedule: viewModel.output.schedule, place: place)
-                                .opacity(viewModel.output.deletePlaceID == place.id ? 0 : 1)
-                                .animation(.easeInOut(duration: 0.3), value: viewModel.output.deletePlaceID)
-                        }
-                    }
-                    .listSectionSeparator(.hidden)
-                    .listRowSeparator(.hidden)
-                    .listRowSeparatorTint(.clear)
-                }
-                .listStyle(.plain)
-            }
+            placeListView()
         }
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    showMapView.toggle()
-                } label: {
-                    Image(systemName: "plus")
-                        .font(.appFont(20)).bold()
-                }
-                .tint(.mainApp)
-                .fullScreenCover(isPresented: $showMapView) {
-                    LazyWrapperView(AddPlaceMapView(schedule: viewModel.output.schedule, showMapView: $showMapView))
-                }
-            }
-            
-            ToolbarItem(placement: .topBarLeading) {
-                Button {
-                    dismiss()
-                } label: {
-                    Image(systemName: "chevron.backward")
-                        .foregroundStyle(.mainApp.gradient)
-                        .bold()
-                }
-            }
-        }
-        .navigationTitle("\(viewModel.output.schedule.dayString)")
-        .navigationBarTitleDisplayMode(.large)
-        .navigationBarTitle(20, 30)
-        .navigationBarBackButtonHidden()
     }
 }
+    
 
 // MARK: ViewBuilder
 extension PlanningScheduleView {
@@ -93,6 +44,47 @@ extension PlanningScheduleView {
                 .font(.appFont(25))
             
             Spacer()
+        }
+    }
+    
+    @ViewBuilder
+    func placeListView() -> some View {
+        if viewModel.output.schedule.places.isEmpty {
+            Label("일정을 만들러 가볼까요?", systemImage: "text.badge.plus")
+                .foregroundStyle(.gray)
+                .position(x: UIScreen.main.bounds.width * 0.5, y: UIScreen.main.bounds.height * 0.35)
+        } else {
+            SwiftUIList {
+                ForEach(viewModel.output.schedule.places.sorted(by: { $0.time < $1.time }), id: \.id) { place in
+                    Button {
+                        
+                    } label: {
+                        PlaceRowView(schedule: viewModel.output.schedule, place: place)
+                            .opacity(viewModel.output.deletePlaceID == place.id ? 0 : 1)
+                            .animation(.easeInOut(duration: 0.3), value: viewModel.output.deletePlaceID)
+                    }
+                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                        Button{
+                            withAnimation(.easeInOut(duration: 0.3)) {
+                                viewModel.action(action: .deletePlaceAction(place.id))
+                            }
+                            print("삭제되었습니다.")
+                        } label: {
+                            Label {
+                                Text("삭제")
+                            } icon: {
+                                Image(systemName: "trash")
+                            }
+                            
+                        }
+                        .tint(.red)
+                    }
+                }
+                .listSectionSeparator(.hidden)
+                .listRowSeparator(.hidden)
+                .listRowSeparatorTint(.clear)
+            }
+            .listStyle(.plain)
         }
     }
 }

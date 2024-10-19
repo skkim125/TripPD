@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-final class TravelScheduleListViewModel: ObservableObject {
+final class TravelScheduleViewModel: ObservableObject {
     @Published var travel: TravelForView
     @Published var showEditView = false
     @Published var showDeleteAlert = false

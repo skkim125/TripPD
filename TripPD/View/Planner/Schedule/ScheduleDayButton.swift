@@ -21,9 +21,9 @@ struct ScheduleDayButton: View {
         } label: {
             VStack {
                 Text("\(dayString)")
-                    .padding(.all, 10)
+                    .padding(.horizontal, 5)
                     .foregroundColor(isSelected ? .mainApp : .gray)
-                    .font(.appFont(17))
+                    .font(.appFont(16))
                 
                 if selectedSchedule.id == schedule.id {
                     Color.mainApp
@@ -31,9 +31,11 @@ struct ScheduleDayButton: View {
                         .clipShape(Capsule())
                         .matchedGeometryEffect(id: "underline",
                                                in: nameSpace.self)
+                        .padding(.horizontal, 5)
                 } else {
                     Color.clear.frame(height: 2)
                         .clipShape(Capsule())
+                        .padding(.horizontal, 5)
                 }
             }
         }
