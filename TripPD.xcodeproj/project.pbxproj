@@ -57,6 +57,8 @@
 		04C995D62C9A91E50017E10A /* Typealias.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C995D52C9A91E50017E10A /* Typealias.swift */; };
 		04C995D82C9A9F9C0017E10A /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C995D72C9A9F9C0017E10A /* ImageManager.swift */; };
 		04C995DA2C9AA0180017E10A /* TravelScheduleListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C995D92C9AA0180017E10A /* TravelScheduleListView.swift */; };
+		04DBA84F2CC3818700B41510 /* ScheduleDayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DBA84E2CC3818700B41510 /* ScheduleDayButton.swift */; };
+		04DBA8512CC394D600B41510 /* TravelScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DBA8502CC394D600B41510 /* TravelScheduleView.swift */; };
 		04DE1F2C2C9BEEFF000A25E4 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DE1F2B2C9BEEFF000A25E4 /* Date+Extension.swift */; };
 		04DE1F322C9C1A5D000A25E4 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DE1F312C9C1A5D000A25E4 /* CustomTabBar.swift */; };
 		04DF056E2C9FF313008B2651 /* KakaoLocalManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DF056D2C9FF313008B2651 /* KakaoLocalManager.swift */; };
@@ -141,6 +143,8 @@
 		04C995D52C9A91E50017E10A /* Typealias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typealias.swift; sourceTree = "<group>"; };
 		04C995D72C9A9F9C0017E10A /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		04C995D92C9AA0180017E10A /* TravelScheduleListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelScheduleListView.swift; sourceTree = "<group>"; };
+		04DBA84E2CC3818700B41510 /* ScheduleDayButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleDayButton.swift; sourceTree = "<group>"; };
+		04DBA8502CC394D600B41510 /* TravelScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelScheduleView.swift; sourceTree = "<group>"; };
 		04DE1F2B2C9BEEFF000A25E4 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		04DE1F312C9C1A5D000A25E4 /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
 		04DF056D2C9FF313008B2651 /* KakaoLocalManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLocalManager.swift; sourceTree = "<group>"; };
@@ -255,6 +259,8 @@
 				04DE1F312C9C1A5D000A25E4 /* CustomTabBar.swift */,
 				044A82CF2CB11F17007D3D17 /* TabBarButton.swift */,
 				04ADBC8E2CA809A200F6BC6F /* LaunchScreen.swift */,
+				04DBA8502CC394D600B41510 /* TravelScheduleView.swift */,
+				04DBA84E2CC3818700B41510 /* ScheduleDayButton.swift */,
 				04DE1F352C9C7A49000A25E4 /* Planner */,
 				0446A5182CA5210F008C3EA4 /* WebView */,
 				0446A5172CA520FE008C3EA4 /* MapView */,
@@ -609,6 +615,7 @@
 				04F7CF312CA29DF80061A056 /* SearchListHeaderView.swift in Sources */,
 				044A82D02CB11F17007D3D17 /* TabBarButton.swift in Sources */,
 				044A82CE2CB035E8007D3D17 /* CustomTabBarViewModel.swift in Sources */,
+				04DBA84F2CC3818700B41510 /* ScheduleDayButton.swift in Sources */,
 				04DF05852CA08304008B2651 /* AddPlaceMapView.swift in Sources */,
 				04A46BCF2C95497D005ACE1C /* TravelMapView.swift in Sources */,
 				044A82C02CAEA4EA007D3D17 /* AddPlaceView.swift in Sources */,
@@ -643,6 +650,7 @@
 				04C995D82C9A9F9C0017E10A /* ImageManager.swift in Sources */,
 				04DF05812CA00735008B2651 /* SearchQueryModel.swift in Sources */,
 				046CC39C2CA7E6560048F669 /* AppInfoView.swift in Sources */,
+				04DBA8512CC394D600B41510 /* TravelScheduleView.swift in Sources */,
 				04DE1F2C2C9BEEFF000A25E4 /* Date+Extension.swift in Sources */,
 				04DF05712C9FF468008B2651 /* KakaoLocalRouter.swift in Sources */,
 				04DF057D2C9FFDFD008B2651 /* SearchPlaceResponseModel.swift in Sources */,

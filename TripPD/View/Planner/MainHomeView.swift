@@ -57,7 +57,7 @@ struct MainHomeView: View {
                             ForEach(viewModel.travelListForView, id: \.id) { travel in
                                 if Date.compareDate(Array(travel.travelDate)) {
                                     NavigationLink {
-                                        TravelScheduleListView(travel: travel)
+                                        TravelScheduleView(travel: travel)
                                     } label: {
                                         TravelCoverView(title: .constant(travel.title), dates: .constant(Array(travel.travelDate)), image: .constant(ImageManager.shared.loadImage(imageName: travel.coverImageURL ?? "")), isStar: .constant(travel.isStar))
                                             .padding(.horizontal, 20)
