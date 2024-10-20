@@ -12,6 +12,7 @@ struct UserView: View {
     @State private var isOpenMailSheet = false
     @State private var isOpenPastTrip = false
     @State private var isOpenAppInfo = false
+    @Binding var hideTabBar: Bool
     
     var body: some View {
         NavigationStack {
@@ -31,9 +32,21 @@ struct UserView: View {
             }
             .navigationDestination(isPresented: $isOpenPastTrip){
                 PastTravelView()
+                    .onAppear {
+                        hideTabBar = true
+                    }
+                    .onDisappear {
+                        hideTabBar = false
+                    }
             }
             .navigationDestination(isPresented: $isOpenAppInfo){
                 AppInfoView()
+                    .onAppear {
+                        hideTabBar = true
+                    }
+                    .onDisappear {
+                        hideTabBar = false
+                    }
             }
             .navigationBarTitle(20, 30)
             .navigationTitle("설정")
@@ -101,5 +114,5 @@ enum Settings: String, CaseIterable {
 }
 
 #Preview {
-    UserView()
+    UserView(hideTabBar: .constant(false))
 }

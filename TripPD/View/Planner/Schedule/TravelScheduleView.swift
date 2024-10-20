@@ -13,13 +13,12 @@ struct TravelScheduleView: View {
     @State private var selectedTab = 0
     @Namespace var namespace
     @State private var contentWidth: CGFloat = .zero
-    @State private var isScrollEnabled: Bool = true
     @State private var showMapView: Bool = false
     
     init(travel: TravelForView) {
         self.viewModel = TravelScheduleViewModel(travel: travel)
     }
-
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -28,9 +27,9 @@ struct TravelScheduleView: View {
                         ForEach(viewModel.travel.schedules, id: \.id) { item in
                             ScheduleDayButton(selectedSchedule: viewModel.travel.schedules[selectedTab], schedule: item, dayString: item.dayString, isSelected: viewModel.travel.schedules[selectedTab].id == item.id, nameSpace: namespace) {
                                 
-                                withAnimation(.spring()) {
+//                                withAnimation {
                                     selectedTab = viewModel.travel.schedules.firstIndex(where: { $0.id == item.id }) ?? -1
-                                }
+//                                }
                             }
                         }
                     }
@@ -38,55 +37,75 @@ struct TravelScheduleView: View {
                 .padding(.horizontal, 10)
                 .padding(.top, 10)
                 
-                PlanningScheduleView(schedule: viewModel.travel.schedules[selectedTab])
-                    .toolbar {
-                        ToolbarItem(placement: .topBarTrailing) {
-                            Menu {
-                                Button(role: .destructive) {
-                                    viewModel.action(action: .showDeleteAlert)
-                                } label: {
-                                    Text("여행 삭제")
-                                    Image(systemName: "trash")
-                                }
-                                
-                            } label: {
-                                Image(systemName: "ellipsis")
-                            }
-                            .tint(.mainApp)
-                            
-                        }
-                        
-                        ToolbarItem(placement: .topBarLeading) {
-                            Button {
-                                dismiss()
-                            } label: {
-                                Image(systemName: "chevron.backward")
-                                    .foregroundStyle(.mainApp.gradient)
-                                    .bold()
-                            }
-                        }
-                        
-                        ToolbarItem(placement: .topBarTrailing) {
-                            Button {
-                                showMapView.toggle()
-                            } label: {
-                                Image(systemName: "plus")
-                                    .font(.appFont(20)).bold()
-                            }
-                            .tint(.mainApp)
-                            .fullScreenCover(isPresented: $showMapView) {
-                                LazyWrapperView(AddPlaceMapView(schedule: viewModel.travel.schedules[selectedTab], showMapView: $showMapView))
-                            }
-                        }
-                    }
+                calendarView()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .foregroundStyle(.mainApp)
+                    .padding(.init(top: 10, leading: 20, bottom: 0, trailing: 20))
+                
+                LazyWrapperView(PlanningScheduleView(schedule: viewModel.travel.schedules[selectedTab]))
             }
-            .navigationTitle(viewModel.travel.title)
-            .navigationBarTitle(20, 30)
-            .navigationBarBackButtonHidden()
+        }
+        .navigationTitle(viewModel.travel.title)
+        .navigationBarTitle(20, 30)
+        .navigationBarBackButtonHidden()
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "chevron.backward")
+                        .foregroundStyle(.mainApp.gradient)
+                        .bold()
+                }
+            }
+            
+            ToolbarItem(placement: .topBarTrailing) {
+                Menu {
+                    Button(role: .destructive) {
+                        viewModel.action(action: .showDeleteAlert)
+                    } label: {
+                        Text("여행 삭제")
+                        Image(systemName: "trash")
+                    }
+                    
+                } label: {
+                    Image(systemName: "ellipsis")
+                }
+                .tint(.mainApp)
+                
+            }
         }
     }
 }
 
+extension TravelScheduleView {
+    
+    @ViewBuilder
+    func calendarView() -> some View {
+        HStack {
+            Image(systemName: "calendar")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 28)
+            
+            Text("일정")
+                .font(.appFont(25))
+            
+            Spacer()
+            
+            Button {
+                showMapView.toggle()
+            } label: {
+                Image(systemName: "plus")
+                    .font(.appFont(20)).bold()
+            }
+            .tint(.mainApp)
+            .fullScreenCover(isPresented: $showMapView) {
+                LazyWrapperView(AddPlaceMapView(schedule: viewModel.travel.schedules[selectedTab], showMapView: $showMapView))
+            }
+        }
+    }
+}
 
 #Preview {
     TravelScheduleView(travel: TravelForView(travel: Travel()))

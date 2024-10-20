@@ -31,17 +31,17 @@ extension Date {
         return dateformat.string(from: self)
     }
     
-    func convertDay(dates: [Date]) -> String {
-        if let firstDay = dates.first {
-            if let compareDay = Calendar.current.dateComponents([.day], from: firstDay, to: self).day {
-                return "Day \(compareDay+1)"
-            } else {
-                return ""
-            }
-        } else {
-            return ""
-        }
-    }
+//    func convertDay(dates: [Date]) -> String {
+//        if let firstDay = dates.first {
+//            if let compareDay = Calendar.current.dateComponents([.day], from: firstDay, to: self).day {
+//                return "Day \(compareDay+1)"
+//            } else {
+//                return ""
+//            }
+//        } else {
+//            return ""
+//        }
+//    }
     
     static func compareDate(_ dateArray: [Date]) -> Bool {
         if let last = dateArray.last, let overday = Calendar.current.date(byAdding: .hour, value: 24, to: last) {

@@ -13,11 +13,13 @@ struct MainHomeView: View {
     @ObservedObject private var viewModel: MainHomeViewModel
     @State private var sortType: SortType = .def
     @Binding var showToast: Bool
+    @Binding var hideTabBar: Bool
 //    @State private var isStarSorted = false
     
-    init(showToast: Binding<Bool>) {
+    init(showToast: Binding<Bool>, hideTabBar: Binding<Bool>) {
         self.viewModel = MainHomeViewModel()
         self._showToast = showToast
+        self._hideTabBar = hideTabBar
     }
     
     var body: some View {
@@ -58,8 +60,18 @@ struct MainHomeView: View {
                                 if Date.compareDate(Array(travel.travelDate)) {
                                     NavigationLink {
                                         TravelScheduleView(travel: travel)
+                                            .onAppear {
+                                                hideTabBar = true
+                                            }
+                                            .onDisappear {
+                                                hideTabBar = false
+                                            }
                                     } label: {
-                                        TravelCoverView(title: .constant(travel.title), dates: .constant(Array(travel.travelDate)), image: .constant(ImageManager.shared.loadImage(imageName: travel.coverImageURL ?? "")), isStar: .constant(travel.isStar))
+                                        let image = ImageManager.shared.loadImage(imageName: travel.coverImageURL)
+                                        
+                                        let travelForAdd = TravelForAdd(title: travel.title, travelConcept: travel.travelConcept ?? "", dates: travel.travelDate, image: image, isStar: travel.isStar)
+                                        
+                                        TravelCoverView(travel: travelForAdd)
                                             .padding(.horizontal, 20)
                                             .padding(.top, 15)
                                     }

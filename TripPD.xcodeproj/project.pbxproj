@@ -59,6 +59,7 @@
 		04C995DA2C9AA0180017E10A /* TravelScheduleListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C995D92C9AA0180017E10A /* TravelScheduleListView.swift */; };
 		04DBA84F2CC3818700B41510 /* ScheduleDayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DBA84E2CC3818700B41510 /* ScheduleDayButton.swift */; };
 		04DBA8512CC394D600B41510 /* TravelScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DBA8502CC394D600B41510 /* TravelScheduleView.swift */; };
+		04DBA8552CC3BE2D00B41510 /* TravelForAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DBA8542CC3BE2D00B41510 /* TravelForAdd.swift */; };
 		04DE1F2C2C9BEEFF000A25E4 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DE1F2B2C9BEEFF000A25E4 /* Date+Extension.swift */; };
 		04DE1F322C9C1A5D000A25E4 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DE1F312C9C1A5D000A25E4 /* CustomTabBar.swift */; };
 		04DF056E2C9FF313008B2651 /* KakaoLocalManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DF056D2C9FF313008B2651 /* KakaoLocalManager.swift */; };
@@ -145,6 +146,7 @@
 		04C995D92C9AA0180017E10A /* TravelScheduleListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelScheduleListView.swift; sourceTree = "<group>"; };
 		04DBA84E2CC3818700B41510 /* ScheduleDayButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleDayButton.swift; sourceTree = "<group>"; };
 		04DBA8502CC394D600B41510 /* TravelScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelScheduleView.swift; sourceTree = "<group>"; };
+		04DBA8542CC3BE2D00B41510 /* TravelForAdd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelForAdd.swift; sourceTree = "<group>"; };
 		04DE1F2B2C9BEEFF000A25E4 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		04DE1F312C9C1A5D000A25E4 /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
 		04DF056D2C9FF313008B2651 /* KakaoLocalManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLocalManager.swift; sourceTree = "<group>"; };
@@ -338,6 +340,7 @@
 		04C995B12C99299D0017E10A /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				04DBA8532CC3BE1A00B41510 /* DTO */,
 				044A82B02CAD05AE007D3D17 /* SwiftUIViewModel */,
 				04DF05742C9FF8F5008B2651 /* RealmTravelModel */,
 				04DF05752C9FF900008B2651 /* QueryModel */,
@@ -381,6 +384,14 @@
 				04C995D92C9AA0180017E10A /* TravelScheduleListView.swift */,
 			);
 			path = NoUse;
+			sourceTree = "<group>";
+		};
+		04DBA8532CC3BE1A00B41510 /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				04DBA8542CC3BE2D00B41510 /* TravelForAdd.swift */,
+			);
+			path = DTO;
 			sourceTree = "<group>";
 		};
 		04DE1F352C9C7A49000A25E4 /* Planner */ = {
@@ -657,6 +668,7 @@
 				04A46BC12C947CD4005ACE1C /* UserView.swift in Sources */,
 				04C995D82C9A9F9C0017E10A /* ImageManager.swift in Sources */,
 				04DF05812CA00735008B2651 /* SearchQueryModel.swift in Sources */,
+				04DBA8552CC3BE2D00B41510 /* TravelForAdd.swift in Sources */,
 				046CC39C2CA7E6560048F669 /* AppInfoView.swift in Sources */,
 				04DBA8512CC394D600B41510 /* TravelScheduleView.swift in Sources */,
 				04DE1F2C2C9BEEFF000A25E4 /* Date+Extension.swift in Sources */,

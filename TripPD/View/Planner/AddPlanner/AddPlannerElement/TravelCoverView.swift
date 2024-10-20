@@ -8,13 +8,10 @@
 import SwiftUI
 
 struct TravelCoverView: View {
-    @Binding var title: String
-    @Binding var dates: [Date]
-    @Binding var image: Data?
-    @Binding var isStar: Bool
+    var travel: TravelForAdd
     
     var body: some View {
-        if let image = image, let uiimage = UIImage(data: image) {
+        if let image = travel.image, let uiimage = UIImage(data: image) {
             RoundedRectangle(cornerRadius: 12)
                 .fill(.black.opacity(0.2))
                 .background {
@@ -71,10 +68,10 @@ extension TravelCoverView{
         VStack(alignment: .leading, spacing: 10) {
             Spacer()
             
-            Text("\(title)")
+            Text("\(travel.title)")
                 .font(.appFont(28))
             
-            dateText(dates)
+            dateText(travel.dates)
         }
         .frame(height: 100)
         .padding(.top)
@@ -104,5 +101,5 @@ extension TravelCoverView{
 }
 
 #Preview {
-    TravelCoverView(title: .constant("대전 맛집 여행"), dates: .constant([Date(), Date()]), image: .constant(nil), isStar: .constant(false))
+    TravelCoverView(travel: TravelForAdd(title: "", travelConcept: "", dates: [], isStar: false))
 }

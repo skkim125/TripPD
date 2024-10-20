@@ -11,6 +11,7 @@ import Combine
 final class CustomTabBarViewModel: ObservableObject {
     @Published var selectedTab: Tab = .home
     @Published var showSheet: Bool = false
+    @Published var hideTabBar: Bool = false
     
     enum Action {
         case clickedTab(Tab)

@@ -25,13 +25,13 @@ struct ScheduleDayButton: View {
                     .foregroundColor(isSelected ? .mainApp : .gray)
                     .font(.appFont(16))
                 
-                if selectedSchedule.id == schedule.id {
+                if isSelected {
                     Color.mainApp
                         .frame(height: 2)
                         .clipShape(Capsule())
+                        .padding(.horizontal, 5)
                         .matchedGeometryEffect(id: "underline",
                                                in: nameSpace.self)
-                        .padding(.horizontal, 5)
                 } else {
                     Color.clear.frame(height: 2)
                         .clipShape(Capsule())

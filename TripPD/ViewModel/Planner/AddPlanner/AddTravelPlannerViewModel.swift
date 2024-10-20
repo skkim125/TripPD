@@ -10,19 +10,16 @@ import Combine
 
 final class AddTravelPlannerViewModel: ObservableObject {
     var travelManager = TravelManager.shared
-    @Published var title = ""
-    @Published var travelConcept = ""
-    @Published var image: Data?
-    @Published var dates: [Date] = []
+    @Published var travel: TravelForAdd = TravelForAdd(title: "", travelConcept: "", dates: [], isStar: false)
     @Published var showDatePickerView = false
     @Published var showPHPickeView = false
     
     var isFilled: Bool {
-        !title.trimmingCharacters(in: .whitespaces).isEmpty && !dates.isEmpty
+        !travel.title.trimmingCharacters(in: .whitespaces).isEmpty && !travel.dates.isEmpty
     }
     
     var dateText: String {
-        if let firstDay = dates.first, let lastDay = dates.last {
+        if let firstDay = travel.dates.first, let lastDay = travel.dates.last {
             let first = firstDay.customDateFormatter(.coverView)
             let last = lastDay.customDateFormatter(.coverView)
             
@@ -52,9 +49,9 @@ final class AddTravelPlannerViewModel: ObservableObject {
             showPHPickeView.toggle()
         case .addButtonAction:
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                let url = ImageManager.shared.saveImage(imageData: self.image)
+                let url = ImageManager.shared.saveImage(imageData: self.travel.image)
                 
-                self.travelManager.addTravel(date: Date(), title: self.title, travelConcept: self.travelConcept, travelDate: self.dates, coverImageURL: url)
+                self.travelManager.addTravel(date: Date(), title: self.travel.title, travelConcept: self.travel.travelConcept, travelDate: self.travel.dates, coverImageURL: url)
             }
         }
     }

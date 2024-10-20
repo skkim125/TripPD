@@ -25,7 +25,11 @@ struct PastTravelView: View {
 //                            NavigationLink {
 //                                TravelScheduleListView(travel: travel)
 //                            } label: {
-                                TravelCoverView(title: .constant(travel.title), dates: .constant(Array(travel.travelDate)), image: .constant(ImageManager.shared.loadImage(imageName: travel.coverImageURL ?? "")), isStar: .constant(travel.isStar))
+                            let image = ImageManager.shared.loadImage(imageName: travel.coverImageURL)
+                            
+                            let travelForAdd = TravelForAdd(title: travel.title, travelConcept: travel.travelConcept ?? "", dates: travel.travelDate, image: image, isStar: travel.isStar)
+                            
+                            TravelCoverView(travel: travelForAdd)
                                     .padding(.horizontal, 20)
                                     .padding(.top, 15)
 //                            }

@@ -24,11 +24,11 @@ struct CustomTabBar: View {
     var body: some View {
         ZStack(alignment: .init(horizontal: .center, vertical: .bottom)) {
             TabView(selection: $viewModel.selectedTab) {
-                LazyWrapperView(MainHomeView(showToast: $showToast))
+                LazyWrapperView(MainHomeView(showToast: $showToast, hideTabBar: $viewModel.hideTabBar))
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .tag(Tab.home)
                 
-                LazyWrapperView(UserView())
+                LazyWrapperView(UserView(hideTabBar: $viewModel.hideTabBar))
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .tag(Tab.setting)
             }
@@ -82,6 +82,8 @@ struct CustomTabBar: View {
                     }
                     .padding(.bottom, 25)
             }
+            .offset(y: viewModel.hideTabBar ? 150 : 0) 
+            .animation(.easeInOut(duration: 0.3), value: viewModel.hideTabBar)
         }
         .sheet(isPresented: $viewModel.showSheet) {
             AddTravelPlannerView(showSheet: $viewModel.showSheet, showToast: $showToast)
