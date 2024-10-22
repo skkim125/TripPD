@@ -25,7 +25,6 @@ final class PlanningScheduleViewModel: ObservableObject {
     var output: Output
     
     struct Input {
-        var trigger = PassthroughSubject<PlaceForView, Never>()
         var schedule: CurrentValueSubject<ScheduleForView, Never>
         var deletedPlaceId = PassthroughSubject<String, Never>()
         var selectPlace = PassthroughSubject<PlaceForView, Never>()
@@ -67,10 +66,8 @@ final class PlanningScheduleViewModel: ObservableObject {
                 self.output.deleteAction = true
                 self.output.deletePlaceID = value
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                    self.action(action: .transAnotation(self.output.schedule))
                     self.travelManager.removePlace(placeID: value)
-//                    guard let first = self.output.schedule.places.first else { return }
-//                    self.output.seletePlace = first
+                    self.action(action: .transAnotation(self.output.schedule))
                 }
             }
             .store(in: &cancellable)
@@ -78,7 +75,10 @@ final class PlanningScheduleViewModel: ObservableObject {
         input.schedule
             .sink { [weak self] value in
                 guard let self = self else { return }
-                value.places.sorted(by: { $0.time < $1.time }).forEach { place in
+                
+                self.output.annotations.removeAll()
+                
+                for place in value.places.sorted(by: { $0.time < $1.time }) {
                     let annotation = PlaceMapAnnotation(place: place)
                     self.output.annotations.append(annotation)
                 }

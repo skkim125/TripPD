@@ -57,13 +57,23 @@ extension PlanningScheduleView {
             
             Spacer()
             
-            Button {
-                showMapView.toggle()
-            } label: {
-                Image(systemName: "plus")
-                    .font(.appFont(20)).bold()
+            HStack(spacing: 10) {
+                Button {
+                    showMapView.toggle()
+                } label: {
+                    Image(systemName: "map.circle")
+                        .font(.appFont(20)).bold()
+                }
+                .tint(.mainApp)
+                
+                Button {
+                    showMapView.toggle()
+                } label: {
+                    Image(systemName: "plus")
+                        .font(.appFont(20)).bold()
+                }
+                .tint(.mainApp)
             }
-            .tint(.mainApp)
             .fullScreenCover(isPresented: $showMapView) {
                 LazyWrapperView(AddPlaceMapView(schedule: viewModel.output.schedule, showMapView: $showMapView))
             }

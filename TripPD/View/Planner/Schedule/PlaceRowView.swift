@@ -30,8 +30,10 @@ struct PlaceRowView: View {
                     .padding(.top, -8)
             }
             
+            let index = schedule.places.sorted(by: { $0.time < $1.time }).firstIndex(where: { $0.id == place.id })
+            
             VStack(alignment: .leading, spacing: 10) {
-                Text("\(place.name)")
+                Text("\((index ?? -2 ) + 1). \(place.name)")
                     .foregroundStyle(.mainApp)
                     .font(.appFont(18))
                     .padding(.horizontal, 5)

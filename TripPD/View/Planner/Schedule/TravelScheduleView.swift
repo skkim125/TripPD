@@ -76,35 +76,6 @@ struct TravelScheduleView: View {
     }
 }
 
-extension TravelScheduleView {
-    
-//    @ViewBuilder
-//    func calendarView() -> some View {
-//        HStack {
-//            Image(systemName: "calendar")
-//                .resizable()
-//                .scaledToFit()
-//                .frame(width: 28)
-//            
-//            Text("일정")
-//                .font(.appFont(25))
-//            
-//            Spacer()
-//            
-//            Button {
-//                showMapView.toggle()
-//            } label: {
-//                Image(systemName: "plus")
-//                    .font(.appFont(20)).bold()
-//            }
-//            .tint(.mainApp)
-//            .fullScreenCover(isPresented: $showMapView) {
-//                LazyWrapperView(AddPlaceMapView(schedule: viewModel.travel.schedules[selectedTab], showMapView: $showMapView))
-//            }
-//        }
-//    }
-}
-
 #Preview {
     TravelScheduleView(travel: TravelForView(travel: Travel()))
 }
