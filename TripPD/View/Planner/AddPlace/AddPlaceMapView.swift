@@ -59,7 +59,6 @@ struct AddPlaceMapView: View {
                                 
                                 Button {
                                     if let place = isSelectedPlace {
-                                        print(place.placeName)
                                         showAddPlacePopupView.toggle()
                                     }
                                 } label: {

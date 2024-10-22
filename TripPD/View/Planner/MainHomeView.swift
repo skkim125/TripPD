@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import RealmSwift
 import PopupView
 
 struct MainHomeView: View {

@@ -45,7 +45,7 @@ struct AddPlaceView: View {
                     Button {
                         let lat = Double(place.lat) ?? 0.0
                         let lon = Double(place.lon) ?? 0.0
-                        travelManager.addPlace(schedule: schedule, time: travelTime, name: place.placeName, address: place.roadAddress, placeMemo: placeMemo , lat: lat, lon: lon)
+                        travelManager.addPlace(schedule: schedule, time: travelTime, name: place.placeName, address: place.roadAddress, placeMemo: placeMemo, lat: lat, lon: lon)
                         showAddPlacePopupView.toggle()
                     } label: {
                         Text("추가")

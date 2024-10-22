@@ -30,51 +30,41 @@ struct PlaceRowView: View {
                     .padding(.top, -8)
             }
             
-            RoundedRectangle(cornerRadius: 12)
-                .fill(.mainApp)
-                .shadow(radius: 3)
-                .overlay {
-                    Map(coordinateRegion: .constant(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: place.lat, longitude: place.lon), span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005))), annotationItems: [Location(name: place.name, coordinate: CLLocationCoordinate2D(latitude: place.lat, longitude: place.lon))]) { value in
-                        
-                        MapAnnotation(coordinate: value.coordinate) {
+            VStack(alignment: .leading, spacing: 10) {
+                Text("\(place.name)")
+                    .foregroundStyle(.mainApp)
+                    .font(.appFont(18))
+                    .padding(.horizontal, 5)
+                    .padding(.top, 20)
+                    .multilineTextAlignment(.leading)
+                
+                if let memo = place.placeMemo, !memo.isEmpty {
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(.mainApp, lineWidth: 4)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .background(.clear)
+                        .overlay {
                             VStack {
-                                ZStack {
-                                    RoundedRectangle(cornerRadius: 5)
-                                        .stroke(.mainApp, lineWidth: 1)
-                                        .background(.mainApp)
-                                        .frame(height: 25)
-                                        .clipShape(RoundedRectangle(cornerRadius: 5))
-                                        .shadow(radius: 3)
+                                HStack {
+                                    Text("\(memo)")
+                                        .foregroundStyle(.foreground)
+                                        .font(.appFont(13))
+                                        .padding(.horizontal, 10)
+                                        .multilineTextAlignment(.leading)
                                     
-                                    Text("\(value.name)")
-                                        .foregroundStyle(.background)
-                                        .font(.appFont(12))
-                                        .padding(.horizontal, 5)
+                                    Spacer()
                                 }
                                 
-                                Circle()
-                                    .stroke(.mainApp)
-                                    .overlay {
-                                        Image(systemName: "mappin.circle.fill")
-                                            .resizable()
-                                            .frame(width: 25, height: 25)
-                                            .foregroundStyle(.background, .mainApp)
-                                    }
-                                    .frame(width: 25, height: 25)
-                                    .shadow(radius: 3)
+                                Spacer()
                             }
-                            .padding(.bottom, 5)
+                            .padding(.top)
                         }
-                    }
-                    .clipShape(RoundedRectangle(cornerRadius: 5))
-                    .padding(.all, 7)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .frame(height: 80)
+                        .padding(.leading, 5)
                 }
-                .frame(maxWidth: .infinity, alignment: .center)
-                .frame(height: 100)
-                .disabled(true)
-                .padding(.top, 5)
+            }
         }
-        .padding(.vertical, 5)
     }
     
     @ViewBuilder
@@ -83,7 +73,7 @@ struct PlaceRowView: View {
             HStack {
                 Rectangle()
                     .fill(.mainApp)
-                    .frame(width: 2, height: 70)
+                    .frame(width: 2, height: place.placeMemo?.isEmpty ?? true ? 30 : 100)
             }
         } else {
             HStack {

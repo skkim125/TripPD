@@ -119,7 +119,7 @@ struct MapView: UIViewRepresentable {
         
         func mapView(_ mapView: MKMapView, viewFor annotation: any MKAnnotation) -> MKAnnotationView? {
             if let annotation = annotation as? CustomAnnotation {
-                let view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "PlaceMarker")
+                let view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "CustomAnnotation")
                 view.displayPriority = .required
                 view.glyphImage = UIImage(systemName: "star.fill")
                 view.selectedGlyphImage = UIImage(systemName: "star.fill")

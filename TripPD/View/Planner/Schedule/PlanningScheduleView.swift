@@ -7,6 +7,7 @@
 
 import SwiftUI
 import RealmSwift
+import MapKit
 
 struct PlanningScheduleView: View {
     @ObservedObject var viewModel: PlanningScheduleViewModel
@@ -14,16 +15,26 @@ struct PlanningScheduleView: View {
     
     init(schedule: ScheduleForView) {
         self.viewModel = PlanningScheduleViewModel(schedule: schedule)
+        self.viewModel.action(action: .transAnotation(schedule))
     }
     
     var body: some View {
         VStack {
+            calendarView()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .foregroundStyle(.mainApp)
+                .padding(.init(top: 10, leading: 20, bottom: 0, trailing: 20))
+            
             if viewModel.output.schedule.places.isEmpty {
                 Spacer()
                 Label("일정을 만들러 가볼까요?", systemImage: "text.badge.plus")
                     .foregroundStyle(.gray)
                 Spacer()
             } else {
+                Spacer()
+                
+                PlaceMapView(places: $viewModel.output.schedule.places, annotations: $viewModel.output.annotations, selectedPlace: $viewModel.output.seletePlace)
+                
                 placeListView()
             }
         }
@@ -34,10 +45,38 @@ struct PlanningScheduleView: View {
 // MARK: ViewBuilder
 extension PlanningScheduleView {
     @ViewBuilder
+    func calendarView() -> some View {
+        HStack {
+            Image(systemName: "calendar")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 28)
+            
+            Text("일정")
+                .font(.appFont(25))
+            
+            Spacer()
+            
+            Button {
+                showMapView.toggle()
+            } label: {
+                Image(systemName: "plus")
+                    .font(.appFont(20)).bold()
+            }
+            .tint(.mainApp)
+            .fullScreenCover(isPresented: $showMapView) {
+                LazyWrapperView(AddPlaceMapView(schedule: viewModel.output.schedule, showMapView: $showMapView))
+            }
+        }
+    }
+    
+    @ViewBuilder
     func placeListView() -> some View {
         SwiftUIList(viewModel.output.schedule.places.sorted(by: { $0.time < $1.time }), id: \.id) { place in
             Button {
-                
+                withAnimation {
+                    viewModel.action(action: .selectPlace(place))
+                }
             } label: {
                 PlaceRowView(schedule: viewModel.output.schedule, place: place)
                     .opacity(viewModel.output.deletePlaceID == place.id ? 0 : 1)

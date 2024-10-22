@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		041D5DF72CC629B800137816 /* PlaceMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041D5DF62CC629B800137816 /* PlaceMapView.swift */; };
 		0446A5122CA4E83C008C3EA4 /* PlaceLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0446A5112CA4E83C008C3EA4 /* PlaceLocationView.swift */; };
 		0446A5162CA4E897008C3EA4 /* PlaceRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0446A5152CA4E897008C3EA4 /* PlaceRowView.swift */; };
 		044A82B22CAD05CA007D3D17 /* TravelForView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044A82B12CAD05CA007D3D17 /* TravelForView.swift */; };
@@ -96,6 +97,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		041D5DF62CC629B800137816 /* PlaceMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceMapView.swift; sourceTree = "<group>"; };
 		0446A5112CA4E83C008C3EA4 /* PlaceLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceLocationView.swift; sourceTree = "<group>"; };
 		0446A5152CA4E897008C3EA4 /* PlaceRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceRowView.swift; sourceTree = "<group>"; };
 		044A82B12CAD05CA007D3D17 /* TravelForView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelForView.swift; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 			isa = PBXGroup;
 			children = (
 				04DF05882CA156AD008B2651 /* MapView.swift */,
+				041D5DF62CC629B800137816 /* PlaceMapView.swift */,
 			);
 			path = MapView;
 			sourceTree = "<group>";
@@ -635,6 +638,7 @@
 				044A82D02CB11F17007D3D17 /* TabBarButton.swift in Sources */,
 				044A82CE2CB035E8007D3D17 /* CustomTabBarViewModel.swift in Sources */,
 				04DBA84F2CC3818700B41510 /* ScheduleDayButton.swift in Sources */,
+				041D5DF72CC629B800137816 /* PlaceMapView.swift in Sources */,
 				04DF05852CA08304008B2651 /* AddPlaceMapView.swift in Sources */,
 				04A46BCF2C95497D005ACE1C /* TravelMapView.swift in Sources */,
 				044A82C02CAEA4EA007D3D17 /* AddPlaceView.swift in Sources */,

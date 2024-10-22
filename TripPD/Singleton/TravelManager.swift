@@ -71,7 +71,7 @@ final class TravelManager: ObservableObject {
     
     func addPlace(schedule: ScheduleForView, time: Date, name: String, address: String, placeMemo: String? = nil, lat: Double, lon: Double, isStar: Bool = false) {
         
-        let place = Place(time: time, name: name, address: address, lat: lat, lon: lon)
+        let place = Place(time: time, name: name, address: address, placeMemo: placeMemo, lat: lat, lon: lon)
         
         do {
             let realm = try Realm()

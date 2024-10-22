@@ -27,20 +27,13 @@ struct TravelScheduleView: View {
                         ForEach(viewModel.travel.schedules, id: \.id) { item in
                             ScheduleDayButton(selectedSchedule: viewModel.travel.schedules[selectedTab], schedule: item, dayString: item.dayString, isSelected: viewModel.travel.schedules[selectedTab].id == item.id, nameSpace: namespace) {
                                 
-//                                withAnimation {
-                                    selectedTab = viewModel.travel.schedules.firstIndex(where: { $0.id == item.id }) ?? -1
-//                                }
+                                selectedTab = viewModel.travel.schedules.firstIndex(where: { $0.id == item.id }) ?? -1
                             }
                         }
                     }
                 }
                 .padding(.horizontal, 10)
                 .padding(.top, 10)
-                
-                calendarView()
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .foregroundStyle(.mainApp)
-                    .padding(.init(top: 10, leading: 20, bottom: 0, trailing: 20))
                 
                 LazyWrapperView(PlanningScheduleView(schedule: viewModel.travel.schedules[selectedTab]))
             }
@@ -85,31 +78,31 @@ struct TravelScheduleView: View {
 
 extension TravelScheduleView {
     
-    @ViewBuilder
-    func calendarView() -> some View {
-        HStack {
-            Image(systemName: "calendar")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 28)
-            
-            Text("일정")
-                .font(.appFont(25))
-            
-            Spacer()
-            
-            Button {
-                showMapView.toggle()
-            } label: {
-                Image(systemName: "plus")
-                    .font(.appFont(20)).bold()
-            }
-            .tint(.mainApp)
-            .fullScreenCover(isPresented: $showMapView) {
-                LazyWrapperView(AddPlaceMapView(schedule: viewModel.travel.schedules[selectedTab], showMapView: $showMapView))
-            }
-        }
-    }
+//    @ViewBuilder
+//    func calendarView() -> some View {
+//        HStack {
+//            Image(systemName: "calendar")
+//                .resizable()
+//                .scaledToFit()
+//                .frame(width: 28)
+//            
+//            Text("일정")
+//                .font(.appFont(25))
+//            
+//            Spacer()
+//            
+//            Button {
+//                showMapView.toggle()
+//            } label: {
+//                Image(systemName: "plus")
+//                    .font(.appFont(20)).bold()
+//            }
+//            .tint(.mainApp)
+//            .fullScreenCover(isPresented: $showMapView) {
+//                LazyWrapperView(AddPlaceMapView(schedule: viewModel.travel.schedules[selectedTab], showMapView: $showMapView))
+//            }
+//        }
+//    }
 }
 
 #Preview {
