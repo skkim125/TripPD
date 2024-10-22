@@ -12,6 +12,9 @@ struct PlaceMapView: UIViewRepresentable {
     @Binding var places: [PlaceForView]
     @Binding var annotations: [PlaceMapAnnotation]
     @Binding var selectedPlace: PlaceForView?
+    @Binding var setRegion: Bool
+    @Binding var mapCameraStatus: Bool
+    @State private var isInitialRegionSet = false
     
     func makeCoordinator() -> Coordinator {
         Coordinator(parent: self)
@@ -23,49 +26,21 @@ struct PlaceMapView: UIViewRepresentable {
         mapView.delegate = context.coordinator
         context.coordinator.mapView = mapView
         
-        let firstAnnotationPoint = MKMapPoint(annotations.first?.coordinate ?? CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0))
-        
-        annotations.forEach { value in
-            print(value.title)
-        }
-        
-        if annotations.count == 1 {
-            let camera = MKMapCamera(lookingAtCenter: firstAnnotationPoint.coordinate, fromDistance: 1000, pitch: 0, heading: 0)
-            mapView.setCamera(camera, animated: false)
-        } else {
-            
-            var zoomRect = MKMapRect(x: firstAnnotationPoint.x, y: firstAnnotationPoint.y, width: 0.01, height: 0.01)
-            
-            for annotation in annotations.dropFirst() {
-                let annotationPoint = MKMapPoint(annotation.coordinate)
-                let pointRect = MKMapRect(x: annotationPoint.x, y: annotationPoint.y, width: 0.01, height: 0.01)
-                zoomRect = zoomRect.union(pointRect)
-            }
-            DispatchQueue.main.async {
-                mapView.setVisibleMapRect(zoomRect, edgePadding: UIEdgeInsets(top: 50, left: 50, bottom: 50, right: 50), animated: false)
-            }
+        setRegion(mapView)
+        DispatchQueue.main.async {
+            self.isInitialRegionSet = true
         }
         
         return mapView
     }
     
     func updateUIView(_ uiView: MKMapView, context: Context) {
+        
+        if setRegion {
+            setRegion(uiView)
+        }
+        
         guard let place = selectedPlace else {
-            
-            uiView.removeAnnotations(uiView.annotations)
-            uiView.addAnnotations(annotations)
-            
-            let firstAnnotationPoint = MKMapPoint(annotations.first?.coordinate ?? CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0))
-            var zoomRect = MKMapRect(x: firstAnnotationPoint.x, y: firstAnnotationPoint.y, width: 0.01, height: 0.01)
-            
-            for annotation in annotations.dropFirst() {
-                let annotationPoint = MKMapPoint(annotation.coordinate)
-                let pointRect = MKMapRect(x: annotationPoint.x, y: annotationPoint.y, width: 0.01, height: 0.01)
-                zoomRect = zoomRect.union(pointRect)
-            }
-            
-            uiView.setVisibleMapRect(zoomRect, edgePadding: UIEdgeInsets(top: 50, left: 50, bottom: 50, right: 50), animated: false)
-            
             return
         }
         
@@ -90,6 +65,12 @@ struct PlaceMapView: UIViewRepresentable {
             super.init()
         }
         
+        func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
+            if parent.isInitialRegionSet {
+                parent.mapCameraStatus = true
+            }
+        }
+        
         func mapView(_ mapView: MKMapView, viewFor annotation: any MKAnnotation) -> MKAnnotationView? {
             if let annotation = annotation as? PlaceMapAnnotation {
                 let view = PlaceMapAnnotationViewController(annotation: annotation, places: parent.places, reuseIdentifier: PlaceMapAnnotationViewController.identifier)
@@ -101,6 +82,36 @@ struct PlaceMapView: UIViewRepresentable {
             }
             
             return nil
+        }
+    }
+}
+
+extension PlaceMapView {
+    private func setRegion(_ view: MKMapView) {
+        view.removeAnnotations(view.annotations)
+        view.addAnnotations(annotations)
+        
+        let firstAnnotationPoint = MKMapPoint(annotations.first?.coordinate ?? CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0))
+        
+        if annotations.count == 1 {
+            let camera = MKMapCamera(lookingAtCenter: firstAnnotationPoint.coordinate, fromDistance: 1000, pitch: 0, heading: 0)
+            
+            UIView.animate(withDuration: 0.5) {
+                view.setCamera(camera, animated: false)
+            }
+        } else {
+            
+            var zoomRect = MKMapRect(x: firstAnnotationPoint.x, y: firstAnnotationPoint.y, width: 0.01, height: 0.01)
+            
+            for annotation in annotations.dropFirst() {
+                let annotationPoint = MKMapPoint(annotation.coordinate)
+                let pointRect = MKMapRect(x: annotationPoint.x, y: annotationPoint.y, width: 0.01, height: 0.01)
+                zoomRect = zoomRect.union(pointRect)
+            }
+            
+            DispatchQueue.main.async {
+                view.setVisibleMapRect(zoomRect, edgePadding: UIEdgeInsets(top: 50, left: 50, bottom: 50, right: 50), animated: true)
+            }
         }
     }
 }

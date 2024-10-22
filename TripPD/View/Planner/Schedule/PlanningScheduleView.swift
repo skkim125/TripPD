@@ -12,6 +12,8 @@ import MapKit
 struct PlanningScheduleView: View {
     @ObservedObject var viewModel: PlanningScheduleViewModel
     @State private var showMapView: Bool = false
+    @State private var setRegion: Bool = false
+    @State private var mapCameraStatus: Bool = false
     
     init(schedule: ScheduleForView) {
         self.viewModel = PlanningScheduleViewModel(schedule: schedule)
@@ -33,9 +35,13 @@ struct PlanningScheduleView: View {
             } else {
                 Spacer()
                 
-                PlaceMapView(places: $viewModel.output.schedule.places, annotations: $viewModel.output.annotations, selectedPlace: $viewModel.output.seletePlace)
+                PlaceMapView(places: $viewModel.output.schedule.places, annotations: $viewModel.output.annotations, selectedPlace: $viewModel.output.seletePlace, setRegion: $setRegion, mapCameraStatus: $mapCameraStatus)
+                    .onAppear {
+                        mapCameraStatus = false
+                    }
                 
                 placeListView()
+                    .padding(.top, -8)
             }
         }
     }
@@ -59,20 +65,29 @@ extension PlanningScheduleView {
             
             HStack(spacing: 10) {
                 Button {
-                    showMapView.toggle()
+                    DispatchQueue.main.async {
+                        setRegion.toggle()
+                        viewModel.output.seletePlace = nil
+                    }
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        setRegion.toggle()
+                        mapCameraStatus = false
+                    }
                 } label: {
                     Image(systemName: "map.circle")
                         .font(.appFont(20)).bold()
+                        .foregroundStyle(!mapCameraStatus ? .gray : .mainApp)
                 }
-                .tint(.mainApp)
+                .disabled(!mapCameraStatus)
                 
                 Button {
                     showMapView.toggle()
                 } label: {
                     Image(systemName: "plus")
                         .font(.appFont(20)).bold()
+                        .foregroundStyle(.mainApp)
                 }
-                .tint(.mainApp)
             }
             .fullScreenCover(isPresented: $showMapView) {
                 LazyWrapperView(AddPlaceMapView(schedule: viewModel.output.schedule, showMapView: $showMapView))
@@ -107,6 +122,18 @@ extension PlanningScheduleView {
                     
                 }
                 .tint(.red)
+                
+                Button{
+                    print(place.name)
+                } label: {
+                    Label {
+                        Text("수정")
+                    } icon: {
+                        Image(systemName: "pencil")
+                    }
+                    
+                }
+                .tint(.mainApp)
             }
             .listSectionSeparator(.hidden)
             .listRowSeparator(.hidden)
