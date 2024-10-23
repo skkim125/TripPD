@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		041D5DF72CC629B800137816 /* PlaceMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041D5DF62CC629B800137816 /* PlaceMapView.swift */; };
-		0446A5122CA4E83C008C3EA4 /* PlaceLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0446A5112CA4E83C008C3EA4 /* PlaceLocationView.swift */; };
 		0446A5162CA4E897008C3EA4 /* PlaceRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0446A5152CA4E897008C3EA4 /* PlaceRowView.swift */; };
 		044A82B22CAD05CA007D3D17 /* TravelForView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044A82B12CAD05CA007D3D17 /* TravelForView.swift */; };
 		044A82B42CAD0992007D3D17 /* ScheduleForView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044A82B32CAD0992007D3D17 /* ScheduleForView.swift */; };
@@ -98,7 +97,6 @@
 
 /* Begin PBXFileReference section */
 		041D5DF62CC629B800137816 /* PlaceMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceMapView.swift; sourceTree = "<group>"; };
-		0446A5112CA4E83C008C3EA4 /* PlaceLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceLocationView.swift; sourceTree = "<group>"; };
 		0446A5152CA4E897008C3EA4 /* PlaceRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceRowView.swift; sourceTree = "<group>"; };
 		044A82B12CAD05CA007D3D17 /* TravelForView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelForView.swift; sourceTree = "<group>"; };
 		044A82B32CAD0992007D3D17 /* ScheduleForView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleForView.swift; sourceTree = "<group>"; };
@@ -335,7 +333,6 @@
 				04DF05842CA08304008B2651 /* AddPlaceMapView.swift */,
 				044A82BF2CAEA4EA007D3D17 /* AddPlaceView.swift */,
 				04F7CF302CA29DF80061A056 /* SearchListHeaderView.swift */,
-				0446A5112CA4E83C008C3EA4 /* PlaceLocationView.swift */,
 			);
 			path = AddPlace;
 			sourceTree = "<group>";
@@ -642,7 +639,6 @@
 				04DF05852CA08304008B2651 /* AddPlaceMapView.swift in Sources */,
 				04A46BCF2C95497D005ACE1C /* TravelMapView.swift in Sources */,
 				044A82C02CAEA4EA007D3D17 /* AddPlaceView.swift in Sources */,
-				0446A5122CA4E83C008C3EA4 /* PlaceLocationView.swift in Sources */,
 				04C995B92C992B7C0017E10A /* Finance.swift in Sources */,
 				04C995AB2C97EDDE0017E10A /* APIKey.swift in Sources */,
 				04A548052CB3C1D70008FB3B /* PlanningScheduleViewModel.swift in Sources */,

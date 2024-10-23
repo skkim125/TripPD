@@ -10,7 +10,7 @@ import SwiftUI
 struct AddPlaceView: View {
     var travelManager = TravelManager.shared
     var schedule: ScheduleForView
-    @Binding var isSelectedPlace: PlaceInfo?
+    @Binding var isSelectedPlace: PlaceForView?
     @Binding var showAddPlacePopupView: Bool
     
     @State private var placeURL = ""
@@ -35,7 +35,7 @@ struct AddPlaceView: View {
                     
                     Spacer()
                     
-                    Text("\(place.placeName)")
+                    Text("\(place.name)")
                         .foregroundStyle(Color(uiColor: .label).gradient)
                         .font(.appFont(20))
                         .multilineTextAlignment(.center)
@@ -43,9 +43,7 @@ struct AddPlaceView: View {
                     Spacer()
                     
                     Button {
-                        let lat = Double(place.lat) ?? 0.0
-                        let lon = Double(place.lon) ?? 0.0
-                        travelManager.addPlace(schedule: schedule, time: travelTime, name: place.placeName, address: place.roadAddress, placeMemo: placeMemo, lat: lat, lon: lon)
+                        travelManager.addPlace(schedule: schedule, time: travelTime, name: place.name, address: place.address, placeMemo: placeMemo, lat: place.lat, lon: place.lon)
                         showAddPlacePopupView.toggle()
                     } label: {
                         Text("추가")
@@ -60,7 +58,7 @@ struct AddPlaceView: View {
                 
                 Spacer()
                 
-                Text("\(place.roadAddress)")
+                Text("\(place.name)")
                     .foregroundStyle(Color(uiColor: .label).gradient)
                     .font(.appFont(14))
                     .multilineTextAlignment(.center)

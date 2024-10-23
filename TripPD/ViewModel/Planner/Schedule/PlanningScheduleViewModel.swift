@@ -27,6 +27,7 @@ final class PlanningScheduleViewModel: ObservableObject {
     struct Input {
         var schedule: CurrentValueSubject<ScheduleForView, Never>
         var deletedPlaceId = PassthroughSubject<String, Never>()
+        var editPlaceId = PassthroughSubject<String, Never>()
         var selectPlace = PassthroughSubject<PlaceForView, Never>()
     }
     
@@ -36,10 +37,12 @@ final class PlanningScheduleViewModel: ObservableObject {
         var seletePlace: PlaceForView?
         var deleteAction = false
         var deletePlaceID = ""
+        var editPlace: PlaceForView?
     }
     
     enum Action {
         case deletePlaceAction(String)
+        case editPlaceAction(String)
         case transAnotation(ScheduleForView)
         case selectPlace(PlaceForView)
     }
@@ -49,9 +52,15 @@ final class PlanningScheduleViewModel: ObservableObject {
         case .transAnotation(let schedule):
             input.schedule
                 .send(schedule)
+            
         case .deletePlaceAction(let id):
             input.deletedPlaceId
                 .send(id)
+            
+        case .editPlaceAction(let id):
+            input.editPlaceId
+                .send(id)
+            
         case .selectPlace(let place):
             input.selectPlace
                 .send(place)
@@ -69,6 +78,14 @@ final class PlanningScheduleViewModel: ObservableObject {
                     self.travelManager.removePlace(placeID: value)
                     self.action(action: .transAnotation(self.output.schedule))
                 }
+            }
+            .store(in: &cancellable)
+        
+        input.editPlaceId
+            .sink { [weak self] value in
+                guard let self = self else { return }
+                guard let editPlace = self.output.schedule.places.first(where: { $0.id == value }) else { return }
+                self.output.editPlace = editPlace
             }
             .store(in: &cancellable)
         

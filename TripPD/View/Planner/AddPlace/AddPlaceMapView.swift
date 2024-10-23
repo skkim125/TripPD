@@ -28,7 +28,7 @@ struct AddPlaceMapView: View {
     @State private var showPlaceWebView = false
     @State private var showAddPlacePopupView = false
     @State private var showNoResults = false
-    @State private var isSelectedPlace: PlaceInfo?
+    @State private var isSelectedPlace: PlaceForView?
     @State private var placeURL = ""
     @State private var travelTime = Date()
     @State private var placeMemo = ""
@@ -44,7 +44,10 @@ struct AddPlaceMapView: View {
         NavigationStack {
             MapView(annotations: $annotations, showAlert: $showAlert, isSearched: $isSearched, isSelected: $isSelected, type: .addPlace) { place in
                 placeURL = place.placeURL
-                isSelectedPlace = place
+                let lat = Double(place.lat) ?? 0.0
+                let lon = Double(place.lon) ?? 0.0
+                
+                isSelectedPlace = PlaceForView(time: Date(), name: place.placeName, address: place.roadAddress, lat: lat, lon: lon, isStar: false)
                 showPlaceWebView = true
             }
             .bottomSheet(bottomSheetPosition: $sheetHeight, switchablePositions: [.relativeBottom(0.15), .absolute(365), .relativeTop(0.78)], headerContent: {
@@ -58,7 +61,7 @@ struct AddPlaceMapView: View {
                                 Spacer()
                                 
                                 Button {
-                                    if let place = isSelectedPlace {
+                                    if let _ = isSelectedPlace {
                                         showAddPlacePopupView.toggle()
                                     }
                                 } label: {
@@ -181,7 +184,7 @@ struct AddPlaceMapView: View {
                 kakaoLocalManager.searchResult.removeAll()
                 KeyboardNotificationManager.shared.removeNotiObserver()
             }
-            .onChange(of: isSelectedPlace) { _ in
+            .onChange(of: isSelectedPlace != nil) { _ in
                 sheetHeight = .relativeTop(0.78)
                 showPlaceWebView = true
             }
@@ -207,7 +210,7 @@ struct AddPlaceMapView: View {
                 .background(.background)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .overlay {
-                    AddPlaceView(schedule: schedule, isSelectedPlace: $isSelectedPlace ,showAddPlacePopupView: $showAddPlacePopupView)
+                    AddPlaceView(schedule: schedule, isSelectedPlace: $isSelectedPlace, showAddPlacePopupView: $showAddPlacePopupView)
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
                 .frame(height: 350)
@@ -228,15 +231,5 @@ struct AddPlaceMapView: View {
         .onTapGesture {
             hideKeyboard()
         }
-    }
-    
-    private func convertToMapCoordinate(location: CGPoint, mapSize: CGSize) -> CLLocationCoordinate2D {
-        let mapCenter = mapRegion.center
-        let span = mapRegion.span
-        
-        let longitude = mapCenter.longitude + (Double(location.x / mapSize.width) - 0.5) * span.longitudeDelta
-        let latitude = mapCenter.latitude - (Double(location.y / mapSize.height) - 0.5) * span.latitudeDelta
-        
-        return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
 }

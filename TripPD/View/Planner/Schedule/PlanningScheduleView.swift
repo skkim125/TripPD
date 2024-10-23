@@ -8,12 +8,14 @@
 import SwiftUI
 import RealmSwift
 import MapKit
+import PopupView
 
 struct PlanningScheduleView: View {
     @ObservedObject var viewModel: PlanningScheduleViewModel
     @State private var showMapView: Bool = false
     @State private var setRegion: Bool = false
     @State private var mapCameraStatus: Bool = false
+    @State private var showEditPlacePopupView: Bool = false
     
     init(schedule: ScheduleForView) {
         self.viewModel = PlanningScheduleViewModel(schedule: schedule)
@@ -138,6 +140,33 @@ extension PlanningScheduleView {
             .listSectionSeparator(.hidden)
             .listRowSeparator(.hidden)
             .listRowSeparatorTint(.clear)
+            .popup(isPresented: $showEditPlacePopupView) {
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(.mainApp.gradient, lineWidth: 2)
+                    .background(.background)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .overlay {
+                            AddPlaceView(schedule: viewModel.output.schedule, isSelectedPlace: $viewModel.output.editPlace, showAddPlacePopupView: $showEditPlacePopupView)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .frame(height: 350)
+                    .padding()
+                
+            } customize: {
+                $0
+                    .closeOnTap(false)
+                    .closeOnTapOutside(false)
+                    .type(.floater(verticalPadding: 10, horizontalPadding: 20, useSafeAreaInset: true))
+                    .position(.bottom)
+                    .dragToDismiss(false)
+                    .useKeyboardSafeArea(true)
+                    .backgroundView {
+                        Color.black.opacity(0.3)
+                    }
+            }
+            .onTapGesture {
+                hideKeyboard()
+            }
         }
         .listStyle(.plain)
     }
