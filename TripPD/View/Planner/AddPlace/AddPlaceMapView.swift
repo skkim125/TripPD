@@ -34,6 +34,7 @@ struct AddPlaceMapView: View {
     @State private var placeMemo = ""
     @State private var showNetworkErrorAlert = false
     @State private var showNetworkErrorAlertTitle = ""
+    @State private var time = Date()
     
     init(schedule: ScheduleForView, showMapView: Binding<Bool>) {
         self.schedule = schedule
@@ -48,6 +49,7 @@ struct AddPlaceMapView: View {
                 let lon = Double(place.lon) ?? 0.0
                 
                 isSelectedPlace = PlaceForView(time: Date(), name: place.placeName, address: place.roadAddress, lat: lat, lon: lon, isStar: false)
+                time = isSelectedPlace?.time ?? Date()
                 showPlaceWebView = true
             }
             .bottomSheet(bottomSheetPosition: $sheetHeight, switchablePositions: [.relativeBottom(0.15), .absolute(365), .relativeTop(0.78)], headerContent: {
@@ -210,7 +212,7 @@ struct AddPlaceMapView: View {
                 .background(.background)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .overlay {
-                    AddPlaceView(schedule: schedule, isSelectedPlace: $isSelectedPlace, showAddPlacePopupView: $showAddPlacePopupView)
+                    AddPlaceView(schedule: schedule, isSelectedPlace: $isSelectedPlace, showAddPlacePopupView: $showAddPlacePopupView, travelTime: $time)
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
                 .frame(height: 350)

@@ -12,11 +12,17 @@ struct AddPlaceView: View {
     var schedule: ScheduleForView
     @Binding var isSelectedPlace: PlaceForView?
     @Binding var showAddPlacePopupView: Bool
-    
+    @Binding var travelTime: Date
     @State private var placeURL = ""
-    @State private var travelTime = Date()
     @State private var placeMemo = ""
     @FocusState var isFocused: Bool
+    
+    init(schedule: ScheduleForView, isSelectedPlace: Binding<PlaceForView?>, showAddPlacePopupView: Binding<Bool>, travelTime: Binding<Date>) {
+        self.schedule = schedule
+        self._isSelectedPlace = isSelectedPlace
+        self._showAddPlacePopupView = showAddPlacePopupView
+        self._travelTime = travelTime
+    }
     
     var body: some View {
         if let place = isSelectedPlace {

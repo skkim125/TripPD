@@ -16,6 +16,7 @@ struct PlanningScheduleView: View {
     @State private var setRegion: Bool = false
     @State private var mapCameraStatus: Bool = false
     @State private var showEditPlacePopupView: Bool = false
+    @State private var time = Date()
     
     init(schedule: ScheduleForView) {
         self.viewModel = PlanningScheduleViewModel(schedule: schedule)
@@ -45,6 +46,33 @@ struct PlanningScheduleView: View {
                 placeListView()
                     .padding(.top, -8)
             }
+        }
+        .popup(isPresented: $showEditPlacePopupView) {
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(.mainApp.gradient, lineWidth: 2)
+                .background(.background)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .overlay {
+                    LazyWrapperView(AddPlaceView(schedule: viewModel.output.schedule, isSelectedPlace: $viewModel.output.editPlace, showAddPlacePopupView: $showEditPlacePopupView, travelTime: $time))
+                        .onTapGesture {
+                            hideKeyboard()
+                        }
+                }
+                .frame(maxWidth: .infinity, alignment: .center)
+                .frame(height: 350)
+                .padding()
+            
+        } customize: {
+            $0
+                .closeOnTap(false)
+                .closeOnTapOutside(false)
+                .type(.floater(verticalPadding: 10, horizontalPadding: 20, useSafeAreaInset: true))
+                .position(.bottom)
+                .dragToDismiss(false)
+                .useKeyboardSafeArea(true)
+                .backgroundView {
+                    Color.black.opacity(0.3)
+                }
         }
     }
 }
@@ -126,7 +154,9 @@ extension PlanningScheduleView {
                 .tint(.red)
                 
                 Button{
-                    print(place.name)
+                    showEditPlacePopupView = true
+                    viewModel.action(action: .editPlaceAction(place.id))
+                    time = viewModel.output.editPlace?.time ?? Date()
                 } label: {
                     Label {
                         Text("수정")
@@ -140,33 +170,6 @@ extension PlanningScheduleView {
             .listSectionSeparator(.hidden)
             .listRowSeparator(.hidden)
             .listRowSeparatorTint(.clear)
-            .popup(isPresented: $showEditPlacePopupView) {
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(.mainApp.gradient, lineWidth: 2)
-                    .background(.background)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .overlay {
-                            AddPlaceView(schedule: viewModel.output.schedule, isSelectedPlace: $viewModel.output.editPlace, showAddPlacePopupView: $showEditPlacePopupView)
-                    }
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .frame(height: 350)
-                    .padding()
-                
-            } customize: {
-                $0
-                    .closeOnTap(false)
-                    .closeOnTapOutside(false)
-                    .type(.floater(verticalPadding: 10, horizontalPadding: 20, useSafeAreaInset: true))
-                    .position(.bottom)
-                    .dragToDismiss(false)
-                    .useKeyboardSafeArea(true)
-                    .backgroundView {
-                        Color.black.opacity(0.3)
-                    }
-            }
-            .onTapGesture {
-                hideKeyboard()
-            }
         }
         .listStyle(.plain)
     }
