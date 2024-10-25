@@ -17,6 +17,7 @@ struct PlanningScheduleView: View {
     @State private var mapCameraStatus: Bool = false
     @State private var showEditPlacePopupView: Bool = false
     @State private var time = Date()
+    @State private var placeMemo = ""
     
     init(schedule: ScheduleForView) {
         self.viewModel = PlanningScheduleViewModel(schedule: schedule)
@@ -53,7 +54,7 @@ struct PlanningScheduleView: View {
                 .background(.background)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .overlay {
-                    LazyWrapperView(AddPlaceView(schedule: viewModel.output.schedule, isSelectedPlace: $viewModel.output.editPlace, showAddPlacePopupView: $showEditPlacePopupView, travelTime: $time))
+                    LazyWrapperView(AddPlaceView(schedule: viewModel.output.schedule, isSelectedPlace: $viewModel.output.editPlace, showAddPlacePopupView: $showEditPlacePopupView, travelTime: $time, placeMemo: $placeMemo, viewType: .constant(.edit)))
                         .onTapGesture {
                             hideKeyboard()
                         }
@@ -157,6 +158,7 @@ extension PlanningScheduleView {
                     showEditPlacePopupView = true
                     viewModel.action(action: .editPlaceAction(place.id))
                     time = viewModel.output.editPlace?.time ?? Date()
+                    placeMemo = viewModel.output.editPlace?.placeMemo ?? ""
                 } label: {
                     Label {
                         Text("수정")

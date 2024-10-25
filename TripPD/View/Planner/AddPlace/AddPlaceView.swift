@@ -13,15 +13,18 @@ struct AddPlaceView: View {
     @Binding var isSelectedPlace: PlaceForView?
     @Binding var showAddPlacePopupView: Bool
     @Binding var travelTime: Date
+    @Binding var viewType: PlaceViewType
+    @Binding var placeMemo: String
     @State private var placeURL = ""
-    @State private var placeMemo = ""
     @FocusState var isFocused: Bool
     
-    init(schedule: ScheduleForView, isSelectedPlace: Binding<PlaceForView?>, showAddPlacePopupView: Binding<Bool>, travelTime: Binding<Date>) {
+    init(schedule: ScheduleForView, isSelectedPlace: Binding<PlaceForView?>, showAddPlacePopupView: Binding<Bool>, travelTime: Binding<Date>, placeMemo: Binding<String>, viewType: Binding<PlaceViewType>) {
         self.schedule = schedule
         self._isSelectedPlace = isSelectedPlace
         self._showAddPlacePopupView = showAddPlacePopupView
         self._travelTime = travelTime
+        self._placeMemo = placeMemo
+        self._viewType = viewType
     }
     
     var body: some View {
@@ -49,7 +52,12 @@ struct AddPlaceView: View {
                     Spacer()
                     
                     Button {
-                        travelManager.addPlace(schedule: schedule, time: travelTime, name: place.name, address: place.address, placeMemo: placeMemo, lat: place.lat, lon: place.lon)
+                        switch viewType {
+                        case .add:
+                            travelManager.addPlace(schedule: schedule, time: travelTime, name: place.name, address: place.address, placeMemo: placeMemo, lat: place.lat, lon: place.lon)
+                        case .edit:
+                            travelManager.updatePlace(placeId: place.id, time: travelTime, name: place.name, address: place.address, placeMemo: placeMemo, lat: place.lat, lon: place.lon, isStar: false)
+                        }
                         showAddPlacePopupView.toggle()
                     } label: {
                         Text("추가")
@@ -140,3 +148,8 @@ struct AddPlaceView: View {
 //#Preview {
 //    AddPlaceView()
 //}
+
+enum PlaceViewType {
+    case add
+    case edit
+}

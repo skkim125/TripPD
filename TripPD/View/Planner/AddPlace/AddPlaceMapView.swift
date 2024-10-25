@@ -212,7 +212,7 @@ struct AddPlaceMapView: View {
                 .background(.background)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .overlay {
-                    AddPlaceView(schedule: schedule, isSelectedPlace: $isSelectedPlace, showAddPlacePopupView: $showAddPlacePopupView, travelTime: $time)
+                    AddPlaceView(schedule: schedule, isSelectedPlace: $isSelectedPlace, showAddPlacePopupView: $showAddPlacePopupView, travelTime: $time, placeMemo: $placeMemo, viewType: .constant(.add))
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
                 .frame(height: 350)

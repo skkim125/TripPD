@@ -71,7 +71,7 @@ final class TravelManager: ObservableObject {
     
     func addPlace(schedule: ScheduleForView, time: Date, name: String, address: String, placeMemo: String? = nil, lat: Double, lon: Double, isStar: Bool = false) {
         
-        let place = Place(time: time, name: name, address: address, placeMemo: placeMemo, lat: lat, lon: lon)
+        let place = Place(time: time, name: name, address: address, placeMemo: placeMemo, lat: lat, lon: lon, isStar: isStar)
         
         do {
             let realm = try Realm()
@@ -84,6 +84,41 @@ final class TravelManager: ObservableObject {
             
         }
     }
+    
+    func updatePlace(placeId: String, time: Date? = nil, name: String? = nil, address: String? = nil, placeMemo: String? = nil, lat: Double? = nil, lon: Double? = nil, isStar: Bool? = nil) {
+        do {
+            let realm = try Realm()
+            let id = try ObjectId(string: placeId)
+            guard let place = realm.object(ofType: Place.self, forPrimaryKey: id) else { return }
+            
+            try realm.write {
+                if let time = time {
+                    place.time = time
+                }
+                if let name = name {
+                    place.name = name
+                }
+                if let address = address {
+                    place.address = address
+                }
+                if let placeMemo = placeMemo {
+                    place.placeMemo = placeMemo
+                }
+                if let lat = lat {
+                    place.lat = lat
+                }
+                if let lon = lon {
+                    place.lon = lon
+                }
+                if let isStar = isStar {
+                    place.isStar = isStar
+                }
+            }
+        } catch {
+            print("Error updating Place: \(error)")
+        }
+    }
+
     
     func updateDelete(realm: Realm, results: Results<Travel> ,travel: TravelForView) {
         do {
