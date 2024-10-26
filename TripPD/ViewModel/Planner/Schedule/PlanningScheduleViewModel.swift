@@ -5,7 +5,7 @@
 //  Created by 김상규 on 10/7/24.
 //
 
-import SwiftUI
+import Foundation
 import Combine
 import MapKit
 

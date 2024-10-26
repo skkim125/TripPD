@@ -60,7 +60,7 @@ struct AddPlaceView: View {
                         }
                         showAddPlacePopupView.toggle()
                     } label: {
-                        Text("추가")
+                        Text(viewType.buttonText)
                             .foregroundStyle(.mainApp)
                             .font(.appFont(20))
                     }
@@ -145,11 +145,16 @@ struct AddPlaceView: View {
     }
 }
 
-//#Preview {
-//    AddPlaceView()
-//}
-
 enum PlaceViewType {
     case add
     case edit
+    
+    var buttonText: String {
+        switch self {
+        case .add:
+            "추가"
+        case .edit:
+            "수정"
+        }
+    }
 }

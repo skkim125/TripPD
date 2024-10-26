@@ -16,7 +16,6 @@ struct MapView: UIViewRepresentable {
     
     @State private var selectedAnnotation: CustomAnnotation?
     var isSelectAnnotation: Bool = false
-    var type: MapType
     var selectAction: ((PlaceInfo) -> Void)?
     
     func makeCoordinator() -> Coordinator {
@@ -171,12 +170,6 @@ extension MapView.Coordinator: CLLocationManagerDelegate {
             self.locationManager?.stopUpdatingLocation()
         }
     }
-}
-
-enum MapType {
-    case myAround
-    case addPlace
-    case placeInfo
 }
 
 final class CustomAnnotation: NSObject, MKAnnotation {

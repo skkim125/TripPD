@@ -5,7 +5,7 @@
 //  Created by 김상규 on 10/6/24.
 //
 
-import SwiftUI
+import Foundation
 import Combine
 
 final class TravelScheduleViewModel: ObservableObject {

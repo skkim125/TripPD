@@ -43,7 +43,7 @@ struct AddPlaceMapView: View {
     
     var body: some View {
         NavigationStack {
-            MapView(annotations: $annotations, showAlert: $showAlert, isSearched: $isSearched, isSelected: $isSelected, type: .addPlace) { place in
+            MapView(annotations: $annotations, showAlert: $showAlert, isSearched: $isSearched, isSelected: $isSelected) { place in
                 placeURL = place.placeURL
                 let lat = Double(place.lat) ?? 0.0
                 let lon = Double(place.lon) ?? 0.0
