@@ -16,7 +16,7 @@ struct PlaceRowView: View {
         HStack(alignment: .top, spacing: 10) {
             VStack(alignment: .center) {
                 Text("\(place.time.customDateFormatter(.onlyTime))")
-                    .font(.appFont(10))
+                    .font(.appFont(12))
                     .foregroundStyle(.gray)
                     .multilineTextAlignment(.center)
                 

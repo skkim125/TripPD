@@ -5,7 +5,7 @@
 //  Created by 김상규 on 10/7/24.
 //
 
-import Foundation
+import SwiftUI
 import Combine
 import MapKit
 
@@ -13,9 +13,9 @@ final class PlanningScheduleViewModel: ObservableObject {
     private let travelManager = TravelManager.shared
     var cancellable = Set<AnyCancellable>()
     
-    init(schedule: ScheduleForView) {
-        self.input = Input(schedule: CurrentValueSubject<ScheduleForView, Never>(schedule))
-        self.output = Output(schedule: schedule)
+    init(schedule: Binding<ScheduleForView>) {
+        self.input = Input(schedule: CurrentValueSubject<ScheduleForView, Never>(schedule.wrappedValue))
+        self.output = Output(schedule: schedule.wrappedValue)
         transform()
     }
     
@@ -76,7 +76,7 @@ final class PlanningScheduleViewModel: ObservableObject {
                 self.output.deletePlaceID = value
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
                     self.travelManager.removePlace(placeID: value)
-                    self.action(action: .transAnotation(self.output.schedule))
+                    self.action(action: .transAnotation(self.input.schedule.value))
                 }
             }
             .store(in: &cancellable)
@@ -93,12 +93,7 @@ final class PlanningScheduleViewModel: ObservableObject {
             .sink { [weak self] value in
                 guard let self = self else { return }
                 
-                self.output.annotations.removeAll()
-                
-                for place in value.places.sorted(by: { $0.time < $1.time }) {
-                    let annotation = PlaceMapAnnotation(place: place)
-                    self.output.annotations.append(annotation)
-                }
+                self.output.annotations = value.places.sorted(by: { $0.time < $1.time }).map { PlaceMapAnnotation(place: $0) }
             }
             .store(in: &cancellable)
         

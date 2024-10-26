@@ -45,7 +45,7 @@ struct MainHomeView: View {
                 
 //                Spacer()
                 
-                if viewModel.travelListForView.isEmpty {
+                if viewModel.travelListForView.isEmpty  {
                     Text("현재 계획된 여행이 없어요.")
                         .font(.footnote)
                         .foregroundStyle(.gray)

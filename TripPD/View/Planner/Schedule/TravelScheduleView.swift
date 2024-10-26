@@ -35,7 +35,7 @@ struct TravelScheduleView: View {
                 .padding(.horizontal, 10)
                 .padding(.top, 10)
                 
-                LazyWrapperView(PlanningScheduleView(schedule: viewModel.travel.schedules[viewModel.selectedTab]))
+                LazyWrapperView(PlanningScheduleView(schedule: $viewModel.travel.schedules[viewModel.selectedTab]))
             }
             .alert(isPresented: $viewModel.showDeleteAlert) {
                 Alert(title: Text("정말로 여행 플랜을 삭제하시겠습니까?"), message: Text("삭제 이후 복구할 수 없습니다."), primaryButton: .cancel(Text("아니요")), secondaryButton: .destructive(Text("예"), action: {

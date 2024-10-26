@@ -14,7 +14,6 @@ struct PlaceMapView: UIViewRepresentable {
     @Binding var selectedPlace: PlaceForView?
     @Binding var setRegion: Bool
     @Binding var mapCameraStatus: Bool
-    @State private var isInitialRegionSet = false
     
     func makeCoordinator() -> Coordinator {
         Coordinator(parent: self)
@@ -27,9 +26,6 @@ struct PlaceMapView: UIViewRepresentable {
         context.coordinator.mapView = mapView
         
         setRegion(mapView)
-        DispatchQueue.main.async {
-            self.isInitialRegionSet = true
-        }
         
         return mapView
     }
@@ -38,6 +34,14 @@ struct PlaceMapView: UIViewRepresentable {
         
         if setRegion {
             setRegion(uiView)
+        }
+        
+        uiView.removeAnnotations(uiView.annotations)
+        uiView.addAnnotations(annotations)
+        
+        if !uiView.annotations.elementsEqual(annotations, by: { $0.coordinate.latitude == $1.coordinate.latitude && $0.coordinate.longitude == $1.coordinate.longitude }) {
+            uiView.removeAnnotations(uiView.annotations)
+            uiView.addAnnotations(annotations)
         }
         
         guard let place = selectedPlace else {
@@ -49,9 +53,7 @@ struct PlaceMapView: UIViewRepresentable {
         let cameraPostion = CLLocationCoordinate2D(latitude: coord.latitude, longitude: coord.longitude)
         let camera = MKMapCamera(lookingAtCenter: cameraPostion, fromDistance: 1000, pitch: 0, heading: 0)
         
-        UIView.animate(withDuration: 0.5) {
-            uiView.setCamera(camera, animated: false)
-        }
+        uiView.setCamera(camera, animated: true)
     }
     
     class Coordinator: NSObject, MKMapViewDelegate {
@@ -66,8 +68,8 @@ struct PlaceMapView: UIViewRepresentable {
         }
         
         func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
-            if parent.isInitialRegionSet {
-                parent.mapCameraStatus = true
+            DispatchQueue.main.async {
+                self.parent.mapCameraStatus = true
             }
         }
         
@@ -88,8 +90,6 @@ struct PlaceMapView: UIViewRepresentable {
 
 extension PlaceMapView {
     private func setRegion(_ view: MKMapView) {
-        view.removeAnnotations(view.annotations)
-        view.addAnnotations(annotations)
         
         let firstAnnotationPoint = MKMapPoint(annotations.first?.coordinate ?? CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0))
         
@@ -149,7 +149,6 @@ class PlaceMapAnnotationViewController: MKAnnotationView {
             hostingController.view.centerYAnchor.constraint(equalTo: self.centerYAnchor),
         ])
         
-        hostingController.view.layer.cornerRadius = 5
         hostingController.view.backgroundColor = .clear
         
         self.hostingController = hostingController

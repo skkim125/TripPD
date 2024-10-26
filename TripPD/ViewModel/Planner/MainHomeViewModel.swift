@@ -13,7 +13,7 @@ final class MainHomeViewModel: ObservableObject {
     @Published var travelListForView: [TravelForView] = []
     
     init() {
-        self.travelListForView = travelManager.travelListForView
+        self.travelListForView = travelManager.travelListForView.filter({ $0.isDelete == false })
     }
     
     enum Action {

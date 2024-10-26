@@ -19,9 +19,8 @@ struct PlanningScheduleView: View {
     @State private var time = Date()
     @State private var placeMemo = ""
     
-    init(schedule: ScheduleForView) {
+    init(schedule: Binding<ScheduleForView>) {
         self.viewModel = PlanningScheduleViewModel(schedule: schedule)
-        self.viewModel.action(action: .transAnotation(schedule))
     }
     
     var body: some View {
@@ -40,9 +39,6 @@ struct PlanningScheduleView: View {
                 Spacer()
                 
                 PlaceMapView(places: $viewModel.output.schedule.places, annotations: $viewModel.output.annotations, selectedPlace: $viewModel.output.seletePlace, setRegion: $setRegion, mapCameraStatus: $mapCameraStatus)
-                    .onAppear {
-                        mapCameraStatus = false
-                    }
                 
                 placeListView()
                     .padding(.top, -8)
@@ -95,22 +91,24 @@ extension PlanningScheduleView {
             Spacer()
             
             HStack(spacing: 10) {
-                Button {
-                    DispatchQueue.main.async {
-                        setRegion.toggle()
-                        viewModel.output.seletePlace = nil
+                if !viewModel.output.annotations.isEmpty {
+                    Button {
+                        DispatchQueue.main.async {
+                            setRegion.toggle()
+                            viewModel.output.seletePlace = nil
+                        }
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            setRegion.toggle()
+                            mapCameraStatus = false
+                        }
+                    } label: {
+                        Image(systemName: "map.circle")
+                            .font(.appFont(20)).bold()
+                            .foregroundStyle(!mapCameraStatus ? .gray : .mainApp)
                     }
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        setRegion.toggle()
-                        mapCameraStatus = false
-                    }
-                } label: {
-                    Image(systemName: "map.circle")
-                        .font(.appFont(20)).bold()
-                        .foregroundStyle(!mapCameraStatus ? .gray : .mainApp)
+                    .disabled(!mapCameraStatus)
                 }
-                .disabled(!mapCameraStatus)
                 
                 Button {
                     showMapView.toggle()
