@@ -13,9 +13,9 @@ final class PlanningScheduleViewModel: ObservableObject {
     private let travelManager = TravelManager.shared
     var cancellable = Set<AnyCancellable>()
     
-    init(schedule: Binding<ScheduleForView>) {
-        self.input = Input(schedule: CurrentValueSubject<ScheduleForView, Never>(schedule.wrappedValue))
-        self.output = Output(schedule: schedule.wrappedValue)
+    init(schedule: ScheduleForView) {
+        self.input = Input(schedule: CurrentValueSubject<ScheduleForView, Never>(schedule))
+        self.output = Output(schedule: schedule)
         transform()
     }
     
@@ -38,6 +38,7 @@ final class PlanningScheduleViewModel: ObservableObject {
         var deleteAction = false
         var deletePlaceID = ""
         var editPlace: PlaceForView?
+        var routeCoordinates: [CLLocationCoordinate2D] = []
     }
     
     enum Action {
@@ -94,6 +95,7 @@ final class PlanningScheduleViewModel: ObservableObject {
                 guard let self = self else { return }
                 
                 self.output.annotations = value.places.sorted(by: { $0.time < $1.time }).map { PlaceMapAnnotation(place: $0) }
+                self.output.routeCoordinates = value.places.sorted(by: { $0.time < $1.time }).map({ CLLocationCoordinate2D(latitude: $0.lat, longitude: $0.lon) })
             }
             .store(in: &cancellable)
         

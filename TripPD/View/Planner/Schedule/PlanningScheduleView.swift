@@ -19,7 +19,7 @@ struct PlanningScheduleView: View {
     @State private var time = Date()
     @State private var placeMemo = ""
     
-    init(schedule: Binding<ScheduleForView>) {
+    init(schedule: ScheduleForView) {
         self.viewModel = PlanningScheduleViewModel(schedule: schedule)
     }
     
@@ -38,7 +38,10 @@ struct PlanningScheduleView: View {
             } else {
                 Spacer()
                 
-                PlaceMapView(places: $viewModel.output.schedule.places, annotations: $viewModel.output.annotations, selectedPlace: $viewModel.output.seletePlace, setRegion: $setRegion, mapCameraStatus: $mapCameraStatus)
+                PlaceMapView(places: $viewModel.output.schedule.places, annotations: $viewModel.output.annotations, selectedPlace: $viewModel.output.seletePlace, setRegion: $setRegion, mapCameraStatus: $mapCameraStatus, routeCoordinates: $viewModel.output.routeCoordinates)
+                    .onAppear {
+                        mapCameraStatus = false
+                    }
                 
                 placeListView()
                     .padding(.top, -8)

@@ -14,6 +14,7 @@ struct PlaceMapView: UIViewRepresentable {
     @Binding var selectedPlace: PlaceForView?
     @Binding var setRegion: Bool
     @Binding var mapCameraStatus: Bool
+    @Binding var routeCoordinates: [CLLocationCoordinate2D]
     
     func makeCoordinator() -> Coordinator {
         Coordinator(parent: self)
@@ -38,6 +39,12 @@ struct PlaceMapView: UIViewRepresentable {
         
         uiView.removeAnnotations(uiView.annotations)
         uiView.addAnnotations(annotations)
+        
+        uiView.removeOverlays(uiView.overlays)
+        if !routeCoordinates.isEmpty {
+            let polyline = MKPolyline(coordinates: routeCoordinates, count: routeCoordinates.count)
+            uiView.addOverlay(polyline)
+        }
         
         if !uiView.annotations.elementsEqual(annotations, by: { $0.coordinate.latitude == $1.coordinate.latitude && $0.coordinate.longitude == $1.coordinate.longitude }) {
             uiView.removeAnnotations(uiView.annotations)
@@ -84,6 +91,21 @@ struct PlaceMapView: UIViewRepresentable {
             }
             
             return nil
+        }
+        
+        func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+            if let polyline = overlay as? MKPolyline {
+                let renderer = MKPolylineRenderer(polyline: polyline)
+                renderer.strokeColor = UIColor.mainApp
+                renderer.lineWidth = 3
+                renderer.lineDashPattern = [NSNumber(value: 10), NSNumber(value: 5)]
+                       
+                renderer.lineJoin = .round
+                renderer.lineCap = .round
+                
+                return renderer
+            }
+            return MKOverlayRenderer(overlay: overlay)
         }
     }
 }
@@ -146,7 +168,7 @@ class PlaceMapAnnotationViewController: MKAnnotationView {
         hostingController.view.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             hostingController.view.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            hostingController.view.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            hostingController.view.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -15),
         ])
         
         hostingController.view.backgroundColor = .clear
@@ -178,23 +200,20 @@ struct PlaceMapAnnotationView: View {
                     .font(.appFont(12))
                     .padding(.horizontal, 5)
             }
-            
-            var index: Int? {
-                return places.sorted(by: { $0.time < $1.time }).firstIndex(where: { $0.id == annotation.id })
-            }
+            .shadow(color: .gray.opacity(0.5), radius: 0.7)
             
             Circle()
                 .fill(.mainApp)
                 .overlay {
                     Image(systemName: "mappin.circle.fill")
                         .resizable()
-                        .frame(width: 25, height: 25)
+                        .frame(width: 30, height: 30)
                         .foregroundStyle(.background, .mainApp)
                 }
-                .frame(width: 25, height: 25)
+                .frame(width: 30, height: 30)
         }
         .padding(.bottom, 5)
-        .shadow(color: .gray, radius: 0.7)
+        .shadow(color: .gray.opacity(0.5), radius: 0.7)
     }
     
 }
