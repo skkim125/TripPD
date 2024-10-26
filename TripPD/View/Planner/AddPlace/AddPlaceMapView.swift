@@ -12,58 +12,43 @@ import PopupView
 import RealmSwift
 
 struct AddPlaceMapView: View {
-    var schedule: ScheduleForView
-    private let networkMonitor = NetworkMonitor.shared
-    @ObservedObject var kakaoLocalManager = KakaoLocalManager.shared
+    @ObservedObject var viewModel: AddPlaceMapViewModel
     @Binding var showMapView: Bool
-    @State var offset: CGFloat = 0
-    @State private var keyboardHeight: CGFloat = 0
-    @State private var isSearched: Bool = false
     @State private var mapRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37.517742, longitude: 126.886463), latitudinalMeters: 3000, longitudinalMeters: 3000)
-    @State private var tappedCoordinate: CLLocationCoordinate2D?
-    @State private var annotations: [CustomAnnotation] = []
+    @State private var isSearched: Bool = false
     @State private var showAlert = false
     @State private var sheetHeight: BottomSheetPosition = .relativeBottom(0.15)
     @State private var isSelected = false
     @State private var showPlaceWebView = false
     @State private var showAddPlacePopupView = false
     @State private var showNoResults = false
-    @State private var isSelectedPlace: PlaceForView?
-    @State private var placeURL = ""
-    @State private var travelTime = Date()
-    @State private var placeMemo = ""
     @State private var showNetworkErrorAlert = false
     @State private var showNetworkErrorAlertTitle = ""
-    @State private var time = Date()
     
     init(schedule: ScheduleForView, showMapView: Binding<Bool>) {
-        self.schedule = schedule
         self._showMapView = showMapView
+        self.viewModel = AddPlaceMapViewModel(schedule: schedule)
     }
     
     var body: some View {
         NavigationStack {
-            MapView(annotations: $annotations, showAlert: $showAlert, isSearched: $isSearched, isSelected: $isSelected) { place in
-                placeURL = place.placeURL
-                let lat = Double(place.lat) ?? 0.0
-                let lon = Double(place.lon) ?? 0.0
+            MapView(annotations: $viewModel.output.annotations, showAlert: $showAlert, isSearched: $isSearched, isSelected: $isSelected) { place in
                 
-                isSelectedPlace = PlaceForView(time: Date(), name: place.placeName, address: place.roadAddress, lat: lat, lon: lon, isStar: false)
-                time = isSelectedPlace?.time ?? Date()
+                viewModel.action(action: .selectPlace(place))
                 showPlaceWebView = true
             }
             .bottomSheet(bottomSheetPosition: $sheetHeight, switchablePositions: [.relativeBottom(0.15), .absolute(365), .relativeTop(0.78)], headerContent: {
-                SearchListHeaderView(annotations: $annotations, sheetHeight: $sheetHeight, isSelected: $isSelected, isSearched: $isSearched, showNoResults: $showNoResults, showNetworkErrorAlert: $showNetworkErrorAlert, showNetworkErrorAlertTitle: $showNetworkErrorAlertTitle)
+                SearchListHeaderView(annotations: $viewModel.output.annotations, sheetHeight: $sheetHeight, isSelected: $isSelected, isSearched: $isSearched, showNoResults: $showNoResults, showNetworkErrorAlert: $showNetworkErrorAlert, showNetworkErrorAlertTitle: $showNetworkErrorAlertTitle)
             }){
                 if isSelected && showPlaceWebView {
-                    if networkMonitor.isConnected {
+                    if viewModel.networkMonitor.isConnected {
                         VStack {
                             HStack {
                                 
                                 Spacer()
                                 
                                 Button {
-                                    if let _ = isSelectedPlace {
+                                    if let _ = viewModel.output.isSelectedPlace {
                                         showAddPlacePopupView.toggle()
                                     }
                                 } label: {
@@ -77,8 +62,8 @@ struct AddPlaceMapView: View {
                             .padding(.top, 8)
                             .padding(.trailing, 28)
                             
-                            PlaceInfoWebView(urlString: placeURL)
-                                .onChange(of: placeURL) { newURL in
+                            PlaceInfoWebView(urlString: viewModel.output.placeURL)
+                                .onChange(of: viewModel.output.placeURL) { newURL in
                                     showPlaceWebView = !newURL.isEmpty
                                 }
                         }
@@ -91,7 +76,7 @@ struct AddPlaceMapView: View {
                                 .font(.appFont(12))
                             
                             Button {
-                                networkMonitor.checkConnect()
+                                viewModel.networkMonitor.checkConnect()
                             } label: {
                                 Image("arrow.clockwise.circle.fill")
                                     .resizable()
@@ -137,7 +122,7 @@ struct AddPlaceMapView: View {
                     .type(.toast)
                     .position(.bottom)
             }
-            .onChange(of: networkMonitor.isConnected) { value in
+            .onChange(of: viewModel.networkMonitor.isConnected) { value in
                 if !value {
                     showNetworkErrorAlert = true
                     showNetworkErrorAlertTitle = "네트워크가 연결되어있지 않습니다."
@@ -168,7 +153,7 @@ struct AddPlaceMapView: View {
                 KeyboardNotificationManager.shared.keyboardNoti { _ in
                     if sheetHeight == .relativeTop(0.78) {
                         sheetHeight = .relativeTop(0.78)
-                    } else if sheetHeight == .relativeTop(0.78) &&  kakaoLocalManager.searchResult.isEmpty {
+                    } else if sheetHeight == .relativeTop(0.78) &&  viewModel.kakaoLocalManager.searchResult.isEmpty {
                         sheetHeight = .absolute(365)
                     } else {
                         sheetHeight = .absolute(365)
@@ -180,13 +165,12 @@ struct AddPlaceMapView: View {
                         sheetHeight = .relativeBottom(0.15)
                     }
                 }
-                travelTime = schedule.day
             }
             .onDisappear {
-                kakaoLocalManager.searchResult.removeAll()
+                viewModel.kakaoLocalManager.searchResult.removeAll()
                 KeyboardNotificationManager.shared.removeNotiObserver()
             }
-            .onChange(of: isSelectedPlace != nil) { _ in
+            .onChange(of: viewModel.output.isSelectedPlace != nil) { _ in
                 sheetHeight = .relativeTop(0.78)
                 showPlaceWebView = true
             }
@@ -212,7 +196,7 @@ struct AddPlaceMapView: View {
                 .background(.background)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .overlay {
-                    AddPlaceView(schedule: schedule, isSelectedPlace: $isSelectedPlace, showAddPlacePopupView: $showAddPlacePopupView, travelTime: $time, placeMemo: $placeMemo, viewType: .constant(.add))
+                    AddPlaceView(schedule: viewModel.input.schedule.value, isSelectedPlace: $viewModel.output.isSelectedPlace, showAddPlacePopupView: $showAddPlacePopupView, travelTime: $viewModel.output.travelTime, placeMemo: $viewModel.output.placeMemo, viewType: .constant(.add))
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
                 .frame(height: 350)

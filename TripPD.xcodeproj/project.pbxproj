@@ -23,6 +23,8 @@
 		046CC3A12CA7EF2F0048F669 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 046CC3A02CA7EF2F0048F669 /* Settings.bundle */; };
 		046CC3A32CA7FAE20048F669 /* PastTravelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046CC3A22CA7FAE20048F669 /* PastTravelView.swift */; };
 		0474E50E2CA3F21400C33D6F /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0474E50D2CA3F21400C33D6F /* WebView.swift */; };
+		0483318E2CCD0E1C00EEDEF8 /* AddPlaceMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0483318D2CCD0E1C00EEDEF8 /* AddPlaceMapViewModel.swift */; };
+		048331902CCD0E4B00EEDEF8 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0483318F2CCD0E4B00EEDEF8 /* BaseViewModel.swift */; };
 		04974DC32C9B2D39004319DA /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04974DC22C9B2D39004319DA /* View+Extension.swift */; };
 		04A46BBB2C946A8E005ACE1C /* 잘풀리는오늘OTF Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 04A46BBA2C946A8E005ACE1C /* 잘풀리는오늘OTF Medium.otf */; };
 		04A46BBD2C9478F0005ACE1C /* MainHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A46BBC2C9478F0005ACE1C /* MainHomeView.swift */; };
@@ -110,6 +112,8 @@
 		046CC3A02CA7EF2F0048F669 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		046CC3A22CA7FAE20048F669 /* PastTravelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastTravelView.swift; sourceTree = "<group>"; };
 		0474E50D2CA3F21400C33D6F /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		0483318D2CCD0E1C00EEDEF8 /* AddPlaceMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlaceMapViewModel.swift; sourceTree = "<group>"; };
+		0483318F2CCD0E4B00EEDEF8 /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
 		04974DC22C9B2D39004319DA /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		04A46BB52C945D30005ACE1C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		04A46BBA2C946A8E005ACE1C /* 잘풀리는오늘OTF Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "잘풀리는오늘OTF Medium.otf"; sourceTree = "<group>"; };
@@ -216,6 +220,14 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		0483318C2CCD0DF900EEDEF8 /* AddPlace */ = {
+			isa = PBXGroup;
+			children = (
+				0483318D2CCD0E1C00EEDEF8 /* AddPlaceMapViewModel.swift */,
+			);
+			path = AddPlace;
+			sourceTree = "<group>";
+		};
 		04A46BAD2C945BA4005ACE1C /* DesignResource */ = {
 			isa = PBXGroup;
 			children = (
@@ -247,6 +259,7 @@
 			children = (
 				04A46BC72C948289005ACE1C /* LazyWrapperView.swift */,
 				04DF05722C9FF79C008B2651 /* TargetType.swift */,
+				0483318F2CCD0E4B00EEDEF8 /* BaseViewModel.swift */,
 			);
 			path = Reusable;
 			sourceTree = "<group>";
@@ -280,6 +293,7 @@
 				044A82CB2CB034FC007D3D17 /* MainHomeViewModel.swift */,
 				04A547D42CB278240008FB3B /* AddPlanner */,
 				04A547D52CB278330008FB3B /* Schedule */,
+				0483318C2CCD0DF900EEDEF8 /* AddPlace */,
 			);
 			path = Planner;
 			sourceTree = "<group>";
@@ -596,6 +610,7 @@
 			files = (
 				04EBA0542C92E464002B1CA2 /* ContentView.swift in Sources */,
 				04A46BBD2C9478F0005ACE1C /* MainHomeView.swift in Sources */,
+				048331902CCD0E4B00EEDEF8 /* BaseViewModel.swift in Sources */,
 				04ADBC8F2CA809A200F6BC6F /* LaunchScreen.swift in Sources */,
 				04A46BC82C948289005ACE1C /* LazyWrapperView.swift in Sources */,
 				044A82B62CAD099A007D3D17 /* PlaceForView.swift in Sources */,
@@ -619,6 +634,7 @@
 				04C995B92C992B7C0017E10A /* Finance.swift in Sources */,
 				04C995AB2C97EDDE0017E10A /* APIKey.swift in Sources */,
 				04A548052CB3C1D70008FB3B /* PlanningScheduleViewModel.swift in Sources */,
+				0483318E2CCD0E1C00EEDEF8 /* AddPlaceMapViewModel.swift in Sources */,
 				04A46BD72C956C6F005ACE1C /* DesignResource.swift in Sources */,
 				04C995CF2C99B1CA0017E10A /* CustomCalendarView.swift in Sources */,
 				044A82CC2CB034FC007D3D17 /* MainHomeViewModel.swift in Sources */,
