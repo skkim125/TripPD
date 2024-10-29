@@ -9,7 +9,7 @@ import Foundation
 import Combine
 import MapKit
 
-final class PlanningScheduleViewModel: ObservableObject {
+final class PlanningScheduleViewModel: BaseViewModel {
     private let travelManager = TravelManager.shared
     var cancellable = Set<AnyCancellable>()
     

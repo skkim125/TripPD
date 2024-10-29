@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-final class TravelScheduleViewModel: ObservableObject {
+final class TravelScheduleViewModel: BaseViewModel {
     var cancellable = Set<AnyCancellable>()
     var input: Input
     

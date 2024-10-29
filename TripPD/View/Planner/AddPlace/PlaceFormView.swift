@@ -15,7 +15,6 @@ struct PlaceFormView: View {
     @Binding var travelTime: Date
     @Binding var viewType: PlaceViewType
     @Binding var placeMemo: String
-    @State private var placeURL = ""
     @FocusState var isFocused: Bool
     
     init(schedule: ScheduleForView, isSelectedPlace: Binding<PlaceForView?>, showAddPlacePopupView: Binding<Bool>, travelTime: Binding<Date>, placeMemo: Binding<String>, viewType: Binding<PlaceViewType>) {
