@@ -19,8 +19,6 @@ struct SearchListHeaderView: View {
     @Binding var showNoResults: Bool
     
     @State private var query = ""
-    @State private var page = 1
-    @State private var sort: SearchSort = .accuracy
     @Binding var showNetworkErrorAlert: Bool
     @Binding var showNetworkErrorAlertTitle: String
     
@@ -49,7 +47,7 @@ struct SearchListHeaderView: View {
                             isSearched = true
                             sheetHeight = .dynamicBottom
                             DispatchQueue.main.async {
-                                kakaoLocalManager.searchPlace(sort: sort, query, page: page) { result in
+                                kakaoLocalManager.searchPlace(sort: .accuracy, query, page: 1) { result in
                                     if networkMonitor.isConnected {
                                         switch result {
                                         case .success(let success):

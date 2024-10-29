@@ -196,7 +196,7 @@ struct AddPlaceMapView: View {
                 .background(.background)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .overlay {
-                    AddPlaceView(schedule: viewModel.input.schedule.value, isSelectedPlace: $viewModel.output.isSelectedPlace, showAddPlacePopupView: $showAddPlacePopupView, travelTime: $viewModel.output.travelTime, placeMemo: $viewModel.output.placeMemo, viewType: .constant(.add))
+                    PlaceFormView(schedule: viewModel.input.schedule.value, isSelectedPlace: $viewModel.output.isSelectedPlace, showAddPlacePopupView: $showAddPlacePopupView, travelTime: $viewModel.output.travelTime, placeMemo: $viewModel.output.placeMemo, viewType: .constant(.add))
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
                 .frame(height: 350)

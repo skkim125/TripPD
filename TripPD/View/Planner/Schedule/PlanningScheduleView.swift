@@ -53,7 +53,7 @@ struct PlanningScheduleView: View {
                 .background(.background)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .overlay {
-                    LazyWrapperView(AddPlaceView(schedule: viewModel.output.schedule, isSelectedPlace: $viewModel.output.editPlace, showAddPlacePopupView: $showEditPlacePopupView, travelTime: $time, placeMemo: $placeMemo, viewType: .constant(.edit)))
+                    LazyWrapperView(PlaceFormView(schedule: viewModel.output.schedule, isSelectedPlace: $viewModel.output.editPlace, showAddPlacePopupView: $showEditPlacePopupView, travelTime: $time, placeMemo: $placeMemo, viewType: .constant(.edit)))
                         .onTapGesture {
                             hideKeyboard()
                         }

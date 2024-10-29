@@ -1,5 +1,5 @@
 //
-//  AddPlaceView.swift
+//  PlaceFormView.swift
 //  TripPD
 //
 //  Created by 김상규 on 10/3/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AddPlaceView: View {
+struct PlaceFormView: View {
     var travelManager = TravelManager.shared
     var schedule: ScheduleForView
     @Binding var isSelectedPlace: PlaceForView?
