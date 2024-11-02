@@ -31,15 +31,13 @@ final class MainHomeViewModel: BaseViewModel {
         output = Output()
         
         transform()
-        
-        action(action: .trigger)
     }
     
     func transform() {
-        input.trigger
-            .sink { [weak self] _ in
+        travelManager.$travelListForView
+            .sink { [weak self] travels in
                 guard let self = self else { return }
-                output.travelListForView = travelManager.travelListForView.filter({ $0.isDelete == false })
+                self.output.travelListForView = travels.filter({ $0.isDelete == false })
             }
             .store(in: &cancellable)
         

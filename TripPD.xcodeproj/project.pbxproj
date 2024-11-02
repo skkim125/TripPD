@@ -37,9 +37,7 @@
 		04A46BD92C95B3BF005ACE1C /* AddPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A46BD82C95B3BF005ACE1C /* AddPhotoView.swift */; };
 		04A547D22CB179460008FB3B /* AddTravelPlannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A547D12CB179460008FB3B /* AddTravelPlannerViewModel.swift */; };
 		04A547D72CB278620008FB3B /* TravelScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A547D62CB278620008FB3B /* TravelScheduleViewModel.swift */; };
-		04A548052CB3C1D70008FB3B /* PlanningScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A548042CB3C1D70008FB3B /* PlanningScheduleViewModel.swift */; };
 		04ADBC8F2CA809A200F6BC6F /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04ADBC8E2CA809A200F6BC6F /* LaunchScreen.swift */; };
-		04BB5F0A2C9D93E200DE7DE3 /* PlanningScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BB5F092C9D93E200DE7DE3 /* PlanningScheduleView.swift */; };
 		04BB5F102C9E91A400DE7DE3 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 04BB5F0F2C9E91A400DE7DE3 /* PopupView */; };
 		04C995A72C97EAEC0017E10A /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 04C995A62C97EAEC0017E10A /* .gitignore */; };
 		04C995AB2C97EDDE0017E10A /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C995AA2C97EDDE0017E10A /* APIKey.swift */; };
@@ -126,9 +124,7 @@
 		04A46BD82C95B3BF005ACE1C /* AddPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoView.swift; sourceTree = "<group>"; };
 		04A547D12CB179460008FB3B /* AddTravelPlannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTravelPlannerViewModel.swift; sourceTree = "<group>"; };
 		04A547D62CB278620008FB3B /* TravelScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelScheduleViewModel.swift; sourceTree = "<group>"; };
-		04A548042CB3C1D70008FB3B /* PlanningScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanningScheduleViewModel.swift; sourceTree = "<group>"; };
 		04ADBC8E2CA809A200F6BC6F /* LaunchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreen.swift; sourceTree = "<group>"; };
-		04BB5F092C9D93E200DE7DE3 /* PlanningScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanningScheduleView.swift; sourceTree = "<group>"; };
 		04C995A62C97EAEC0017E10A /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		04C995AA2C97EDDE0017E10A /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		04C995B22C9929A90017E10A /* Travel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Travel.swift; sourceTree = "<group>"; };
@@ -310,7 +306,6 @@
 			isa = PBXGroup;
 			children = (
 				04A547D62CB278620008FB3B /* TravelScheduleViewModel.swift */,
-				04A548042CB3C1D70008FB3B /* PlanningScheduleViewModel.swift */,
 			);
 			path = Schedule;
 			sourceTree = "<group>";
@@ -320,7 +315,6 @@
 			children = (
 				04DBA8502CC394D600B41510 /* TravelScheduleView.swift */,
 				04DBA84E2CC3818700B41510 /* ScheduleDayButton.swift */,
-				04BB5F092C9D93E200DE7DE3 /* PlanningScheduleView.swift */,
 				0446A5152CA4E897008C3EA4 /* PlaceRowView.swift */,
 			);
 			path = Schedule;
@@ -633,7 +627,6 @@
 				044A82C02CAEA4EA007D3D17 /* PlaceFormView.swift in Sources */,
 				04C995B92C992B7C0017E10A /* Finance.swift in Sources */,
 				04C995AB2C97EDDE0017E10A /* APIKey.swift in Sources */,
-				04A548052CB3C1D70008FB3B /* PlanningScheduleViewModel.swift in Sources */,
 				0483318E2CCD0E1C00EEDEF8 /* AddPlaceMapViewModel.swift in Sources */,
 				04A46BD72C956C6F005ACE1C /* DesignResource.swift in Sources */,
 				04C995CF2C99B1CA0017E10A /* CustomCalendarView.swift in Sources */,
@@ -647,7 +640,6 @@
 				044A82B42CAD0992007D3D17 /* ScheduleForView.swift in Sources */,
 				04C995CD2C99B0850017E10A /* DayRangeSelectionHelper.swift in Sources */,
 				044A82BA2CAD09AB007D3D17 /* FinanceForView.swift in Sources */,
-				04BB5F0A2C9D93E200DE7DE3 /* PlanningScheduleView.swift in Sources */,
 				04DE1F322C9C1A5D000A25E4 /* CustomTabBar.swift in Sources */,
 				04974DC32C9B2D39004319DA /* View+Extension.swift in Sources */,
 				04DF05732C9FF79C008B2651 /* TargetType.swift in Sources */,

@@ -7,84 +7,148 @@
 
 import Foundation
 import Combine
+import MapKit
 
 final class TravelScheduleViewModel: BaseViewModel {
+    private var travelManager = TravelManager.shared
     var cancellable = Set<AnyCancellable>()
+    
     var input: Input
     
     @Published
     var output: Output
     
-    struct Input {
-        var travel = PassthroughSubject<TravelForView, Never>()
-        var selectedTab = PassthroughSubject<Int, Never>()
-        var deleteAction = PassthroughSubject<Void, Never>()
-    }
-    
-    struct Output {
-        var travel: TravelForView?
-        var selectedTab: Int = 0
-        var schedule: ScheduleForView?
-    }
-    
-    init(travel: TravelForView) {
-        self.input = Input()
-        self.output = Output()
-        
-        transform()
-        
-        guard let index = travel.schedules.firstIndex(where: { $0.day.customDateFormatter(.dayString) == Date().customDateFormatter(.dayString) }) else {
-            action(action: .trigger(travel, 0))
-            
-            return
-        }
-        
-        action(action: .trigger(travel, index))
-    }
-    
     func transform() {
         input.travel
-            .sink { [weak self] value in
+            .sink { [weak self] travel in
                 guard let self = self else { return }
-                self.output.travel = value
+                self.output.travel = travel
+                self.output.travelTitle = travel.title
+                self.output.schedules = travel.schedules
             }
             .store(in: &cancellable)
         
         input.selectedTab
-            .sink { [weak self] value in
+            .sink { [weak self] tab in
                 guard let self = self else { return }
-                self.output.selectedTab = value
-                self.output.schedule = output.travel?.schedules[value]
+                self.output.schedule = output.schedules[tab]
+                self.output.places = output.schedule.places
+                self.output.annotations = output.places.map({ PlaceMapAnnotation(place: $0) })
+                self.output.routeCoordinates = output.places.sorted(by: { $0.time < $1.time }).map({ CLLocationCoordinate2D(latitude: $0.lat, longitude: $0.lon) })
             }
             .store(in: &cancellable)
         
-        input.deleteAction
-            .sink { [weak self] _ in
-                guard let self = self, let travel = output.travel else { return }
-                TravelManager.shared.removeTravel(travel: travel)
+        input.editingPlace
+            .sink { [weak self] place in
+                guard let self = self else { return }
+                self.output.editingPlace = place
+                self.output.placeMemo = place.placeMemo
+                self.output.travelTime = place.time
+            }
+            .store(in: &cancellable)
+        
+        input.deletePlace
+            .sink { [weak self] place in
+                guard let self = self else { return }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                    self.travelManager.removePlace(placeID: place.id)
+                    self.objectWillChange.send()
+                }
+            }
+            .store(in: &cancellable)
+        
+        input.deleteTravel
+            .sink { [weak self] travel in
+                guard let self = self else { return }
+                self.travelManager.removeTravel(travel: travel)
+            }
+            .store(in: &cancellable)
+        
+        input.goPlaceOnMap
+            .sink { [weak self] place in
+                guard let self = self else { return }
+                self.output.goPlaceOnMap = place
+            }
+            .store(in: &cancellable)
+        
+        travelManager.$travelListForView
+            .sink { [weak self] travels in
+                guard let self = self,
+                      let currentTravel = travels.first(where: { $0.id == self.output.travel.id })
+                else { return }
+                
+                self.output.travel = currentTravel
+                self.output.schedules = currentTravel.schedules
+                
+                if let currentScheduleIndex = currentTravel.schedules.firstIndex(where: { $0.id == self.output.schedule.id }) {
+                    self.output.schedule = currentTravel.schedules[currentScheduleIndex]
+                    self.output.places = self.output.schedule.places
+                    self.output.annotations = self.output.places.map({ PlaceMapAnnotation(place: $0) })
+                    self.output.routeCoordinates = self.output.places.map({ CLLocationCoordinate2D(latitude: $0.lat, longitude: $0.lon) })
+                }
             }
             .store(in: &cancellable)
     }
     
-    enum Action {
-        case trigger(TravelForView, Int)
-        case changeTab(Int)
-        case deleteAction
+    init(travel: TravelForView) {
+        input = Input(travel: CurrentValueSubject<TravelForView, Never>(travel))
+        output = Output()
+        
+        transform()
     }
     
     func action(action: Action) {
         switch action {
-        case .trigger(let travel, let tab):
+        case .loadView(let travel):
             input.travel
                 .send(travel)
-            input.selectedTab
-                .send(tab)
-        case .deleteAction:
-            input.deleteAction
-                .send(())
         case .changeTab(let tab):
             input.selectedTab
                 .send(tab)
+        case .editingPlace(let place):
+            input.editingPlace
+                .send(place)
+        case .deletePlace(let place):
+            input.deletePlace
+                .send(place)
+        case .deleteTravel(let travel):
+            input.deleteTravel
+                .send(travel)
+        case .goPlaceOnMap(let place):
+            input.goPlaceOnMap
+                .send(place)
         }
+    }
+    
+    struct Input {
+        var travel: CurrentValueSubject<TravelForView, Never>
+        var selectedTab = PassthroughSubject<Int, Never>()
+        var editingPlace = PassthroughSubject<PlaceForView, Never>()
+        var deletePlace = PassthroughSubject<PlaceForView, Never>()
+        var deleteTravel = PassthroughSubject<TravelForView, Never>()
+        var goPlaceOnMap = PassthroughSubject<PlaceForView, Never>()
+    }
+    
+    struct Output {
+        var travel = TravelForView(id: "", date: Date(), title: "", travelConcept: "", travelDate: [], schedules: [], isStar: false, isDelete: false, coverImageURL: "")
+        var travelTitle = ""
+        var schedules: [ScheduleForView] = []
+        var schedule = ScheduleForView(id: "", day: Date(), dayString: "", places: [], photos: [], diary: nil, finances: [])
+        var places: [PlaceForView] = []
+        var annotations: [PlaceMapAnnotation] = []
+        var editingPlace = PlaceForView(id: "", time: Date(), name: "", address: "", placeMemo: "", lat: 0.0, lon: 0.0, isStar: false)
+        var travelTime = Date()
+        var placeMemo: String?
+        var goPlaceOnMap: PlaceForView = PlaceForView(id: "", time: Date(), name: "", address: "", placeMemo: "", lat: 0.0, lon: 0.0, isStar: false)
+        var routeCoordinates: [CLLocationCoordinate2D] = []
+    }
+    
+    enum Action {
+        case loadView(TravelForView)
+        case changeTab(Int)
+        case editingPlace(PlaceForView)
+        case deletePlace(PlaceForView)
+        case deleteTravel(TravelForView)
+        case goPlaceOnMap(PlaceForView)
     }
 }

@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct ScheduleDayButton: View {
-    let selectedSchedule: ScheduleForView
-    let schedule: ScheduleForView
     let dayString: String
     let isSelected: Bool
     let nameSpace: Namespace.ID
@@ -42,8 +40,8 @@ struct ScheduleDayButton: View {
     }
 }
 
-#Preview {
-    ScheduleDayButton(selectedSchedule: ScheduleForView(schedule: Schedule()), schedule: ScheduleForView(schedule: Schedule()), dayString: "Day 1", isSelected: true, nameSpace: Namespace().wrappedValue) {
-        
-    }
-}
+//#Preview {
+//    ScheduleDayButton(dayString: "Day 1", isSelected: true, nameSpace: Namespace().wrappedValue) {
+//        
+//    }
+//}

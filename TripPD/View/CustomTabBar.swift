@@ -10,14 +10,12 @@ import MapKit
 import PopupView
 
 struct CustomTabBar: View {
-    @ObservedObject var travelManager: TravelManager
     @ObservedObject var viewModel: CustomTabBarViewModel
     @Namespace var animation
     @State private var showToast: Bool = false
     
     init() {
         UITabBar.appearance().isHidden = true
-        self.travelManager = TravelManager.shared
         self.viewModel = CustomTabBarViewModel()
     }
     

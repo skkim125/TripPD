@@ -28,18 +28,17 @@ final class TravelManager: ObservableObject {
             let realm = try Realm()
             let results = realm.objects(Travel.self)
             
-            token = results.observe({ [weak self] _ in
+            token = results.observe({ [weak self] changes in
                 guard let self = self else { return }
-                
-                self.travelListForView = results.map(TravelForView.init)
-                
-                self.travelListForView.filter({ !$0.isDelete }).forEach { travel in
-                    if !Date.compareDate(travel.travelDate) {
-                        self.updateDelete(realm: realm, results: results, travel: travel)
-                    }
+
+                switch changes {
+                case .initial:
+                    self.travelListForView = results.map(TravelForView.init)
+                case .update(let travel, let deletions, let insertions, let modifications):
+                    self.travelListForView = travel.map(TravelForView.init)
+                case .error(let error):
+                    print(error.localizedDescription)
                 }
-                
-                self.objectWillChange.send()
             })
             
         } catch let error {

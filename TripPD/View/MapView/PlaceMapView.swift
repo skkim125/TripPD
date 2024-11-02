@@ -9,12 +9,11 @@ import SwiftUI
 import MapKit
 
 struct PlaceMapView: UIViewRepresentable {
-    @Binding var places: [PlaceForView]
-    @Binding var annotations: [PlaceMapAnnotation]
-    @Binding var selectedPlace: PlaceForView?
+    var places: [PlaceForView]
+    var annotations: [PlaceMapAnnotation]
+    var selectedPlace: PlaceForView
+    var routeCoordinates: [CLLocationCoordinate2D]
     @Binding var setRegion: Bool
-    @Binding var mapCameraStatus: Bool
-    @Binding var routeCoordinates: [CLLocationCoordinate2D]
     
     func makeCoordinator() -> Coordinator {
         Coordinator(parent: self)
@@ -51,16 +50,16 @@ struct PlaceMapView: UIViewRepresentable {
             uiView.addAnnotations(annotations)
         }
         
-        guard let place = selectedPlace else {
-            return
+        if selectedPlace.id.isEmpty {
+            
+        } else {
+            let coord = CLLocationCoordinate2D(latitude: selectedPlace.lat, longitude: selectedPlace.lon)
+            
+            let cameraPostion = CLLocationCoordinate2D(latitude: coord.latitude, longitude: coord.longitude)
+            let camera = MKMapCamera(lookingAtCenter: cameraPostion, fromDistance: 1000, pitch: 0, heading: 0)
+            
+            uiView.setCamera(camera, animated: true)
         }
-        
-        let coord = CLLocationCoordinate2D(latitude: place.lat, longitude: place.lon)
-        
-        let cameraPostion = CLLocationCoordinate2D(latitude: coord.latitude, longitude: coord.longitude)
-        let camera = MKMapCamera(lookingAtCenter: cameraPostion, fromDistance: 1000, pitch: 0, heading: 0)
-        
-        uiView.setCamera(camera, animated: true)
     }
     
     class Coordinator: NSObject, MKMapViewDelegate {
@@ -75,9 +74,9 @@ struct PlaceMapView: UIViewRepresentable {
         }
         
         func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
-            DispatchQueue.main.async {
-                self.parent.mapCameraStatus = true
-            }
+//            DispatchQueue.main.async {
+//                self.parent.mapCameraStatus = true
+//            }
         }
         
         func mapView(_ mapView: MKMapView, viewFor annotation: any MKAnnotation) -> MKAnnotationView? {

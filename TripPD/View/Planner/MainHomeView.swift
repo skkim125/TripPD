@@ -13,7 +13,6 @@ struct MainHomeView: View {
     @State private var sortType: SortType = .def
     @Binding var showToast: Bool
     @Binding var hideTabBar: Bool
-//    @State private var isStarSorted = false
     
     init(showToast: Binding<Bool>, hideTabBar: Binding<Bool>) {
         self.viewModel = MainHomeViewModel()
@@ -24,28 +23,7 @@ struct MainHomeView: View {
     var body: some View {
         NavigationStack {
             VStack {
-//                HStack(spacing: 20) {
-//                    Button {
-//                        if !travelManager.travelList.isEmpty {
-//                            isStarSorted.toggle()
-//                        }
-//                    } label: {
-//                        Image(systemName: isStarSorted ? "star.fill": "star")
-//                            .resizable()
-//                            .scaledToFit()
-//                            .frame(width: 20)
-//                            .imageScale(.large).bold()
-//                            .foregroundStyle(.yellow)
-//                    }
-//                }
-//                .frame(maxWidth: .infinity, alignment: .topTrailing)
-//                .padding(.trailing, 20)
-//                .padding(.top, 10)
-//                .tint(.mainApp)
-                
-//                Spacer()
-                
-                if viewModel.travelListForView.isEmpty  {
+                if viewModel.output.travelListForView.isEmpty  {
                     Text("현재 계획된 여행이 없어요.")
                         .font(.footnote)
                         .foregroundStyle(.gray)
@@ -55,7 +33,7 @@ struct MainHomeView: View {
                 } else {
                     ScrollView {
                         LazyVStack {
-                            ForEach(viewModel.travelListForView, id: \.id) { travel in
+                            ForEach(viewModel.output.travelListForView, id: \.id) { travel in
                                 if Date.compareDate(Array(travel.travelDate)) {
                                     NavigationLink {
                                         TravelScheduleView(travel: travel)
@@ -87,21 +65,6 @@ struct MainHomeView: View {
                         .padding(5)
                         .foregroundStyle(.mainApp.gradient)
                 }
-                
-//                ToolbarItem(placement: .topBarTrailing) {
-//                    Button {
-//                        if !travelManager.travelList.isEmpty {
-//                            isStarSorted.toggle()
-//                        }
-//                    } label: {
-//                        Image(systemName: isStarSorted ? "star.fill": "star")
-//                            .resizable()
-//                            .scaledToFit()
-//                            .frame(width: 20)
-//                            .imageScale(.large).bold()
-//                            .foregroundStyle(.yellow)
-//                    }
-//                }
                 
                 ToolbarItem(placement: .topBarTrailing) {
                     Menu {
@@ -137,10 +100,6 @@ struct MainHomeView: View {
         }
     }
 }
-
-//#Preview {
-//    MainHomeView(travelManager: TravelManager.shared, showToastView: .constant(false))
-//}
 
 enum SortType: String, CaseIterable, Identifiable {
     case def

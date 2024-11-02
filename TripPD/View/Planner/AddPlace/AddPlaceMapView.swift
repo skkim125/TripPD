@@ -35,6 +35,7 @@ struct AddPlaceMapView: View {
             MapView(annotations: $viewModel.output.annotations, showAlert: $showAlert, isSearched: $isSearched, isSelected: $isSelected) { place in
                 
                 viewModel.action(action: .selectPlace(place))
+                sheetHeight = .relativeTop(0.78)
                 showPlaceWebView = true
             }
             .bottomSheet(bottomSheetPosition: $sheetHeight, switchablePositions: [.relativeBottom(0.15), .absolute(365), .relativeTop(0.78)], headerContent: {
@@ -48,9 +49,7 @@ struct AddPlaceMapView: View {
                                 Spacer()
                                 
                                 Button {
-                                    if let _ = viewModel.output.isSelectedPlace {
-                                        showAddPlacePopupView.toggle()
-                                    }
+                                    showAddPlacePopupView.toggle()
                                 } label: {
                                     Image(systemName: "plus.circle.fill")
                                         .resizable()
@@ -170,10 +169,6 @@ struct AddPlaceMapView: View {
                 viewModel.kakaoLocalManager.searchResult.removeAll()
                 KeyboardNotificationManager.shared.removeNotiObserver()
             }
-            .onChange(of: viewModel.output.isSelectedPlace != nil) { _ in
-                sheetHeight = .relativeTop(0.78)
-                showPlaceWebView = true
-            }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
@@ -196,7 +191,7 @@ struct AddPlaceMapView: View {
                 .background(.background)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .overlay {
-                    PlaceFormView(schedule: viewModel.input.schedule.value, isSelectedPlace: $viewModel.output.isSelectedPlace, showAddPlacePopupView: $showAddPlacePopupView, travelTime: $viewModel.output.travelTime, placeMemo: $viewModel.output.placeMemo, viewType: .constant(.add))
+                    PlaceFormView(schedule: $viewModel.output.schedule, isSelectedPlace: $viewModel.output.isSelectedPlace, showAddPlacePopupView: $showAddPlacePopupView, viewType: .add)
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
                 .frame(height: 350)
