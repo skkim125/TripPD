@@ -31,11 +31,6 @@ struct PlaceMapView: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: MKMapView, context: Context) {
-        
-        if setRegion {
-            setRegion(uiView)
-        }
-        
         uiView.removeAnnotations(uiView.annotations)
         uiView.addAnnotations(annotations)
         
@@ -50,15 +45,17 @@ struct PlaceMapView: UIViewRepresentable {
             uiView.addAnnotations(annotations)
         }
         
-        if selectedPlace.id.isEmpty {
-            
-        } else {
-            let coord = CLLocationCoordinate2D(latitude: selectedPlace.lat, longitude: selectedPlace.lon)
-            
-            let cameraPostion = CLLocationCoordinate2D(latitude: coord.latitude, longitude: coord.longitude)
-            let camera = MKMapCamera(lookingAtCenter: cameraPostion, fromDistance: 1000, pitch: 0, heading: 0)
-            
-            uiView.setCamera(camera, animated: true)
+        if !selectedPlace.id.isEmpty {
+            if setRegion {
+                setRegion(uiView)
+            } else {
+                let coord = CLLocationCoordinate2D(latitude: selectedPlace.lat, longitude: selectedPlace.lon)
+                
+                let cameraPostion = CLLocationCoordinate2D(latitude: coord.latitude, longitude: coord.longitude)
+                let camera = MKMapCamera(lookingAtCenter: cameraPostion, fromDistance: 1000, pitch: 0, heading: 0)
+                
+                uiView.setCamera(camera, animated: true)
+            }
         }
     }
     
@@ -73,12 +70,7 @@ struct PlaceMapView: UIViewRepresentable {
             super.init()
         }
         
-        func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
-//            DispatchQueue.main.async {
-//                self.parent.mapCameraStatus = true
-//            }
-        }
-        
+
         func mapView(_ mapView: MKMapView, viewFor annotation: any MKAnnotation) -> MKAnnotationView? {
             if let annotation = annotation as? PlaceMapAnnotation {
                 let view = PlaceMapAnnotationViewController(annotation: annotation, places: parent.places, reuseIdentifier: PlaceMapAnnotationViewController.identifier)

@@ -139,7 +139,7 @@ struct PlaceFormView: View {
         }
         .onAppear {
             travelTime = isSelectedPlace.time
-            placeMemo = isSelectedPlace.placeMemo ?? "''"
+            placeMemo = isSelectedPlace.placeMemo ?? ""
         }
     }
 }

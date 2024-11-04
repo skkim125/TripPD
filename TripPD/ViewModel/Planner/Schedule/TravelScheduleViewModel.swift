@@ -25,16 +25,17 @@ final class TravelScheduleViewModel: BaseViewModel {
                 self.output.travel = travel
                 self.output.travelTitle = travel.title
                 self.output.schedules = travel.schedules
+                
+                if let currentScheduleIndex = travel.schedules.firstIndex(where: { $0.id == self.output.schedule.id }) {
+                    self.updateSchedule(at: currentScheduleIndex)
+                }
             }
             .store(in: &cancellable)
         
         input.selectedTab
             .sink { [weak self] tab in
                 guard let self = self else { return }
-                self.output.schedule = output.schedules[tab]
-                self.output.places = output.schedule.places
-                self.output.annotations = output.places.map({ PlaceMapAnnotation(place: $0) })
-                self.output.routeCoordinates = output.places.sorted(by: { $0.time < $1.time }).map({ CLLocationCoordinate2D(latitude: $0.lat, longitude: $0.lon) })
+                self.updateSchedule(at: tab)
             }
             .store(in: &cancellable)
         
@@ -72,6 +73,7 @@ final class TravelScheduleViewModel: BaseViewModel {
             .store(in: &cancellable)
         
         travelManager.$travelListForView
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] travels in
                 guard let self = self,
                       let currentTravel = travels.first(where: { $0.id == self.output.travel.id })
@@ -81,13 +83,28 @@ final class TravelScheduleViewModel: BaseViewModel {
                 self.output.schedules = currentTravel.schedules
                 
                 if let currentScheduleIndex = currentTravel.schedules.firstIndex(where: { $0.id == self.output.schedule.id }) {
-                    self.output.schedule = currentTravel.schedules[currentScheduleIndex]
-                    self.output.places = self.output.schedule.places
-                    self.output.annotations = self.output.places.map({ PlaceMapAnnotation(place: $0) })
-                    self.output.routeCoordinates = self.output.places.map({ CLLocationCoordinate2D(latitude: $0.lat, longitude: $0.lon) })
+                    self.updateSchedule(at: currentScheduleIndex)
                 }
             }
             .store(in: &cancellable)
+        
+        Publishers.CombineLatest(
+            travelManager.$travelListForView,
+            travelManager.objectWillChange
+        )
+        .receive(on: DispatchQueue.main)
+        .sink(receiveValue: { [weak self] travels, _ in
+            guard let self = self else { return }
+            if let currentTravel = travels.first(where: { $0.id == self.output.travel.id }) {
+                self.output.travel = currentTravel
+                self.output.schedules = currentTravel.schedules
+                
+                if let currentScheduleIndex = currentTravel.schedules.firstIndex(where: { $0.id == self.output.schedule.id }) {
+                    self.updateSchedule(at: currentScheduleIndex)
+                }
+            }
+        })
+        .store(in: &cancellable)
     }
     
     init(travel: TravelForView) {
@@ -150,5 +167,14 @@ final class TravelScheduleViewModel: BaseViewModel {
         case deletePlace(PlaceForView)
         case deleteTravel(TravelForView)
         case goPlaceOnMap(PlaceForView)
+    }
+    
+    private func updateSchedule(at index: Int) {
+        guard index < output.schedules.count else { return }
+        output.schedule = output.schedules[index]
+        output.places = output.schedule.places
+        output.annotations = output.places.map({ PlaceMapAnnotation(place: $0) })
+        output.routeCoordinates = output.places.sorted(by: { $0.time < $1.time })
+            .map({ CLLocationCoordinate2D(latitude: $0.lat, longitude: $0.lon) })
     }
 }

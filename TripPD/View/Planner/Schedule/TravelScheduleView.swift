@@ -158,7 +158,9 @@ struct TravelScheduleView: View {
             HStack(spacing: 20) {
                 if !viewModel.output.schedule.places.isEmpty {
                     Button {
-                        setRegion = true
+                        DispatchQueue.main.async {
+                            setRegion = true
+                        }
                     } label: {
                         Image(systemName: "map.circle")
                             .font(.appFont(25)).bold()

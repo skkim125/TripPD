@@ -44,6 +44,7 @@ final class AddPlaceMapViewModel: BaseViewModel {
         input.schedule
             .sink { [weak self] value in
                 guard let self = self else { return }
+                self.output.schedule = value
                 self.output.travelTime = value.day
             }
             .store(in: &cancellable)

@@ -19,7 +19,6 @@ struct AddPlaceMapView: View {
     @State private var showAlert = false
     @State private var sheetHeight: BottomSheetPosition = .relativeBottom(0.15)
     @State private var isSelected = false
-    @State private var showPlaceWebView = false
     @State private var showAddPlacePopupView = false
     @State private var showNoResults = false
     @State private var showNetworkErrorAlert = false
@@ -36,12 +35,11 @@ struct AddPlaceMapView: View {
                 
                 viewModel.action(action: .selectPlace(place))
                 sheetHeight = .relativeTop(0.78)
-                showPlaceWebView = true
             }
             .bottomSheet(bottomSheetPosition: $sheetHeight, switchablePositions: [.relativeBottom(0.15), .absolute(365), .relativeTop(0.78)], headerContent: {
                 SearchListHeaderView(annotations: $viewModel.output.annotations, sheetHeight: $sheetHeight, isSelected: $isSelected, isSearched: $isSearched, showNoResults: $showNoResults, showNetworkErrorAlert: $showNetworkErrorAlert, showNetworkErrorAlertTitle: $showNetworkErrorAlertTitle)
             }){
-                if isSelected && showPlaceWebView {
+                if isSelected {
                     if viewModel.networkMonitor.isConnected {
                         VStack {
                             HStack {
@@ -49,7 +47,7 @@ struct AddPlaceMapView: View {
                                 Spacer()
                                 
                                 Button {
-                                    showAddPlacePopupView.toggle()
+                                    showAddPlacePopupView = true
                                 } label: {
                                     Image(systemName: "plus.circle.fill")
                                         .resizable()
@@ -62,9 +60,6 @@ struct AddPlaceMapView: View {
                             .padding(.trailing, 28)
                             
                             PlaceInfoWebView(urlString: viewModel.output.placeURL)
-                                .onChange(of: viewModel.output.placeURL) { newURL in
-                                    showPlaceWebView = !newURL.isEmpty
-                                }
                         }
                     } else {
                         VStack(spacing: 15) {

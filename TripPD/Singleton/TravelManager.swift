@@ -30,15 +30,15 @@ final class TravelManager: ObservableObject {
             
             token = results.observe({ [weak self] changes in
                 guard let self = self else { return }
-
-                switch changes {
-                case .initial:
-                    self.travelListForView = results.map(TravelForView.init)
-                case .update(let travel, let deletions, let insertions, let modifications):
-                    self.travelListForView = travel.map(TravelForView.init)
-                case .error(let error):
-                    print(error.localizedDescription)
-                }
+                self.objectWillChange.send()
+//                switch changes {
+//                case .initial:
+//                    self.travelListForView = results.map(TravelForView.init)
+//                case .update(let travel, let deletions, let insertions, let modifications):
+//                    self.travelListForView = travel.map(TravelForView.init)
+//                case .error(let error):
+//                    print(error.localizedDescription)
+//                }
             })
             
         } catch let error {
