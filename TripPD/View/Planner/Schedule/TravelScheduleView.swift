@@ -56,7 +56,7 @@ struct TravelScheduleView: View {
                     Spacer()
                 } else {
 
-                    PlaceMapView(places: viewModel.output.places, annotations: viewModel.output.annotations, selectedPlace: viewModel.output.goPlaceOnMap, routeCoordinates: viewModel.output.routeCoordinates, setRegion: $setRegion)
+                    PlaceMapView(places: viewModel.output.places, annotations: viewModel.output.annotations, selectedPlace: $viewModel.output.goPlaceOnMap, routeCoordinates: viewModel.output.routeCoordinates, setRegion: $setRegion)
                     
                     placeListView(scehdule: viewModel.output.schedule)
                         .padding(.top, -8)
@@ -159,7 +159,7 @@ struct TravelScheduleView: View {
                 if !viewModel.output.schedule.places.isEmpty {
                     Button {
                         DispatchQueue.main.async {
-                            setRegion = true
+                            self.setRegion = true
                         }
                     } label: {
                         Image(systemName: "map.circle")

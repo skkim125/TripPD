@@ -79,39 +79,26 @@ final class TravelManager: ObservableObject {
             try realm.write {
                 object.places.append(place)
             }
+            objectWillChange.send()
         } catch {
             
         }
     }
     
-    func updatePlace(placeId: String, time: Date? = nil, name: String? = nil, address: String? = nil, placeMemo: String? = nil, lat: Double? = nil, lon: Double? = nil, isStar: Bool? = nil) {
+    func updatePlace(placeId: String, time: Date, name: String, address: String, placeMemo: String?, lat: Double, lon: Double, isStar: Bool) {
         do {
             let realm = try Realm()
             let id = try ObjectId(string: placeId)
             guard let place = realm.object(ofType: Place.self, forPrimaryKey: id) else { return }
             
             try realm.write {
-                if let time = time {
-                    place.time = time
-                }
-                if let name = name {
-                    place.name = name
-                }
-                if let address = address {
-                    place.address = address
-                }
-                if let placeMemo = placeMemo {
-                    place.placeMemo = placeMemo
-                }
-                if let lat = lat {
-                    place.lat = lat
-                }
-                if let lon = lon {
-                    place.lon = lon
-                }
-                if let isStar = isStar {
-                    place.isStar = isStar
-                }
+                place.time = time
+                place.name = name
+                place.address = address
+                place.placeMemo = placeMemo
+                place.lat = lat
+                place.lon = lon
+                place.isStar = isStar
             }
         } catch {
             print("Error updating Place: \(error)")
