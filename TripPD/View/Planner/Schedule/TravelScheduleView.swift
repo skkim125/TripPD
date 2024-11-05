@@ -55,10 +55,10 @@ struct TravelScheduleView: View {
                         .foregroundStyle(.gray)
                     Spacer()
                 } else {
-                    
+
                     PlaceMapView(places: viewModel.output.places, annotations: viewModel.output.annotations, selectedPlace: viewModel.output.goPlaceOnMap, routeCoordinates: viewModel.output.routeCoordinates, setRegion: $setRegion)
                     
-                    placeListView(scehdule: $viewModel.output.schedule)
+                    placeListView(scehdule: viewModel.output.schedule)
                         .padding(.top, -8)
                 }
                 
@@ -183,17 +183,19 @@ struct TravelScheduleView: View {
     }
     
     @ViewBuilder
-    func placeListView(scehdule: Binding<ScheduleForView>) -> some View {
-        SwiftUIList(scehdule.places.sorted(by: { $0.wrappedValue.time < $1.wrappedValue.time }), id: \.id.wrappedValue) { place in
+    func placeListView(scehdule: ScheduleForView) -> some View {
+        SwiftUIList(scehdule.places.sorted(by: { $0.time < $1.time }), id: \.id) { place in
             Button {
-                viewModel.action(action: .goPlaceOnMap(place.wrappedValue))
+                viewModel.action(action: .goPlaceOnMap(place))
             } label: {
-                PlaceRowView(schedule: scehdule.wrappedValue, place: place.wrappedValue)
+                PlaceRowView(schedule: scehdule, place: place)
+                    .opacity(viewModel.output.deletePlaceId == place.id ? 0 : 1)
+                    .animation(.easeInOut(duration: 0.3), value: viewModel.output.deletePlaceId)
             }
             .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                 Button{
                     withAnimation(.easeInOut(duration: 0.3)) {
-                        viewModel.action(action: .deletePlace(place.wrappedValue))
+                        viewModel.action(action: .deletePlace(place.id))
                     }
                 } label: {
                     Label {
@@ -206,7 +208,7 @@ struct TravelScheduleView: View {
                 .tint(.red)
                 
                 Button{
-                    viewModel.action(action: .editingPlace(place.wrappedValue))
+                    viewModel.action(action: .editingPlace(place))
                     showEditPlacePopupView.toggle()
                 } label: {
                     Label {

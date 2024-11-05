@@ -484,7 +484,7 @@
 				04A46BBE2C947B15005ACE1C /* Resource */,
 				04DF056F2C9FF450008B2651 /* Network */,
 				04C995B12C99299D0017E10A /* Model */,
-				04F7CF242CA1A2240061A056 /* Singleton */,
+				04F7CF242CA1A2240061A056 /* Manager */,
 				04A46BB52C945D30005ACE1C /* Info.plist */,
 				04EBA0512C92E464002B1CA2 /* TripPDApp.swift */,
 				04A46BC92C9483D8005ACE1C /* View */,
@@ -504,14 +504,14 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		04F7CF242CA1A2240061A056 /* Singleton */ = {
+		04F7CF242CA1A2240061A056 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
 				04C995D32C9A8A890017E10A /* TravelManager.swift */,
 				04C995D72C9A9F9C0017E10A /* ImageManager.swift */,
 				04DF05862CA0F11D008B2651 /* KeyboardNotificationManager.swift */,
 			);
-			path = Singleton;
+			path = Manager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -49,11 +49,11 @@ final class TravelScheduleViewModel: BaseViewModel {
             .store(in: &cancellable)
         
         input.deletePlace
-            .sink { [weak self] place in
+            .sink { [weak self] id in
                 guard let self = self else { return }
+                output.deletePlaceId = id
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                    self.travelManager.removePlace(placeID: place.id)
-                    self.objectWillChange.send()
+                    self.travelManager.removePlace(placeID: id)
                 }
             }
             .store(in: &cancellable)
@@ -125,9 +125,9 @@ final class TravelScheduleViewModel: BaseViewModel {
         case .editingPlace(let place):
             input.editingPlace
                 .send(place)
-        case .deletePlace(let place):
+        case .deletePlace(let id):
             input.deletePlace
-                .send(place)
+                .send(id)
         case .deleteTravel(let travel):
             input.deleteTravel
                 .send(travel)
@@ -141,7 +141,7 @@ final class TravelScheduleViewModel: BaseViewModel {
         var travel: CurrentValueSubject<TravelForView, Never>
         var selectedTab = PassthroughSubject<Int, Never>()
         var editingPlace = PassthroughSubject<PlaceForView, Never>()
-        var deletePlace = PassthroughSubject<PlaceForView, Never>()
+        var deletePlace = PassthroughSubject<String, Never>()
         var deleteTravel = PassthroughSubject<TravelForView, Never>()
         var goPlaceOnMap = PassthroughSubject<PlaceForView, Never>()
     }
@@ -156,6 +156,7 @@ final class TravelScheduleViewModel: BaseViewModel {
         var editingPlace = PlaceForView(id: "", time: Date(), name: "", address: "", placeMemo: "", lat: 0.0, lon: 0.0, isStar: false)
         var travelTime = Date()
         var placeMemo: String?
+        var deletePlaceId = ""
         var goPlaceOnMap: PlaceForView = PlaceForView(id: "", time: Date(), name: "", address: "", placeMemo: "", lat: 0.0, lon: 0.0, isStar: false)
         var routeCoordinates: [CLLocationCoordinate2D] = []
     }
@@ -164,7 +165,7 @@ final class TravelScheduleViewModel: BaseViewModel {
         case loadView(TravelForView)
         case changeTab(Int)
         case editingPlace(PlaceForView)
-        case deletePlace(PlaceForView)
+        case deletePlace(String)
         case deleteTravel(TravelForView)
         case goPlaceOnMap(PlaceForView)
     }

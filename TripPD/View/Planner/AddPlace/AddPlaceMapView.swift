@@ -12,7 +12,7 @@ import PopupView
 import RealmSwift
 
 struct AddPlaceMapView: View {
-    @ObservedObject var viewModel: AddPlaceMapViewModel
+    @StateObject var viewModel: AddPlaceMapViewModel
     @Binding var showMapView: Bool
     @State private var mapRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37.517742, longitude: 126.886463), latitudinalMeters: 3000, longitudinalMeters: 3000)
     @State private var isSearched: Bool = false
@@ -26,7 +26,7 @@ struct AddPlaceMapView: View {
     
     init(schedule: ScheduleForView, showMapView: Binding<Bool>) {
         self._showMapView = showMapView
-        self.viewModel = AddPlaceMapViewModel(schedule: schedule)
+        self._viewModel = StateObject(wrappedValue: AddPlaceMapViewModel(schedule: schedule))
     }
     
     var body: some View {
