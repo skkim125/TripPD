@@ -14,20 +14,6 @@ final class AddPlaceMapViewModel: BaseViewModel {
     let networkMonitor = NetworkMonitor.shared
     var cancellable = Set<AnyCancellable>()
     
-    struct Input {
-        let schedule: CurrentValueSubject<ScheduleForView, Never>
-        let seletedPlace = PassthroughSubject<PlaceInfo, Never>()
-    }
-    
-    struct Output {
-        var annotations: [CustomAnnotation] = []
-        var schedule = ScheduleForView(id: "", day: Date(), dayString: "", places: [], photos: [], diary: nil, finances: [])
-        var isSelectedPlace: PlaceForView = PlaceForView(id: "", time: Date(), name: "", address: "", placeMemo: "", lat: 0.0, lon: 0.0, isStar: false)
-        var placeURL: String = ""
-        var travelTime: Date = Date()
-        var placeMemo: String?
-    }
-    
     var input: Input
     
     @Published
@@ -68,7 +54,25 @@ final class AddPlaceMapViewModel: BaseViewModel {
                 .send(placeInfo)
         }
     }
+}
+
+extension AddPlaceMapViewModel {
+    struct Input {
+        let schedule: CurrentValueSubject<ScheduleForView, Never>
+        let seletedPlace = PassthroughSubject<PlaceInfo, Never>()
+    }
     
+    struct Output {
+        var annotations: [CustomAnnotation] = []
+        var schedule = ScheduleForView(id: "", day: Date(), dayString: "", places: [], photos: [], diary: nil, finances: [])
+        var isSelectedPlace: PlaceForView = PlaceForView(id: "", time: Date(), name: "", address: "", placeMemo: "", lat: 0.0, lon: 0.0, isStar: false)
+        var placeURL: String = ""
+        var travelTime: Date = Date()
+        var placeMemo: String?
+    }
+}
+
+extension AddPlaceMapViewModel {
     enum Action {
         case selectPlace(PlaceInfo)
     }

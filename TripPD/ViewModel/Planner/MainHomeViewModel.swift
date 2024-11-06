@@ -12,15 +12,6 @@ final class MainHomeViewModel: BaseViewModel {
     var cancellable = Set<AnyCancellable>()
     private let travelManager = TravelManager.shared
     
-    struct Input {
-        let trigger = PassthroughSubject<Void, Never>()
-        let sortAction = CurrentValueSubject<SortType, Never>(.def)
-    }
-    
-    struct Output {
-        var travelListForView: [TravelForView] = []
-    }
-    
     var input: Input
     
     @Published
@@ -49,11 +40,6 @@ final class MainHomeViewModel: BaseViewModel {
             .store(in: &cancellable)
     }
     
-    enum Action {
-        case trigger
-        case sortAction(SortType)
-    }
-    
     func action(action: Action) {
         switch action {
         case .trigger:
@@ -64,7 +50,25 @@ final class MainHomeViewModel: BaseViewModel {
                 .send(sortType)
         }
     }
+}
 
+extension MainHomeViewModel {
+    struct Input {
+        let trigger = PassthroughSubject<Void, Never>()
+        let sortAction = CurrentValueSubject<SortType, Never>(.def)
+    }
+    
+    struct Output {
+        var travelListForView: [TravelForView] = []
+    }
+    
+    enum Action {
+        case trigger
+        case sortAction(SortType)
+    }
+}
+
+extension MainHomeViewModel {
     func getRealmURL() {
         travelManager.detectRealmURL()
     }

@@ -38,9 +38,9 @@ struct AddTravelPlannerView: View {
                         .padding(.top, 20)
                         .focused($isFocused)
                         .id("concept")
-                        .onChange(of: viewModel.travel.travelConcept) { value in
+                        .onChange(of: viewModel.output.travel.travelConcept) { value in
                             if value.last?.isNewline == true {
-                                viewModel.travel.travelConcept.removeLast()
+                                viewModel.output.travel.travelConcept.removeLast()
                                 isFocused = false
                             }
                         }
@@ -107,18 +107,18 @@ extension AddTravelPlannerView {
                     .foregroundStyle(.bar)
                     .overlay {
                         ZStack {
-                            TextField(type.descript, text: $viewModel.travel.title)
+                            TextField(type.descript, text: $viewModel.output.travel.title)
                                 .textFieldStyle(.plain)
                                 .padding(.horizontal, 10)
                                 .font(.appFont(14))
                                 .submitLabel(.done)
-                                .onChange(of: viewModel.travel.title) { value in
+                                .onChange(of: viewModel.output.travel.title) { value in
                                     if value.count > 10 {
-                                        viewModel.travel.title = String(value.prefix(10))
+                                        viewModel.output.travel.title = String(value.prefix(10))
                                     }
                                 }
                             
-                            Text("(\(viewModel.travel.title.count) / 10)")
+                            Text("(\(viewModel.output.travel.title.count) / 10)")
                                 .font(.system(size: 13))
                                 .foregroundStyle(.gray)
                                 .padding(.init(top: 0, leading: 0, bottom: 0, trailing: 10))
@@ -139,8 +139,8 @@ extension AddTravelPlannerView {
                         .foregroundStyle(.bar)
                         .overlay {
                             HStack {
-                                Text(viewModel.travel.dates.isEmpty ? type.descript : viewModel.dateText)
-                                    .foregroundStyle(viewModel.travel.dates.isEmpty ? .gray.opacity(0.5) : .mainApp)
+                                Text(viewModel.output.travel.dates.isEmpty ? type.descript : viewModel.dateText)
+                                    .foregroundStyle(viewModel.output.travel.dates.isEmpty ? .gray.opacity(0.5) : .mainApp)
                                     .padding(.horizontal, 10)
                                     .font(.appFont(14))
                                     .multilineTextAlignment(.leading)
@@ -162,8 +162,8 @@ extension AddTravelPlannerView {
                     }
                     .frame(width: 35, height: 35)
                     .tint(.mainApp)
-                    .sheet(isPresented: $viewModel.showDatePickerView) {
-                        CustomCalendarView(selectedDates: $viewModel.travel.dates, showDatePickerView: $viewModel.showDatePickerView)
+                    .sheet(isPresented: $viewModel.output.showDatePickerView) {
+                        CustomCalendarView(selectedDates: $viewModel.output.travel.dates, showDatePickerView: $viewModel.output.showDatePickerView)
                             .presentationDetents([.medium])
                     }
                 }
@@ -179,13 +179,13 @@ extension AddTravelPlannerView {
                     .foregroundStyle(.bar)
                     .overlay {
                         ZStack {
-                            TextEditor(text: $viewModel.travel.travelConcept)
+                            TextEditor(text: $viewModel.output.travel.travelConcept)
                                 .font(.appFont(14))
                                 .submitLabel(.done)
                                 .padding(.init(top: 6, leading: 6, bottom: 5, trailing: 6))
-                                .onChange(of: viewModel.travel.travelConcept) { value in
+                                .onChange(of: viewModel.output.travel.travelConcept) { value in
                                     if value.count > 45 {
-                                        viewModel.travel.travelConcept = String(value.prefix(45))
+                                        viewModel.output.travel.travelConcept = String(value.prefix(45))
                                     }
                                 }
                             
@@ -196,11 +196,11 @@ extension AddTravelPlannerView {
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .padding(.top, 15)
                                     .padding(.leading, 11)
-                                    .opacity(viewModel.travel.travelConcept.isEmpty ? 1: 0)
+                                    .opacity(viewModel.output.travel.travelConcept.isEmpty ? 1: 0)
                                 
                                 Spacer()
                                 
-                                Text("(\(viewModel.travel.travelConcept.count) / 45)")
+                                Text("(\(viewModel.output.travel.travelConcept.count) / 45)")
                                     .font(.system(size: 13))
                                     .foregroundStyle(.gray)
                                     .padding(.init(top: 0, leading: 0, bottom: 10, trailing: 10))
@@ -230,14 +230,14 @@ extension AddTravelPlannerView {
                         viewModel.action(action: .showPHPickeView)
                     } label: {
                         
-                        let travelForAdd = TravelForAdd(title: viewModel.travel.title, travelConcept: viewModel.travel.travelConcept, dates: viewModel.travel.dates, image: viewModel.travel.image, isStar: viewModel.travel.isStar)
+                        let travelForAdd = TravelForAdd(title: viewModel.output.travel.title, travelConcept: viewModel.output.travel.travelConcept, dates: viewModel.output.travel.dates, image: viewModel.output.travel.image, isStar: viewModel.output.travel.isStar)
                         
                         TravelCoverView(travel: travelForAdd)
                     }
                     .shadow(color: .gray.opacity(0.3), radius: 7)
-                    .sheet(isPresented: $viewModel.showPHPickeView) {
-                        AddPhotoView(showPHPickeView: $viewModel.showPHPickeView) { image in
-                            viewModel.travel.image = image
+                    .sheet(isPresented: $viewModel.output.showPHPickeView) {
+                        AddPhotoView(showPHPickeView: $viewModel.output.showPHPickeView) { image in
+                            viewModel.output.travel.image = image
                         }
                         .ignoresSafeArea(.container, edges: .bottom)
                     }

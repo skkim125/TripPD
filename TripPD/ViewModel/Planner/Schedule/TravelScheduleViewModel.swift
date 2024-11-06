@@ -136,7 +136,9 @@ final class TravelScheduleViewModel: BaseViewModel {
                 .send(place)
         }
     }
-    
+}
+
+extension TravelScheduleViewModel {
     struct Input {
         var travel: CurrentValueSubject<TravelForView, Never>
         var selectedTab = PassthroughSubject<Int, Never>()
@@ -169,7 +171,9 @@ final class TravelScheduleViewModel: BaseViewModel {
         case deleteTravel(TravelForView)
         case goPlaceOnMap(PlaceForView)
     }
-    
+}
+
+extension TravelScheduleViewModel {
     private func updateSchedule(at index: Int) {
         guard index < output.schedules.count else { return }
         output.schedule = output.schedules[index]
