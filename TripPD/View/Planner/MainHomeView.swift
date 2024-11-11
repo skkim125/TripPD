@@ -23,7 +23,7 @@ struct MainHomeView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                if viewModel.output.travelListForView.isEmpty  {
+                if viewModel.output.currentTravels.isEmpty  {
                     Text("현재 계획된 여행이 없어요.")
                         .font(.footnote)
                         .foregroundStyle(.gray)
@@ -33,7 +33,7 @@ struct MainHomeView: View {
                 } else {
                     ScrollView {
                         LazyVStack {
-                            ForEach(viewModel.output.travelListForView, id: \.id) { travel in
+                            ForEach(viewModel.output.currentTravels, id: \.id) { travel in
                                 if Date.compareDate(Array(travel.travelDate)) {
                                     NavigationLink {
                                         TravelScheduleView(travel: travel)

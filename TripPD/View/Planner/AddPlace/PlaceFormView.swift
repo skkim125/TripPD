@@ -9,10 +9,10 @@ import SwiftUI
 
 struct PlaceFormView: View {
     var travelManager = TravelManager.shared
+    var viewType: PlaceViewType
     @Binding var schedule: ScheduleForView
     @Binding var isSelectedPlace: PlaceForView
     @Binding var showAddPlacePopupView: Bool
-    var viewType: PlaceViewType
     @State private var travelTime: Date = Date()
     @State private var placeMemo: String = ""
     @FocusState var isFocused: Bool

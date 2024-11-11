@@ -9,10 +9,11 @@ import SwiftUI
 
 struct PastTravelView: View {
     @Environment(\.dismiss) var dismiss
-    var travelManager = TravelManager.shared
+    private let viewModel = PastTravelViewModel()
+    
     var body: some View {
         VStack {
-            if travelManager.travelListForView.filter({ $0.isDelete }).isEmpty {
+            if viewModel.output.pastTravels.isEmpty {
                 Text("아직 지나간 여행이 없어요.")
                     .font(.footnote)
                     .foregroundStyle(.gray)
@@ -21,7 +22,7 @@ struct PastTravelView: View {
             } else {
                 ScrollView {
                     LazyVStack {
-                        ForEach(travelManager.travelListForView.filter({ $0.isDelete }), id: \.id) { travel in
+                        ForEach(viewModel.output.pastTravels, id: \.id) { travel in
 //                            NavigationLink {
 //                                TravelScheduleListView(travel: travel)
 //                            } label: {

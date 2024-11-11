@@ -28,23 +28,20 @@ final class MainHomeViewModel: BaseViewModel {
         travelManager.$travelListForView
             .sink { [weak self] travels in
                 guard let self = self else { return }
-                self.output.travelListForView = travels.filter({ $0.isDelete == false })
+                self.output.currentTravels = travels.filter({ !$0.isDelete })
             }
             .store(in: &cancellable)
         
         input.sortAction
             .sink { [weak self] value in
                 guard let self = self else { return }
-                self.output.travelListForView = travelManager.sortAction(sortType: value)
+                self.output.currentTravels = travelManager.sortAction(sortType: value)
             }
             .store(in: &cancellable)
     }
     
     func action(action: Action) {
         switch action {
-        case .trigger:
-            input.trigger
-                .send(())
         case .sortAction(let sortType):
             input.sortAction
                 .send(sortType)
@@ -54,16 +51,14 @@ final class MainHomeViewModel: BaseViewModel {
 
 extension MainHomeViewModel {
     struct Input {
-        let trigger = PassthroughSubject<Void, Never>()
         let sortAction = CurrentValueSubject<SortType, Never>(.def)
     }
     
     struct Output {
-        var travelListForView: [TravelForView] = []
+        var currentTravels: [TravelForView] = []
     }
     
     enum Action {
-        case trigger
         case sortAction(SortType)
     }
 }

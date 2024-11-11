@@ -53,7 +53,6 @@ struct UserView: View {
             .navigationBarTitleDisplayMode(.large)
             .confirmationDialog("", isPresented: $isOpenMailSheet) {
                 Button {
-                    // 메일앱이 깔려있으면 가능
                     EmailController.shared.sendEmail(subject: "제목을 입력해주세요", body: "문의 내용을 입력해주세요", to: "kthanks125@gmail.com")
                 } label: {
                     Text("이메일로 문의하기")

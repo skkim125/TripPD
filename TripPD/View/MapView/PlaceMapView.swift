@@ -11,8 +11,8 @@ import MapKit
 struct PlaceMapView: UIViewRepresentable {
     var places: [PlaceForView]
     var annotations: [PlaceMapAnnotation]
-    @Binding var selectedPlace: PlaceForView
     var routeCoordinates: [CLLocationCoordinate2D]
+    @Binding var selectedPlace: PlaceForView
     @Binding var setRegion: Bool
     
     func makeCoordinator() -> Coordinator {

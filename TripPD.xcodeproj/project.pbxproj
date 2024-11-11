@@ -26,6 +26,7 @@
 		0483318E2CCD0E1C00EEDEF8 /* AddPlaceMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0483318D2CCD0E1C00EEDEF8 /* AddPlaceMapViewModel.swift */; };
 		048331902CCD0E4B00EEDEF8 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0483318F2CCD0E4B00EEDEF8 /* BaseViewModel.swift */; };
 		04974DC32C9B2D39004319DA /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04974DC22C9B2D39004319DA /* View+Extension.swift */; };
+		049F12CA2CE21BE000305F55 /* PastTravelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049F12C92CE21BE000305F55 /* PastTravelViewModel.swift */; };
 		04A46BBB2C946A8E005ACE1C /* 잘풀리는오늘OTF Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 04A46BBA2C946A8E005ACE1C /* 잘풀리는오늘OTF Medium.otf */; };
 		04A46BBD2C9478F0005ACE1C /* MainHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A46BBC2C9478F0005ACE1C /* MainHomeView.swift */; };
 		04A46BC12C947CD4005ACE1C /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A46BC02C947CD4005ACE1C /* UserView.swift */; };
@@ -113,6 +114,7 @@
 		0483318D2CCD0E1C00EEDEF8 /* AddPlaceMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlaceMapViewModel.swift; sourceTree = "<group>"; };
 		0483318F2CCD0E4B00EEDEF8 /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
 		04974DC22C9B2D39004319DA /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
+		049F12C92CE21BE000305F55 /* PastTravelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastTravelViewModel.swift; sourceTree = "<group>"; };
 		04A46BB52C945D30005ACE1C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		04A46BBA2C946A8E005ACE1C /* 잘풀리는오늘OTF Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "잘풀리는오늘OTF Medium.otf"; sourceTree = "<group>"; };
 		04A46BBC2C9478F0005ACE1C /* MainHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainHomeView.swift; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 			children = (
 				044A82CD2CB035E8007D3D17 /* CustomTabBarViewModel.swift */,
 				04A547D32CB278180008FB3B /* Planner */,
+				049F12C62CE20E2A00305F55 /* User */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -222,6 +225,14 @@
 				0483318D2CCD0E1C00EEDEF8 /* AddPlaceMapViewModel.swift */,
 			);
 			path = AddPlace;
+			sourceTree = "<group>";
+		};
+		049F12C62CE20E2A00305F55 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				049F12C92CE21BE000305F55 /* PastTravelViewModel.swift */,
+			);
+			path = User;
 			sourceTree = "<group>";
 		};
 		04A46BAD2C945BA4005ACE1C /* DesignResource */ = {
@@ -617,6 +628,7 @@
 				044A82B22CAD05CA007D3D17 /* TravelForView.swift in Sources */,
 				04DF056E2C9FF313008B2651 /* KakaoLocalManager.swift in Sources */,
 				04C995C22C992FC40017E10A /* AddPlannerElementTitleView.swift in Sources */,
+				049F12CA2CE21BE000305F55 /* PastTravelViewModel.swift in Sources */,
 				04C995B72C992B510017E10A /* Place.swift in Sources */,
 				04F7CF312CA29DF80061A056 /* SearchListHeaderView.swift in Sources */,
 				044A82D02CB11F17007D3D17 /* TabBarButton.swift in Sources */,

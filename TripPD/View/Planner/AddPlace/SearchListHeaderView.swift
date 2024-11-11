@@ -17,10 +17,9 @@ struct SearchListHeaderView: View {
     @Binding var isSelected: Bool
     @Binding var isSearched: Bool
     @Binding var showNoResults: Bool
-    
-    @State private var query = ""
     @Binding var showNetworkErrorAlert: Bool
     @Binding var showNetworkErrorAlertTitle: String
+    @State private var query = ""
     
     var body: some View {
         VStack {
