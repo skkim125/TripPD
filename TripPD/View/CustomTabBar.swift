@@ -56,7 +56,7 @@ struct CustomTabBar: View {
             ZStack {
                 LazyHStack(spacing: 80) {
                     ForEach(Tab.allCases, id: \.self) { tab in
-                        TabBarButton(tab: tab, selected: $viewModel.selectedTab, viewModel: viewModel, animation: animation)
+                        TabBarButton(viewModel: viewModel, tab: tab, animation: animation, selected: $viewModel.selectedTab)
                     }
                 }
                 .frame(width: nil, height: 60)

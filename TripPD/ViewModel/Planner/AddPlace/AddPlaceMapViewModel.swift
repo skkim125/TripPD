@@ -10,7 +10,7 @@ import Combine
 import MapKit
 
 final class AddPlaceMapViewModel: BaseViewModel {
-    let kakaoLocalManager = KakaoLocalManager.shared
+    private let kakaoLocalManager = KakaoLocalManager.shared
     let networkMonitor = NetworkMonitor.shared
     var cancellable = Set<AnyCancellable>()
     
@@ -45,6 +45,40 @@ final class AddPlaceMapViewModel: BaseViewModel {
                 self.output.isSelectedPlace = PlaceForView(time: self.output.travelTime, name: place.placeName, address: place.roadAddress, lat: lat, lon: lon, isStar: false)
             }
             .store(in: &cancellable)
+        
+        input.search
+            .receive(on: DispatchQueue.main )
+            .sink { [weak self] _ in
+                guard let self = self else { return }
+                if self.networkMonitor.isConnected {
+                    self.kakaoLocalManager.searchPlace(sort: .accuracy, self.input.query, page: 1) { result in
+                        switch result {
+                        case .success(let success):
+                            if success.meta.total == 0 {
+//                                showNoResults = true
+                            }
+                            self.output.annotations.removeAll(keepingCapacity: true)
+                            success.documents.forEach { value in
+                                let annotation = CustomAnnotation(placeInfo: value)
+                                self.output.annotations.append(annotation)
+                            }
+                        case .failure(let failure):
+                            self.output.showNetworkErrorAlert = true
+                            if failure.isSessionTaskError {
+                                self.output.showNetworkErrorAlertTitle = "네트워크 연결이 불안정합니다."
+                            } else {
+                                self.output.showNetworkErrorAlertTitle = "알 수 없는 에러입니다."
+                            }
+                        }
+                    }
+                }  else {
+                    self.output.showNetworkErrorAlert = true
+                    self.output.showNetworkErrorAlertTitle = "네트워크 연결이 불안정합니다."
+                }
+
+            }
+            .store(in: &cancellable)
+            
     }
     
     func action(action: Action) {
@@ -52,6 +86,9 @@ final class AddPlaceMapViewModel: BaseViewModel {
         case .selectPlace(let placeInfo):
             input.seletedPlace
                 .send(placeInfo)
+        case .search:
+            input.search
+                .send(())
         }
     }
 }
@@ -60,6 +97,8 @@ extension AddPlaceMapViewModel {
     struct Input {
         let schedule: CurrentValueSubject<ScheduleForView, Never>
         let seletedPlace = PassthroughSubject<PlaceInfo, Never>()
+        let search = PassthroughSubject<Void, Never>()
+        var query = ""
     }
     
     struct Output {
@@ -69,11 +108,14 @@ extension AddPlaceMapViewModel {
         var placeURL: String = ""
         var travelTime: Date = Date()
         var placeMemo: String?
+        var showNetworkErrorAlert: Bool = false
+        var showNetworkErrorAlertTitle: String = ""
     }
 }
 
 extension AddPlaceMapViewModel {
     enum Action {
         case selectPlace(PlaceInfo)
+        case search
     }
 }

@@ -9,17 +9,11 @@ import SwiftUI
 import BottomSheet
 
 struct SearchListHeaderView: View {
-    private let networkMonitor = NetworkMonitor.shared
-    @ObservedObject var kakaoLocalManager = KakaoLocalManager.shared
+    @ObservedObject var viewModel: AddPlaceMapViewModel
     
-    @Binding var annotations: [CustomAnnotation]
     @Binding var sheetHeight: BottomSheetPosition
     @Binding var isSelected: Bool
     @Binding var isSearched: Bool
-    @Binding var showNoResults: Bool
-    @Binding var showNetworkErrorAlert: Bool
-    @Binding var showNetworkErrorAlertTitle: String
-    @State private var query = ""
     
     var body: some View {
         VStack {
@@ -33,45 +27,16 @@ struct SearchListHeaderView: View {
                     .font(.appFont(15))
                     .foregroundStyle(.gray)
                 
-                TextField("검색", text: $query)
+                TextField("검색", text: $viewModel.input.query)
                     .keyboardType(.webSearch)
                     .textInputAutocapitalization(.never)
                     .autocorrectionDisabled(true)
                     .onSubmit {
                         withAnimation {
-                            if !annotations.isEmpty {
-                                annotations.removeAll()
-                            }
                             isSelected = false
                             isSearched = true
                             sheetHeight = .dynamicBottom
-                            DispatchQueue.main.async {
-                                kakaoLocalManager.searchPlace(sort: .accuracy, query, page: 1) { result in
-                                    if networkMonitor.isConnected {
-                                        switch result {
-                                        case .success(let success):
-                                            kakaoLocalManager.searchResult = success.documents
-                                            if success.meta.total == 0 {
-                                                showNoResults = true
-                                            }
-                                            kakaoLocalManager.searchResult.forEach { value in
-                                                let annotation = CustomAnnotation(placeInfo: value)
-                                                annotations.append(annotation)
-                                            }
-                                        case .failure(let failure):
-                                            showNetworkErrorAlert = true
-                                            if failure.isSessionTaskError {
-                                                showNetworkErrorAlertTitle = "네트워크 연결이 불안정합니다."
-                                            } else {
-                                                showNetworkErrorAlertTitle = "알 수 없는 에러입니다."
-                                            }
-                                        }
-                                    } else {
-                                        showNetworkErrorAlert = true
-                                        showNetworkErrorAlertTitle = "네트워크 연결이 불안정합니다."
-                                    }
-                                }
-                            }
+                            viewModel.action(action: .search)
                         }
                     }
             }

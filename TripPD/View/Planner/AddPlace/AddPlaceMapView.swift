@@ -15,9 +15,9 @@ struct AddPlaceMapView: View {
     @StateObject var viewModel: AddPlaceMapViewModel
     @Binding var showMapView: Bool
     @State private var mapRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37.517742, longitude: 126.886463), latitudinalMeters: 3000, longitudinalMeters: 3000)
+    @State private var sheetHeight: BottomSheetPosition = .relativeBottom(0.15)
     @State private var isSearched: Bool = false
     @State private var showAlert = false
-    @State private var sheetHeight: BottomSheetPosition = .relativeBottom(0.15)
     @State private var isSelected = false
     @State private var showAddPlacePopupView = false
     @State private var showNoResults = false
@@ -37,7 +37,7 @@ struct AddPlaceMapView: View {
                 sheetHeight = .relativeTop(0.78)
             }
             .bottomSheet(bottomSheetPosition: $sheetHeight, switchablePositions: [.relativeBottom(0.15), .absolute(365), .relativeTop(0.78)], headerContent: {
-                SearchListHeaderView(annotations: $viewModel.output.annotations, sheetHeight: $sheetHeight, isSelected: $isSelected, isSearched: $isSearched, showNoResults: $showNoResults, showNetworkErrorAlert: $showNetworkErrorAlert, showNetworkErrorAlertTitle: $showNetworkErrorAlertTitle)
+                SearchListHeaderView(viewModel: viewModel, sheetHeight: $sheetHeight, isSelected: $isSelected, isSearched: $isSearched)
             }){
                 if isSelected {
                     if viewModel.networkMonitor.isConnected {
@@ -147,7 +147,7 @@ struct AddPlaceMapView: View {
                 KeyboardNotificationManager.shared.keyboardNoti { _ in
                     if sheetHeight == .relativeTop(0.78) {
                         sheetHeight = .relativeTop(0.78)
-                    } else if sheetHeight == .relativeTop(0.78) &&  viewModel.kakaoLocalManager.searchResult.isEmpty {
+                    } else if sheetHeight == .relativeTop(0.78) &&  viewModel.output.annotations.isEmpty {
                         sheetHeight = .absolute(365)
                     } else {
                         sheetHeight = .absolute(365)
@@ -161,7 +161,6 @@ struct AddPlaceMapView: View {
                 }
             }
             .onDisappear {
-                viewModel.kakaoLocalManager.searchResult.removeAll()
                 KeyboardNotificationManager.shared.removeNotiObserver()
             }
             .toolbar {
