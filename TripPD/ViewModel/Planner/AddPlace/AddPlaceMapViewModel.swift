@@ -47,38 +47,58 @@ final class AddPlaceMapViewModel: BaseViewModel {
             .store(in: &cancellable)
         
         input.search
-            .receive(on: DispatchQueue.main )
-            .sink { [weak self] _ in
-                guard let self = self else { return }
-                if self.networkMonitor.isConnected {
-                    self.kakaoLocalManager.searchPlace(sort: .accuracy, self.input.query, page: 1) { result in
-                        switch result {
-                        case .success(let success):
-                            if success.meta.total == 0 {
-//                                showNoResults = true
-                            }
-                            self.output.annotations.removeAll(keepingCapacity: true)
-                            success.documents.forEach { value in
-                                let annotation = CustomAnnotation(placeInfo: value)
-                                self.output.annotations.append(annotation)
-                            }
-                        case .failure(let failure):
-                            self.output.showNetworkErrorAlert = true
-                            if failure.isSessionTaskError {
-                                self.output.showNetworkErrorAlertTitle = "네트워크 연결이 불안정합니다."
-                            } else {
-                                self.output.showNetworkErrorAlertTitle = "알 수 없는 에러입니다."
-                            }
+            .flatMap { [weak self] _ -> AnyPublisher<SearchPlaceResponseModel, NetworkError> in
+                guard let self = self else {
+                    return Fail(error: NetworkError.unknown).eraseToAnyPublisher()
+                }
+                
+                // 네트워크 연결 상태 체크 추가
+                if !self.networkMonitor.isConnected {
+                    return Fail(error: NetworkError.invalidServerConnect).eraseToAnyPublisher()
+                }
+                
+                return Future { promise in
+                    Task {
+                        do {
+                            let result = try await self.kakaoLocalManager.searchPlace(
+                                sort: .accuracy,
+                                self.input.query,
+                                page: 1
+                            )
+                            promise(.success(result))
+                        } catch let error as NetworkError {
+                            print(error)
+                            promise(.failure(error))
                         }
                     }
-                }  else {
-                    self.output.showNetworkErrorAlert = true
-                    self.output.showNetworkErrorAlertTitle = "네트워크 연결이 불안정합니다."
-                }
-
+                }.eraseToAnyPublisher()
             }
+            .receive(on: DispatchQueue.main)
+            .sink(
+                receiveCompletion: { [weak self] completion in
+                    guard let self = self else { return }
+                    
+                    switch completion {
+                    case .failure(let error):
+                        self.output.showErrorAlert = true
+                        self.output.showErrorAlertTitle = error.errorDescription
+                    case .finished:
+                        break
+                    }
+                },
+                receiveValue: { [weak self] result in
+                    guard let self = self else { return }
+                    
+                    self.output.showNoResult = result.meta.total == 0
+                    self.output.annotations.removeAll(keepingCapacity: true)
+                    
+                    result.documents.forEach { value in
+                        let annotation = CustomAnnotation(placeInfo: value)
+                        self.output.annotations.append(annotation)
+                    }
+                }
+            )
             .store(in: &cancellable)
-            
     }
     
     func action(action: Action) {
@@ -108,8 +128,9 @@ extension AddPlaceMapViewModel {
         var placeURL: String = ""
         var travelTime: Date = Date()
         var placeMemo: String?
-        var showNetworkErrorAlert: Bool = false
-        var showNetworkErrorAlertTitle: String = ""
+        var showNoResult: Bool = false
+        var showErrorAlert: Bool = false
+        var showErrorAlertTitle: String = ""
     }
 }
 

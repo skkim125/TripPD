@@ -22,6 +22,7 @@ extension TargetType {
         var request = try URLRequest(url: url, method: method)
         request.allHTTPHeaderFields = header
         request.url?.append(queryItems: queryItems ?? [])
+        request.timeoutInterval = 5
         
         return request
     }

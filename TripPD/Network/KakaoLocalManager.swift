@@ -10,21 +10,23 @@ import Alamofire
 
 final class KakaoLocalManager: ObservableObject {
     static let shared = KakaoLocalManager()
+    
     private init() { }
     
-    func searchPlace(sort: SearchSort, _ query: String, page: Int, completionHandler: @escaping (Result<SearchPlaceResponseModel, AFError>) -> Void) {
+    func searchPlace(sort: SearchSort, _ query: String, page: Int) async throws -> SearchPlaceResponseModel {
         
         let searchQuery = SearchQueryModel(sort: sort, query: query, page: page)
         
         do {
             let request = try KakaoLocalRouter.search(searchQuery).asURLRequest()
             
-            AF.request(request).validate(statusCode: 200..<300).responseDecodable(of: SearchPlaceResponseModel.self) { response in
-                    completionHandler(response.result)
-            }
+            let dataTask = AF.request(request)
+            let data = try await dataTask.serializingDecodable(SearchPlaceResponseModel.self).value
+            
+            return data
+             
         } catch {
-            print("asURLRequest 에러:", error)
+            throw error
         }
     }
-    
 }

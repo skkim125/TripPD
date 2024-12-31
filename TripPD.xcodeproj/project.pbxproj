@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		041D5DF72CC629B800137816 /* PlaceMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041D5DF62CC629B800137816 /* PlaceMapView.swift */; };
+		043B5F0B2D227DB100983F20 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043B5F0A2D227DB100983F20 /* NetworkError.swift */; };
 		0446A5162CA4E897008C3EA4 /* PlaceRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0446A5152CA4E897008C3EA4 /* PlaceRowView.swift */; };
 		044A82B22CAD05CA007D3D17 /* TravelForView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044A82B12CAD05CA007D3D17 /* TravelForView.swift */; };
 		044A82B42CAD0992007D3D17 /* ScheduleForView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044A82B32CAD0992007D3D17 /* ScheduleForView.swift */; };
@@ -96,6 +97,7 @@
 
 /* Begin PBXFileReference section */
 		041D5DF62CC629B800137816 /* PlaceMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceMapView.swift; sourceTree = "<group>"; };
+		043B5F0A2D227DB100983F20 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		0446A5152CA4E897008C3EA4 /* PlaceRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceRowView.swift; sourceTree = "<group>"; };
 		044A82B12CAD05CA007D3D17 /* TravelForView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelForView.swift; sourceTree = "<group>"; };
 		044A82B32CAD0992007D3D17 /* ScheduleForView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleForView.swift; sourceTree = "<group>"; };
@@ -423,6 +425,7 @@
 		04DF056F2C9FF450008B2651 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				043B5F0A2D227DB100983F20 /* NetworkError.swift */,
 				04DF056D2C9FF313008B2651 /* KakaoLocalManager.swift */,
 				044A82C12CAEA97F007D3D17 /* NetworkMonitor.swift */,
 				04DF057B2C9FFAC8008B2651 /* Router */,
@@ -671,6 +674,7 @@
 				04DF05712C9FF468008B2651 /* KakaoLocalRouter.swift in Sources */,
 				04DF057D2C9FFDFD008B2651 /* SearchPlaceResponseModel.swift in Sources */,
 				04A547D22CB179460008FB3B /* AddTravelPlannerViewModel.swift in Sources */,
+				043B5F0B2D227DB100983F20 /* NetworkError.swift in Sources */,
 				04C995D62C9A91E50017E10A /* Typealias.swift in Sources */,
 				04C995BB2C992B9D0017E10A /* Diary.swift in Sources */,
 			);

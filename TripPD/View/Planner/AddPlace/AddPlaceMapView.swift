@@ -20,9 +20,6 @@ struct AddPlaceMapView: View {
     @State private var showAlert = false
     @State private var isSelected = false
     @State private var showAddPlacePopupView = false
-    @State private var showNoResults = false
-    @State private var showNetworkErrorAlert = false
-    @State private var showNetworkErrorAlertTitle = ""
     
     init(schedule: ScheduleForView, showMapView: Binding<Bool>) {
         self._showMapView = showMapView
@@ -95,7 +92,7 @@ struct AddPlaceMapView: View {
                     .foregroundStyle(.ultraThinMaterial)
             }
             .interactiveDismissDisabled(showAddPlacePopupView)
-            .popup(isPresented: $showNoResults) {
+            .popup(isPresented: $viewModel.output.showNoResult) {
                 RoundedRectangle(cornerRadius: 8)
                     .stroke(.mainApp.gradient, lineWidth: 2)
                     .background(.background)
@@ -118,8 +115,8 @@ struct AddPlaceMapView: View {
             }
             .onChange(of: viewModel.networkMonitor.isConnected) { value in
                 if !value {
-                    showNetworkErrorAlert = true
-                    showNetworkErrorAlertTitle = "네트워크가 연결되어있지 않습니다."
+                    viewModel.output.showErrorAlert = true
+                    viewModel.output.showErrorAlertTitle = "네트워크가 연결되어있지 않습니다."
                 }
             }
             .alert(isPresented: $showAlert) {
@@ -128,17 +125,17 @@ struct AddPlaceMapView: View {
                     message: Text("위치 권한이 필요합니다. 설정에서 권한을 허용해주세요."),
                     primaryButton: .default(Text("설정으로 이동"), action: {
                         if let url = URL(string: UIApplication.openSettingsURLString) {
-                            DispatchQueue.main.async {
-                                UIApplication.shared.open(url)
+                            Task {
+                                await UIApplication.shared.open(url)
                             }
                         }
                     }),
                     secondaryButton: .cancel(Text("닫기"))
                 )
             }
-            .alert(showNetworkErrorAlertTitle, isPresented: $showNetworkErrorAlert, actions: {
+            .alert(viewModel.output.showErrorAlertTitle, isPresented: $viewModel.output.showErrorAlert, actions: {
                 Button("확인") {
-                    showNetworkErrorAlert.toggle()
+                    viewModel.output.showErrorAlert.toggle()
                 }
             }, message: {
                 Text("잠시 후 다시 시도해주세요")
