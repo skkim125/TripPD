@@ -17,6 +17,7 @@ final class TravelManager: ObservableObject {
     
     private init() {
         setTravelObserver()
+        updateTravelIsDelete()
     }
     
     deinit {
@@ -106,15 +107,21 @@ final class TravelManager: ObservableObject {
     }
 
     
-    func updateDelete(realm: Realm, results: Results<Travel> ,travel: TravelForView) {
+    func updateTravelIsDelete() {
         do {
-            let newTravel = results.filter { $0.id.stringValue == travel.id }.first
+            let realm = try Realm()
+            let results = realm.objects(Travel.self).filter({ !$0.isDelete })
+            
             
             try realm.write {
-                newTravel?.isDelete = true
+                results.forEach { travel in
+                    if let lastDate = travel.travelDate.last, lastDate < Date() {
+                        travel.isDelete = true
+                    }
+                }
             }
         } catch {
-            
+            print("travel 갱신 실패")
         }
     }
     
