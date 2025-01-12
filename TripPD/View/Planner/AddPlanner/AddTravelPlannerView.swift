@@ -50,7 +50,8 @@ struct AddTravelPlannerView: View {
                 }
                 .scrollDismissesKeyboard(.automatic)
                 .onChange(of: isFocused, perform: { newValue in
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.22) {
+                    Task {
+                        try? await Task.sleep(for: .milliseconds(220))
                         withAnimation {
                             proxy.scrollTo("concept", anchor: .center)
                         }
@@ -70,11 +71,9 @@ struct AddTravelPlannerView: View {
                 
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        DispatchQueue.main.async {
-                            viewModel.action(action: .addButtonAction)
-                            showSheet.toggle()
-                            showToast.toggle()
-                        }
+                        viewModel.action(action: .addButtonAction)
+                        showSheet.toggle()
+                        showToast.toggle()
                     } label: {
                         Text("추가")
                             .foregroundStyle(viewModel.isFilled ? (Color.mainApp.gradient) : Color.gray.gradient).bold()

@@ -14,7 +14,8 @@ struct ContentView: View {
         if !isLaunch {
             LaunchScreen()
                 .onAppear {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    Task {
+                        try? await Task.sleep(for: .seconds(2))
                         withAnimation {
                             self.isLaunch = true
                         }

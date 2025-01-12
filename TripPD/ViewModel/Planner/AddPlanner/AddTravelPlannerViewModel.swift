@@ -33,12 +33,9 @@ final class AddTravelPlannerViewModel: BaseViewModel {
             .store(in: &cancellable)
         
         input.travel
-            .sink { [weak self](date, travel, url) in
+            .sink { [weak self] (date, travel, url) in
                 guard let self = self else { return }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                    
-                    self.travelManager.addTravel(date: date, title: travel.title, travelConcept: travel.travelConcept, travelDate: travel.dates, coverImageURL: url)
-                }
+                self.travelManager.addTravel(date: date, title: travel.title, travelConcept: travel.travelConcept, travelDate: travel.dates, coverImageURL: url)
             }
             .store(in: &cancellable)
     }

@@ -14,6 +14,7 @@ import RealmSwift
 struct AddPlaceMapView: View {
     @StateObject var viewModel: AddPlaceMapViewModel
     @Binding var showMapView: Bool
+    @Binding var setRegion: Bool
     @State private var mapRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37.517742, longitude: 126.886463), latitudinalMeters: 3000, longitudinalMeters: 3000)
     @State private var sheetHeight: BottomSheetPosition = .relativeBottom(0.15)
     @State private var isSearched: Bool = false
@@ -21,8 +22,9 @@ struct AddPlaceMapView: View {
     @State private var isSelected = false
     @State private var showAddPlacePopupView = false
     
-    init(schedule: ScheduleForView, showMapView: Binding<Bool>) {
+    init(schedule: ScheduleForView, showMapView: Binding<Bool>, setRegion: Binding<Bool>) {
         self._showMapView = showMapView
+        self._setRegion = setRegion
         self._viewModel = StateObject(wrappedValue: AddPlaceMapViewModel(schedule: schedule))
     }
     
@@ -182,7 +184,7 @@ struct AddPlaceMapView: View {
                 .background(.background)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .overlay {
-                    PlaceFormView(schedule: $viewModel.output.schedule, isSelectedPlace: $viewModel.output.isSelectedPlace, showAddPlacePopupView: $showAddPlacePopupView, viewType: .add)
+                    PlaceFormView(schedule: $viewModel.output.schedule, isSelectedPlace: $viewModel.output.isSelectedPlace, showAddPlacePopupView: $showAddPlacePopupView, setRegion: $setRegion, viewType: .add)
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
                 .frame(height: 350)

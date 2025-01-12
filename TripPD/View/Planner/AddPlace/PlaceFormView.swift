@@ -13,14 +13,16 @@ struct PlaceFormView: View {
     @Binding var schedule: ScheduleForView
     @Binding var isSelectedPlace: PlaceForView
     @Binding var showAddPlacePopupView: Bool
+    @Binding var setRegion: Bool
     @State private var travelTime: Date = Date()
     @State private var placeMemo: String = ""
     @FocusState var isFocused: Bool
     
-    init(schedule: Binding<ScheduleForView>, isSelectedPlace: Binding<PlaceForView>, showAddPlacePopupView: Binding<Bool>, viewType: PlaceViewType) {
+    init(schedule: Binding<ScheduleForView>, isSelectedPlace: Binding<PlaceForView>, showAddPlacePopupView: Binding<Bool>, setRegion: Binding<Bool>, viewType: PlaceViewType) {
         self._schedule = schedule
         self._isSelectedPlace = isSelectedPlace
         self._showAddPlacePopupView = showAddPlacePopupView
+        self._setRegion = setRegion
         self.viewType = viewType
     }
     
@@ -54,6 +56,8 @@ struct PlaceFormView: View {
                     case .edit:
                         travelManager.updatePlace(placeId: isSelectedPlace.id, time: travelTime, name: isSelectedPlace.name, address: isSelectedPlace.address, placeMemo: placeMemo, lat: isSelectedPlace.lat, lon: isSelectedPlace.lon, isStar: false)
                     }
+                    
+                    self.setRegion = true
                     showAddPlacePopupView.toggle()
                 } label: {
                     Text(viewType.buttonText)

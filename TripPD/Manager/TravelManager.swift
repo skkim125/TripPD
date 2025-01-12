@@ -80,7 +80,6 @@ final class TravelManager: ObservableObject {
             try realm.write {
                 object.places.append(place)
             }
-            objectWillChange.send()
         } catch {
             
         }
@@ -106,12 +105,10 @@ final class TravelManager: ObservableObject {
         }
     }
 
-    
     func updateTravelIsDelete() {
         do {
             let realm = try Realm()
             let results = realm.objects(Travel.self).filter({ !$0.isDelete })
-            
             
             try realm.write {
                 results.forEach { travel in

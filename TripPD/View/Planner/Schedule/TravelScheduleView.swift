@@ -69,7 +69,7 @@ struct TravelScheduleView: View {
                     .background(.background)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                     .overlay {
-                        PlaceFormView(schedule: $viewModel.output.schedule, isSelectedPlace: $viewModel.output.editingPlace, showAddPlacePopupView: $showEditPlacePopupView, viewType: .edit)
+                        PlaceFormView(schedule: $viewModel.output.schedule, isSelectedPlace: $viewModel.output.editingPlace, showAddPlacePopupView: $showEditPlacePopupView, setRegion: $setRegion, viewType: .edit)
                     }
                     .frame(maxWidth: .infinity, alignment: .center)
                     .frame(height: 350)
@@ -177,7 +177,7 @@ struct TravelScheduleView: View {
                 }
             }
             .fullScreenCover(isPresented: $showMapView) {
-                LazyWrapperView(AddPlaceMapView(schedule: viewModel.output.schedule, showMapView: $showMapView))
+                LazyWrapperView(AddPlaceMapView(schedule: viewModel.output.schedule, showMapView: $showMapView, setRegion: $setRegion))
             }
         }
     }
@@ -197,6 +197,10 @@ struct TravelScheduleView: View {
                     withAnimation(.easeInOut(duration: 0.3)) {
                         viewModel.action(action: .deletePlace(place.id))
                     }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.setRegion = true
+                    }
+                    
                 } label: {
                     Label {
                         Text("삭제")

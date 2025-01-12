@@ -10,7 +10,7 @@ import PhotosUI
 
 struct AddPhotoView: UIViewControllerRepresentable {
     @Binding var showPHPickeView: Bool
-    var completionHandler: (Data) -> ()
+    var completionHandler: (Data) async -> ()
     
     func makeUIViewController(context: Context) -> some PHPickerViewController {
         var config = PHPickerConfiguration()
@@ -46,8 +46,8 @@ class Coordinator: PHPickerViewControllerDelegate {
             guard let self = self else { return }
             if let image = object as? UIImage {
                 guard let imageData = image.jpegData(compressionQuality: 0.3) else { return }
-                DispatchQueue.main.async {
-                    self.parent.completionHandler(imageData)
+                Task {
+                    await self.parent.completionHandler(imageData)
                 }
             }
         }

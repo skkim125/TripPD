@@ -80,8 +80,8 @@ struct PlaceMapView: UIViewRepresentable {
             if let polyline = overlay as? MKPolyline {
                 let renderer = MKPolylineRenderer(polyline: polyline)
                 renderer.strokeColor = UIColor.mainApp
-                renderer.lineWidth = 3
-                renderer.lineDashPattern = [NSNumber(value: 10), NSNumber(value: 5)]
+                renderer.lineWidth = 2.5
+                renderer.lineDashPattern = [NSNumber(value: 5), NSNumber(value: 5)]
                        
                 renderer.lineJoin = .round
                 renderer.lineCap = .round
@@ -100,9 +100,10 @@ extension PlaceMapView {
         
         if annotations.count == 1 {
             let camera = MKMapCamera(lookingAtCenter: firstAnnotationPoint.coordinate, fromDistance: 1000, pitch: 0, heading: 0)
-            
-            UIView.animate(withDuration: 0.5) {
-                view.setCamera(camera, animated: false)
+            DispatchQueue.main.async {
+                UIView.animate(withDuration: 0.5) {
+                    view.setCamera(camera, animated: false)
+                }
             }
         } else {
             
