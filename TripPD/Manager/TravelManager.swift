@@ -17,7 +17,6 @@ final class TravelManager: ObservableObject {
     
     private init() {
         setTravelObserver()
-        updateTravelIsDelete()
     }
     
     deinit {
@@ -29,18 +28,12 @@ final class TravelManager: ObservableObject {
             let realm = try Realm()
             let results = realm.objects(Travel.self)
             
-            token = results.observe({ [weak self] changes in
+            token = results.observe { [weak self] _ in
                 guard let self = self else { return }
-                self.objectWillChange.send()
-//                switch changes {
-//                case .initial:
-//                    self.travelListForView = results.map(TravelForView.init)
-//                case .update(let travel, let deletions, let insertions, let modifications):
-//                    self.travelListForView = travel.map(TravelForView.init)
-//                case .error(let error):
-//                    print(error.localizedDescription)
-//                }
-            })
+                
+                self.travelListForView = results.map(TravelForView.init)
+                self.updateTravelDeleted()
+            }
             
         } catch let error {
             print(error.localizedDescription)
@@ -65,7 +58,7 @@ final class TravelManager: ObservableObject {
         }
         
         let travel = Travel(date: date, title: title, travelConcept: travelConcept, travelDate: listDate, schedules: schedules, coverImageURL: coverImageURL)
-        dump(travel)
+        
         $travelList.append(travel)
     }
     
@@ -105,10 +98,10 @@ final class TravelManager: ObservableObject {
         }
     }
 
-    func updateTravelIsDelete() {
+    func updateTravelDeleted() {
         do {
             let realm = try Realm()
-            let results = realm.objects(Travel.self).filter({ !$0.isDelete })
+            let results = travelList.filter({ !$0.isDelete })
             
             try realm.write {
                 results.forEach { travel in
