@@ -28,69 +28,20 @@ struct MapView: UIViewRepresentable {
         mapView.showsUserLocation = true
         
         context.coordinator.mapView = mapView
+        context.coordinator.setupInitialCamera()
+        
         return mapView
     }
     
     func updateUIView(_ mapView: MKMapView, context: Context) {
         Task { @MainActor in
             if isSearched {
-                updateMapViewWhenSearch(mapView)
-            } else {
-                updateMapViewWhenInit(mapView, locationManager: context.coordinator.locationManager)
+                context.coordinator.updateMapViewWhenSearch()
             }
-        }
-    }
-        
-    private func updateMapViewWhenSearch(_ mapView: MKMapView) {
-        mapView.removeAnnotations(mapView.annotations)
-        mapView.addAnnotations(annotations)
-        
-        guard !annotations.isEmpty else { return }
-        
-        if isSelected {
-            if let selectedAnnotation = selectedAnnotation {
-                withAnimation {
-                    mapView.camera.centerCoordinate = selectedAnnotation.coordinate
-                }
-                isSelected = false
-            }
-        } else {
-            var zoomRect = MKMapRect.null
-            for annotation in annotations {
-                let annotationPoint = MKMapPoint(annotation.coordinate)
-                let pointRect = MKMapRect(x: annotationPoint.x, y: annotationPoint.y, width: 0.01, height: 0.01)
-                zoomRect = zoomRect.union(pointRect)
-            }
-            mapView.setVisibleMapRect(zoomRect, edgePadding: UIEdgeInsets(top: 50, left: 50, bottom: 50, right: 50), animated: true)
         }
     }
     
-    private func updateMapViewWhenInit(_ mapView: MKMapView, locationManager: CLLocationManager?) {
-        if let locationManager = locationManager,
-           locationManager.authorizationStatus == .denied {
-            self.showAlert = true
-            let defaultCoordinate = CLLocationCoordinate2D(latitude: 37.51786, longitude: 126.88643)
-            let mapCamera = MKMapCamera(lookingAtCenter: defaultCoordinate, fromDistance: 3000, pitch: 10, heading: 0)
-            mapView.camera = mapCamera
-        } else {
-            let mapCamera = MKMapCamera()
-            mapCamera.pitch = 10
-            mapCamera.altitude = 3000
-            mapView.camera = mapCamera
-            
-            mapView.showAnnotations(annotations, animated: true)
-            
-            if let first = annotations.first {
-                mapCamera.centerCoordinate = first.coordinate
-                mapView.camera = mapCamera
-            } else {
-                let coordinate = CLLocationCoordinate2D(latitude: 37.51786, longitude: 126.88643)
-                mapView.camera.centerCoordinate = coordinate
-            }
-        }
-    }
-
-    class Coordinator: NSObject, MKMapViewDelegate, UIGestureRecognizerDelegate {
+    final class Coordinator: NSObject, MKMapViewDelegate {
         var parent: MapView
         var mapView: MKMapView?
         var locationManager: CLLocationManager?
@@ -100,31 +51,6 @@ struct MapView: UIViewRepresentable {
             super.init()
             locationManager = CLLocationManager()
             locationManager?.delegate = self
-        }
-        
-        func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-            if let annotation = view.annotation as? CustomAnnotation {
-                let cameraPosition = CLLocationCoordinate2D(latitude: annotation.coordinate.latitude - 0.003, longitude: annotation.coordinate.longitude)
-                let camera = MKMapCamera(lookingAtCenter: cameraPosition, fromDistance: 2000, pitch: 0, heading: 0)
-                mapView.setCamera(camera, animated: true)
-                parent.selectAction?(annotation.placeInfo)
-                parent.isSelected = true
-            }
-        }
-        
-        func mapView(_ mapView: MKMapView, viewFor annotation: any MKAnnotation) -> MKAnnotationView? {
-            if let annotation = annotation as? CustomAnnotation {
-                let view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "CustomAnnotation")
-                view.displayPriority = .required
-                view.glyphImage = UIImage(systemName: "star.fill")
-                view.selectedGlyphImage = UIImage(systemName: "star.fill")
-                view.markerTintColor = .mainApp
-                view.glyphTintColor = .mainAppConvert
-                
-                return view
-            }
-            
-            return nil
         }
     }
 }
@@ -148,15 +74,48 @@ extension MapView.Coordinator: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.last else { return }
+        guard let location = locations.last, let mapView = mapView else { return }
         let region = MKCoordinateRegion(
             center: location.coordinate,
             span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
         )
         
         Task { @MainActor in
-            self.mapView?.setRegion(region, animated: true)
+            mapView.setRegion(region, animated: true)
             self.locationManager?.stopUpdatingLocation()
+        }
+    }
+    
+    func setupInitialCamera() {
+        guard let mapView = mapView else { return }
+        let defaultCoordinate = CLLocationCoordinate2D(latitude: 37.51786, longitude: 126.88643)
+        let mapCamera = MKMapCamera(lookingAtCenter: defaultCoordinate, fromDistance: 3000, pitch: 10, heading: 0)
+        mapView.camera = mapCamera
+    }
+    
+    func updateMapViewWhenSearch() {
+        guard let mapView = mapView else { return }
+        
+        mapView.removeAnnotations(mapView.annotations)
+        mapView.addAnnotations(parent.annotations)
+        
+        guard !parent.annotations.isEmpty else { return }
+        
+        if parent.isSelected {
+            if let selectedAnnotation = parent.selectedAnnotation {
+                withAnimation {
+                    mapView.camera.centerCoordinate = selectedAnnotation.coordinate
+                }
+                parent.isSelected = false
+            }
+        } else {
+            var zoomRect = MKMapRect.null
+            for annotation in parent.annotations {
+                let annotationPoint = MKMapPoint(annotation.coordinate)
+                let pointRect = MKMapRect(x: annotationPoint.x, y: annotationPoint.y, width: 0.01, height: 0.01)
+                zoomRect = zoomRect.union(pointRect)
+            }
+            mapView.setVisibleMapRect(zoomRect, edgePadding: UIEdgeInsets(top: 50, left: 50, bottom: 50, right: 50), animated: true)
         }
     }
 }
