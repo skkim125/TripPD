@@ -52,6 +52,31 @@ struct MapView: UIViewRepresentable {
             locationManager = CLLocationManager()
             locationManager?.delegate = self
         }
+        
+        func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+            if let annotation = view.annotation as? CustomAnnotation {
+                let cameraPosition = CLLocationCoordinate2D(latitude: annotation.coordinate.latitude - 0.003, longitude: annotation.coordinate.longitude)
+                let camera = MKMapCamera(lookingAtCenter: cameraPosition, fromDistance: 2000, pitch: 0, heading: 0)
+                mapView.setCamera(camera, animated: true)
+                parent.selectAction?(annotation.placeInfo)
+                parent.isSelected = true
+            }
+        }
+        
+        func mapView(_ mapView: MKMapView, viewFor annotation: any MKAnnotation) -> MKAnnotationView? {
+            if let annotation = annotation as? CustomAnnotation {
+                let view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "CustomAnnotation")
+                view.displayPriority = .required
+                view.glyphImage = UIImage(systemName: "star.fill")
+                view.selectedGlyphImage = UIImage(systemName: "star.fill")
+                view.markerTintColor = .mainApp
+                view.glyphTintColor = .mainAppConvert
+                
+                return view
+            }
+            
+            return nil
+        }
     }
 }
 
