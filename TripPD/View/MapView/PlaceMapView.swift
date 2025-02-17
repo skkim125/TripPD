@@ -24,38 +24,15 @@ struct PlaceMapView: UIViewRepresentable {
         mapView.delegate = context.coordinator
         context.coordinator.mapView = mapView
         
-        setRegion(mapView)
+        setInitialRegion(mapView: mapView)
         
         return mapView
     }
     
     func updateUIView(_ uiView: MKMapView, context: Context) {
-        if !uiView.annotations.elementsEqual(annotations, by: { $0.coordinate.latitude == $1.coordinate.latitude && $0.coordinate.longitude == $1.coordinate.longitude }) {
-            uiView.removeAnnotations(uiView.annotations)
-            uiView.addAnnotations(annotations)
-        }
-        
-        uiView.removeOverlays(uiView.overlays)
-        if !routeCoordinates.isEmpty {
-            let polyline = MKPolyline(coordinates: routeCoordinates, count: routeCoordinates.count)
-            uiView.addOverlay(polyline)
-        }
-        
-        if setRegion {
-            DispatchQueue.main.async {
-                setRegion(uiView)
-                self.setRegion = false
-            }
-        } else if !selectedPlace.id.isEmpty {
-            let currentCoord = uiView.camera.centerCoordinate
-            let targetCoord = CLLocationCoordinate2D(latitude: selectedPlace.lat, longitude: selectedPlace.lon)
-
-            if abs(currentCoord.latitude - targetCoord.latitude) > 0.0001 ||
-               abs(currentCoord.longitude - targetCoord.longitude) > 0.0001 {
-                let camera = MKMapCamera(lookingAtCenter: targetCoord, fromDistance: 1000, pitch: 0, heading: 0)
-                uiView.setCamera(camera, animated: true)
-            }
-        }
+        updateAnnotations(mapView: uiView)
+        updateOverlays(mapView: uiView)
+        updateCamera(mapView: uiView)
     }
     
     class Coordinator: NSObject, MKMapViewDelegate {
@@ -82,7 +59,6 @@ struct PlaceMapView: UIViewRepresentable {
                 renderer.strokeColor = UIColor.mainApp
                 renderer.lineWidth = 2.5
                 renderer.lineDashPattern = [NSNumber(value: 5), NSNumber(value: 5)]
-                       
                 renderer.lineJoin = .round
                 renderer.lineCap = .round
                 
@@ -94,30 +70,59 @@ struct PlaceMapView: UIViewRepresentable {
 }
 
 extension PlaceMapView {
-    private func setRegion(_ view: MKMapView) {
-        
-        let firstAnnotationPoint = MKMapPoint(annotations.first?.coordinate ?? CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0))
+    private func updateAnnotations(mapView: MKMapView) {
+        if !mapView.annotations.elementsEqual(annotations, by: { $0.coordinate.latitude == $1.coordinate.latitude && $0.coordinate.longitude == $1.coordinate.longitude }) {
+            mapView.removeAnnotations(mapView.annotations)
+            mapView.addAnnotations(annotations)
+        }
+    }
+    
+    private func updateOverlays(mapView: MKMapView) {
+        mapView.removeOverlays(mapView.overlays)
+        if !routeCoordinates.isEmpty {
+            let polyline = MKPolyline(coordinates: routeCoordinates, count: routeCoordinates.count)
+            mapView.addOverlay(polyline)
+        }
+    }
+    
+    private func updateCamera(mapView: MKMapView) {
+        if setRegion {
+            Task { @MainActor in
+                setInitialRegion(mapView: mapView)
+                self.setRegion = false
+            }
+        } else if !selectedPlace.id.isEmpty {
+            let currentCoord = mapView.camera.centerCoordinate
+            let targetCoord = CLLocationCoordinate2D(latitude: selectedPlace.lat, longitude: selectedPlace.lon)
+            
+            if abs(currentCoord.latitude - targetCoord.latitude) > 0.0001 ||
+               abs(currentCoord.longitude - targetCoord.longitude) > 0.0001 {
+                let camera = MKMapCamera(lookingAtCenter: targetCoord, fromDistance: 1000, pitch: 0, heading: 0)
+                mapView.setCamera(camera, animated: true)
+            }
+        }
+    }
+    
+    private func setInitialRegion(mapView: MKMapView) {
+        let firstCoordinate = annotations.first?.coordinate ?? CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
+        let firstAnnotationPoint = MKMapPoint(firstCoordinate)
         
         if annotations.count == 1 {
             let camera = MKMapCamera(lookingAtCenter: firstAnnotationPoint.coordinate, fromDistance: 1000, pitch: 0, heading: 0)
-            DispatchQueue.main.async {
-                UIView.animate(withDuration: 0.5) {
-                    view.setCamera(camera, animated: false)
-                }
+            
+            UIView.animate(withDuration: 0.5) {
+                mapView.setCamera(camera, animated: false)
             }
         } else {
-            
             var zoomRect = MKMapRect(x: firstAnnotationPoint.x, y: firstAnnotationPoint.y, width: 0.01, height: 0.01)
             
             for annotation in annotations.dropFirst() {
-                let annotationPoint = MKMapPoint(annotation.coordinate)
-                let pointRect = MKMapRect(x: annotationPoint.x, y: annotationPoint.y, width: 0.01, height: 0.01)
-                zoomRect = zoomRect.union(pointRect)
+                let point = MKMapPoint(annotation.coordinate)
+                let rect = MKMapRect(x: point.x, y: point.y, width: 0.01, height: 0.01)
+                zoomRect = zoomRect.union(rect)
             }
             
-            DispatchQueue.main.async {
-                view.setVisibleMapRect(zoomRect, edgePadding: UIEdgeInsets(top: 50, left: 50, bottom: 50, right: 50), animated: true)
-            }
+            mapView.setVisibleMapRect(zoomRect, edgePadding: UIEdgeInsets(top: 50, left: 50, bottom: 50, right: 50), animated: true)
         }
     }
 }
@@ -144,15 +149,14 @@ class PlaceMapAnnotationViewController: MKAnnotationView {
     
     init(annotation: PlaceMapAnnotation, places: [PlaceForView], reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
-        let customSwiftUIView = PlaceMapAnnotationView(annotation: annotation, places: places)
-        let hostingController = UIHostingController(rootView: customSwiftUIView)
+        let mapAnnotationView = PlaceMapAnnotationView(annotation: annotation, places: places)
+        let hostingController = UIHostingController(rootView: mapAnnotationView)
         
         addSubview(hostingController.view)
-        
         hostingController.view.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             hostingController.view.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            hostingController.view.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -15),
+            hostingController.view.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -15)
         ])
         
         hostingController.view.backgroundColor = .clear
@@ -179,7 +183,7 @@ struct PlaceMapAnnotationView: View {
                     .frame(height: 25)
                     .clipShape(RoundedRectangle(cornerRadius: 5))
                 
-                Text("\(annotation.title ?? "")")
+                Text(annotation.title ?? "")
                     .foregroundStyle(.background)
                     .font(.appFont(12))
                     .padding(.horizontal, 5)
@@ -199,5 +203,4 @@ struct PlaceMapAnnotationView: View {
         .padding(.bottom, 5)
         .shadow(color: .gray.opacity(0.5), radius: 0.7)
     }
-    
 }
