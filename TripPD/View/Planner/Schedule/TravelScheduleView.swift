@@ -45,9 +45,9 @@ struct TravelScheduleView: View {
                 
                 calendarView()
                     .frame(maxWidth: .infinity)
-                    .frame(height: 40)
+                    .frame(height: 35)
                     .padding(.horizontal, 15)
-                    .padding(.vertical, 5)
+                    .padding(.top, 5)
                 
                 if viewModel.output.places.isEmpty {
                     Spacer()
@@ -55,8 +55,9 @@ struct TravelScheduleView: View {
                         .foregroundStyle(.gray)
                     Spacer()
                 } else {
-
+                    
                     PlaceMapView(places: viewModel.output.places, annotations: viewModel.output.annotations, routeCoordinates: viewModel.output.routeCoordinates, selectedPlace: $viewModel.output.goPlaceOnMap, setRegion: $setRegion)
+                        .frame(width: UIScreen.main.bounds.width, height: 300)
                     
                     placeListView(scehdule: viewModel.output.schedule)
                         .padding(.top, -8)
@@ -230,6 +231,7 @@ struct TravelScheduleView: View {
             .listRowSeparatorTint(.clear)
         }
         .listStyle(.plain)
+        .ignoresSafeArea(.keyboard, edges: .bottom)
     }
 }
 

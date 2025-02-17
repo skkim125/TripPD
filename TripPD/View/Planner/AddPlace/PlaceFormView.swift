@@ -35,7 +35,7 @@ struct PlaceFormView: View {
                     Image(systemName: "xmark.circle.fill")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 25)
+                        .frame(width: 25, height: 25)
                 }
                 .tint(.gray)
                 .frame(alignment: .leading)
@@ -67,7 +67,7 @@ struct PlaceFormView: View {
                 .tint(.gray)
                 .frame(alignment: .trailing)
             }
-            .padding()
+            .padding(15)
             .padding(.horizontal, 10)
             
             Spacer()
