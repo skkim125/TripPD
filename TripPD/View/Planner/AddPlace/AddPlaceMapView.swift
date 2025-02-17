@@ -194,7 +194,7 @@ struct AddPlaceMapView: View {
             $0
                 .closeOnTap(false)
                 .closeOnTapOutside(false)
-                .type(.floater(verticalPadding: 10, horizontalPadding: 20, useSafeAreaInset: true))
+                .type(.floater(verticalPadding: 10, horizontalPadding: 20, useSafeAreaInset: false))
                 .position(.bottom)
                 .dragToDismiss(false)
                 .useKeyboardSafeArea(true)
