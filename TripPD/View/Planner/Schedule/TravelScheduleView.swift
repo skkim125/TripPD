@@ -16,7 +16,6 @@ struct TravelScheduleView: View {
     @State private var showDeleteAlert = false
     @State private var showEditPlacePopupView = false
     @State private var showMapView = false
-    @State private var setRegion = false
     
     init(travel: TravelForView) {
         self._viewModel = StateObject(wrappedValue: TravelScheduleViewModel(travel: travel))
@@ -33,7 +32,6 @@ struct TravelScheduleView: View {
                                 if let tab = viewModel.output.schedules.firstIndex(where: { $0.id == item.id }) {
                                     selectedTab = tab
                                     viewModel.action(action: .changeTab(tab))
-                                    setRegion = true
                                 }
                             }
                         }
@@ -56,7 +54,7 @@ struct TravelScheduleView: View {
                     Spacer()
                 } else {
                     
-                    PlaceMapView(places: viewModel.output.places, annotations: viewModel.output.annotations, routeCoordinates: viewModel.output.routeCoordinates, selectedPlace: $viewModel.output.goPlaceOnMap, setRegion: $setRegion)
+                    PlaceMapView(places: viewModel.output.places, annotations: viewModel.output.annotations, routeCoordinates: viewModel.output.routeCoordinates, selectedPlace: $viewModel.output.goPlaceOnMap, setRegion: $viewModel.output.setRegion)
                         .frame(width: UIScreen.main.bounds.width, height: 300)
                     
                     placeListView(scehdule: viewModel.output.schedule)
@@ -70,7 +68,7 @@ struct TravelScheduleView: View {
                     .background(.background)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                     .overlay {
-                        PlaceFormView(schedule: $viewModel.output.schedule, isSelectedPlace: $viewModel.output.editingPlace, showAddPlacePopupView: $showEditPlacePopupView, setRegion: $setRegion, viewType: .edit)
+                        PlaceFormView(schedule: $viewModel.output.schedule, isSelectedPlace: $viewModel.output.editingPlace, showAddPlacePopupView: $showEditPlacePopupView, setRegion: $viewModel.output.setRegion, viewType: .edit)
                     }
                     .frame(maxWidth: .infinity, alignment: .center)
                     .frame(height: 350)
@@ -162,7 +160,7 @@ struct TravelScheduleView: View {
                 if !viewModel.output.schedule.places.isEmpty {
                     Button {
                         Task { @MainActor in
-                            self.setRegion = true
+                            self.viewModel.action(action: .resetPlaceRegion)
                         }
                     } label: {
                         Image(systemName: "map.circle")
@@ -180,7 +178,7 @@ struct TravelScheduleView: View {
                 }
             }
             .fullScreenCover(isPresented: $showMapView) {
-                LazyWrapperView(AddPlaceMapView(schedule: viewModel.output.schedule, showMapView: $showMapView, setRegion: $setRegion))
+                LazyWrapperView(AddPlaceMapView(schedule: viewModel.output.schedule, showMapView: $showMapView, setRegion: $viewModel.output.setRegion))
             }
         }
     }
@@ -200,9 +198,6 @@ struct TravelScheduleView: View {
                     withAnimation(.easeInOut(duration: 0.3)) {
                         viewModel.action(action: .deletePlace(place.id))
                     }
-                    
-                    self.setRegion = true
-                    
                 } label: {
                     Label {
                         Text("삭제")

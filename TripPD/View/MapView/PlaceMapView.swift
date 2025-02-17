@@ -12,7 +12,7 @@ struct PlaceMapView: UIViewRepresentable {
     var places: [PlaceForView]
     var annotations: [PlaceMapAnnotation]
     var routeCoordinates: [CLLocationCoordinate2D]
-    @Binding var selectedPlace: PlaceForView
+    @Binding var selectedPlace: PlaceForView?
     @Binding var setRegion: Bool
     
     func makeCoordinator() -> Coordinator {
@@ -91,7 +91,7 @@ extension PlaceMapView {
                 setInitialRegion(mapView: mapView)
                 self.setRegion = false
             }
-        } else if !selectedPlace.id.isEmpty {
+        } else if let selectedPlace = selectedPlace {
             let currentCoord = mapView.camera.centerCoordinate
             let targetCoord = CLLocationCoordinate2D(latitude: selectedPlace.lat, longitude: selectedPlace.lon)
             

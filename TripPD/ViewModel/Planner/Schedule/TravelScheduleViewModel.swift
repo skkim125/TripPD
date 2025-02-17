@@ -36,6 +36,7 @@ final class TravelScheduleViewModel: BaseViewModel {
             .sink { [weak self] tab in
                 guard let self = self else { return }
                 self.updateSchedule(at: tab)
+                self.output.setRegion = true
             }
             .store(in: &cancellable)
         
@@ -53,6 +54,7 @@ final class TravelScheduleViewModel: BaseViewModel {
                 guard let self = self else { return }
                 output.deletePlaceId = id
                 self.travelManager.removePlace(placeID: id)
+                self.output.setRegion = true
             }
             .store(in: &cancellable)
         
@@ -67,6 +69,10 @@ final class TravelScheduleViewModel: BaseViewModel {
             .sink { [weak self] place in
                 guard let self = self else { return }
                 self.output.goPlaceOnMap = place
+                
+                if place == nil {
+                    self.output.setRegion = true
+                }
             }
             .store(in: &cancellable)
         
@@ -132,6 +138,9 @@ final class TravelScheduleViewModel: BaseViewModel {
         case .goPlaceOnMap(let place):
             input.goPlaceOnMap
                 .send(place)
+        case .resetPlaceRegion:
+            input.goPlaceOnMap
+                .send(nil)
         }
     }
 }
@@ -143,7 +152,7 @@ extension TravelScheduleViewModel {
         var editingPlace = PassthroughSubject<PlaceForView, Never>()
         var deletePlace = PassthroughSubject<String, Never>()
         var deleteTravel = PassthroughSubject<TravelForView, Never>()
-        var goPlaceOnMap = PassthroughSubject<PlaceForView, Never>()
+        var goPlaceOnMap = PassthroughSubject<PlaceForView?, Never>()
     }
     
     struct Output {
@@ -157,8 +166,9 @@ extension TravelScheduleViewModel {
         var travelTime = Date()
         var placeMemo: String?
         var deletePlaceId = ""
-        var goPlaceOnMap: PlaceForView = PlaceForView(id: "", time: Date(), name: "", address: "", placeMemo: "", lat: 0.0, lon: 0.0, isStar: false)
+        var goPlaceOnMap: PlaceForView?
         var routeCoordinates: [CLLocationCoordinate2D] = []
+        var setRegion: Bool = false
     }
     
     enum Action {
@@ -167,7 +177,8 @@ extension TravelScheduleViewModel {
         case editingPlace(PlaceForView)
         case deletePlace(String)
         case deleteTravel(TravelForView)
-        case goPlaceOnMap(PlaceForView)
+        case goPlaceOnMap(PlaceForView?)
+        case resetPlaceRegion
     }
 }
 
