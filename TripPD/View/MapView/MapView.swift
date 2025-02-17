@@ -75,11 +75,9 @@ struct MapView: UIViewRepresentable {
                     uiView.showAnnotations(annotations, animated: true)
                     
                     if let first = annotations.first {
-                        DispatchQueue.main.async {
-                            let coordinate = first.coordinate
-                            mapCamera.centerCoordinate = coordinate
-                            uiView.camera = mapCamera
-                        }
+                        let coordinate = first.coordinate
+                        mapCamera.centerCoordinate = coordinate
+                        uiView.camera = mapCamera
                     } else {
                         let coordinate = CLLocationCoordinate2D(latitude: 37.51786, longitude: 126.88643)
                         uiView.camera.centerCoordinate = coordinate
@@ -140,17 +138,11 @@ extension MapView.Coordinator: CLLocationManagerDelegate {
         DispatchQueue.main.async {
             switch status {
             case .notDetermined:
-                DispatchQueue.main.async {
-                    manager.requestWhenInUseAuthorization()
-                }
+                manager.requestWhenInUseAuthorization()
             case .restricted, .denied:
-                DispatchQueue.main.async {
-                    self.parent.showAlert = true
-                }
+                self.parent.showAlert = true
             case .authorizedWhenInUse, .authorizedAlways:
-                DispatchQueue.main.async {
-                    manager.startUpdatingLocation()
-                }
+                manager.startUpdatingLocation()
             @unknown default:
                 break
             }

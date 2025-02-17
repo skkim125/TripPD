@@ -52,9 +52,7 @@ final class TravelScheduleViewModel: BaseViewModel {
             .sink { [weak self] id in
                 guard let self = self else { return }
                 output.deletePlaceId = id
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                    self.travelManager.removePlace(placeID: id)
-                }
+                self.travelManager.removePlace(placeID: id)
             }
             .store(in: &cancellable)
         

@@ -33,9 +33,10 @@ final class MainHomeViewModel: BaseViewModel {
             .store(in: &cancellable)
         
         input.sortAction
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] value in
                 guard let self = self else { return }
-                self.output.currentTravels = travelManager.sortAction(sortType: value)
+                self.travelManager.sortAction(sortType: value)
             }
             .store(in: &cancellable)
     }

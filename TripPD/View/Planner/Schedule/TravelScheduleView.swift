@@ -92,7 +92,9 @@ struct TravelScheduleView: View {
             .navigationBarBackButtonHidden()
             .alert(isPresented: $showDeleteAlert) {
                 Alert(title: Text("정말로 여행 플랜을 삭제하시겠습니까?"), message: Text("삭제 이후 복구할 수 없습니다."), primaryButton: .cancel(Text("아니요")), secondaryButton: .destructive(Text("예"), action: {
-                    viewModel.action(action: .deleteTravel(viewModel.output.travel))
+                    withAnimation(.easeInOut(duration: 0.4)) {
+                        viewModel.action(action: .deleteTravel(viewModel.output.travel))
+                    }
                     dismiss()
                 }))
             }
@@ -197,9 +199,8 @@ struct TravelScheduleView: View {
                     withAnimation(.easeInOut(duration: 0.3)) {
                         viewModel.action(action: .deletePlace(place.id))
                     }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        self.setRegion = true
-                    }
+                    
+                    self.setRegion = true
                     
                 } label: {
                     Label {

@@ -35,7 +35,7 @@ final class TravelManager: ObservableObject {
                 self.updateTravelDeleted()
             }
             
-        } catch let error {
+        } catch {
             print(error.localizedDescription)
         }
     }
@@ -74,7 +74,7 @@ final class TravelManager: ObservableObject {
                 object.places.append(place)
             }
         } catch {
-            
+            print("장소 추가 실패: \(error)")
         }
     }
     
@@ -94,7 +94,7 @@ final class TravelManager: ObservableObject {
                 place.isStar = isStar
             }
         } catch {
-            print("Error updating Place: \(error)")
+            print("장소 수정 실패: \(error)")
         }
     }
 
@@ -111,7 +111,7 @@ final class TravelManager: ObservableObject {
                 }
             }
         } catch {
-            print("travel 갱신 실패")
+            print("travel 갱신 실패: \(error)")
         }
     }
     
@@ -129,7 +129,7 @@ final class TravelManager: ObservableObject {
                 realm.delete(object)
             }
         } catch {
-            print("travel 데이터 삭제 실패")
+            print("travel 삭제 실패: \(error)")
         }
     }
     
@@ -143,28 +143,22 @@ final class TravelManager: ObservableObject {
                 realm.delete(object)
             }
         } catch {
-            print("place 데이터 삭제 실패")
+            print("place 삭제 실패: \(error)")
         }
     }
     
-    func sortAction(sortType: SortType) -> [TravelForView] {
-        token = travelList.observe({ [weak self] changes in
-            guard let self = self else { return }
-            switch sortType {
-            case .def:
-                self.travelListForView = travelList.map(TravelForView.init).sorted(by: { $0.date < $1.date })
-            case .closer:
-                self.travelListForView = travelList.map(TravelForView.init).sorted(by: {
-                    if $0.travelDate.first ?? Date() == $1.travelDate.first ?? Date() {
-                        $0.date < $1.date
-                    } else {
-                        $0.travelDate.first?.timeIntervalSinceNow ?? 0.0 < $1.travelDate.first?.timeIntervalSinceNow ?? 0.0
-                    }
-                })
-                
-            }
-        })
-        
-        return travelListForView
+    func sortAction(sortType: SortType) {
+        switch sortType {
+        case .def:
+            self.travelListForView = self.travelList.map(TravelForView.init).sorted(by: { $0.date < $1.date })
+        case .closer:
+            self.travelListForView = self.travelList.map(TravelForView.init).sorted(by: {
+                if $0.travelDate.first ?? Date() == $1.travelDate.first ?? Date() {
+                    return $0.date < $1.date
+                } else {
+                    return $0.travelDate.first?.timeIntervalSinceNow ?? 0.0 < $1.travelDate.first?.timeIntervalSinceNow ?? 0.0
+                }
+            })
+        }
     }
 }
