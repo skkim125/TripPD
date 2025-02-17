@@ -10,15 +10,15 @@ import BottomSheet
 
 struct SearchListHeaderView: View {
     @ObservedObject var viewModel: AddPlaceMapViewModel
-    
     @Binding var sheetHeight: BottomSheetPosition
     @Binding var isSelected: Bool
     @Binding var isSearched: Bool
+    @FocusState private var isSearchFieldFocused: Bool
     
     var body: some View {
         VStack {
             Capsule()
-                .frame(width: 50, height: 5, alignment: .center)
+                .frame(width: 50, height: 5)
                 .foregroundStyle(.gray.opacity(0.5))
                 .padding(.top, 5)
             
@@ -28,6 +28,7 @@ struct SearchListHeaderView: View {
                     .foregroundStyle(.gray)
                 
                 TextField("검색", text: $viewModel.input.query)
+                    .focused($isSearchFieldFocused)
                     .keyboardType(.webSearch)
                     .textInputAutocapitalization(.never)
                     .autocorrectionDisabled(true)
@@ -38,6 +39,15 @@ struct SearchListHeaderView: View {
                             sheetHeight = .dynamicBottom
                             viewModel.action(action: .search)
                         }
+                    }
+                    .onChange(of: isSearchFieldFocused) { focused in
+//                        withAnimation {
+                            if focused {
+                                sheetHeight = .absolute(365)
+                            } else {
+                                sheetHeight = .relativeBottom(0.15)
+                            }
+//                        }
                     }
             }
             .padding(.vertical, 7)
