@@ -21,13 +21,9 @@ final class CustomTabBarViewModel: ObservableObject {
     func action(action: Action) {
         switch action {
         case .clickedTab(let tab):
-            switch tab {
-            case .home:
-                selectedTab = .setting
-            case .setting:
-                selectedTab = .home
+            if selectedTab != tab {
+                selectedTab = tab
             }
-            
         case .showSheet:
             showSheet.toggle()
         }

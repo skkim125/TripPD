@@ -16,7 +16,7 @@ struct TabBarButton: View {
     var body: some View {
         Button {
             withAnimation(.spring()) {
-                viewModel.action(action: .clickedTab(selected))
+                viewModel.action(action: .clickedTab(tab))
             }
         } label: {
             VStack(spacing: 10) {
