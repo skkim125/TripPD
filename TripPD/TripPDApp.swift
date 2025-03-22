@@ -9,7 +9,10 @@ import SwiftUI
 
 @main
 struct TripPDApp: App {
-    
+    @AppStorage("AppDarkMode") private var appDarkMode: String = AppDarkMode.system.rawValue
+    var currentMode: AppDarkMode {
+        AppDarkMode(rawValue: appDarkMode) ?? .system
+    }
     @Environment(\.scenePhase) var scenePhase
     
     init() {
@@ -19,6 +22,7 @@ struct TripPDApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .preferredColorScheme(AppDarkMode(rawValue: appDarkMode)?.colorScheme)
         }
         .onChange(of: scenePhase) { newPhase in
             switch newPhase {
@@ -29,6 +33,25 @@ struct TripPDApp: App {
             default:
                 break
             }
+        }
+    }
+}
+
+enum AppDarkMode: String, CaseIterable {
+    case light = "라이트 모드"
+    case dark = "다크 모드"
+    case system = "시스템 기본값"
+    
+    var colorScheme: ColorScheme? {
+        switch self {
+        case .light:
+            return .light
+        case .dark:
+            return .dark
+        case .system:
+            return nil
+        @unknown default:
+            return .light
         }
     }
 }

@@ -12,6 +12,11 @@ struct UserView: View {
     @State private var isOpenMailSheet = false
     @State private var isOpenPastTrip = false
     @State private var isOpenAppInfo = false
+    @AppStorage("AppDarkMode") private var appStyleRawValue: String = AppDarkMode.system.rawValue
+    private var selectedDarkMode: AppDarkMode {
+        AppDarkMode(rawValue: appStyleRawValue) ?? .system
+    }
+    
     @Binding var hideTabBar: Bool
     
     var body: some View {
@@ -22,9 +27,11 @@ struct UserView: View {
                     case .pastTrip:
                         isOpenPastTrip.toggle()
                     case .inquiry:
-                        isOpenMailSheet.toggle()
+                        EmailController.shared.sendEmail(subject: "제목을 입력해주세요", body: "문의 내용을 입력해주세요", to: "kthanks125@gmail.com")
                     case .appInfo:
                         isOpenAppInfo.toggle()
+                    default:
+                        break
                     }
                 } label: {
                     settingRowView(item)
@@ -51,15 +58,6 @@ struct UserView: View {
             .navigationBarTitle(20, 30)
             .navigationTitle("설정")
             .navigationBarTitleDisplayMode(.large)
-            .confirmationDialog("", isPresented: $isOpenMailSheet) {
-                Button {
-                    EmailController.shared.sendEmail(subject: "제목을 입력해주세요", body: "문의 내용을 입력해주세요", to: "kthanks125@gmail.com")
-                } label: {
-                    Text("이메일로 문의하기")
-                }
-                
-                Button("cancel", role: .cancel) { print("tap cancel") }
-            }
         }
     }
     
@@ -72,8 +70,26 @@ struct UserView: View {
             
             Spacer()
             
-            Image(systemName: "chevron.forward")
-                .font(.appFont(15))
+            if setting == .appStyle {
+                Menu {
+                    ForEach(AppDarkMode.allCases, id: \.self) { style in
+                        Button {
+                            appStyleRawValue = style.rawValue
+                        } label: {
+                            Label(style.rawValue, systemImage: selectedDarkMode == style ? "checkmark.circle.fill" : "circle")
+                        }
+                    }
+                } label: {
+                    HStack {
+                        Text("\(selectedDarkMode.rawValue)")
+                            .font(.appFont(15))
+                    }
+                }
+            } else {
+                Image(systemName: "chevron.forward")
+                    .font(.appFont(15))
+                    .foregroundStyle(.mainApp)
+            }
         }
         .foregroundStyle(.mainApp)
     }
@@ -108,6 +124,7 @@ class EmailController: NSObject, MFMailComposeViewControllerDelegate {
 
 enum Settings: String, CaseIterable {
     case pastTrip = "지나간 여행 보기"
+    case appStyle = "앱 스타일"
     case inquiry = "개발자에게 문의하기"
     case appInfo = "앱 정보"
 }
